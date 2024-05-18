@@ -1,0 +1,44 @@
+// register product body. Endpoint: /products POST
+{
+    "seller_id": 2,
+    "name": "Parafusadeira",
+    "description": "Parafusadeira 220V",
+    "category": "Construção",
+    "brand": "Makita",
+    "model": "DWT",
+    "product_condition": "Usado",
+    "price": 149.95,
+    "available": 0
+}
+
+// user register body Endpoint /register POST
+{
+	"name": "Carlos",
+	"email": "carlinhos@gmail.com",
+	"password": 123,
+	"username": "carlinhos",
+	"phone": "+55 (18) 99624-8348",
+	"user_type": "Vendedor"
+}
+
+// user login body Endpoint /login POST
+{
+	"password": 123,
+	"email": "carlinhos@gmail.com"
+}
+
+// Get all products Endpoint: /products GET
+
+// Get product by ID Endpoint: /products/:id GET
+
+// Update Product Endpoint: /products/:id PATCH
+{
+    "name": "Parafusadeira",
+    "description": "Parafusadeira 220V",
+    "category": "Construção",
+    "brand": "Makita",
+    "model": "DWT",
+    "product_condition": "Usado",
+    "price": 149.95,
+    "available": 0
+}
