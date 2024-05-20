@@ -6,50 +6,55 @@ const { queryAsync } = require('../db');
 // Controller to get all showcases with associated product details
 const getShowcases = async (req, res) => {
     try {
-        // Fetch all showcases
         const showcases = await queryAsync('SELECT * FROM showcases');
-        
-        // Loop through each showcase to fetch associated items with product details and images
+
         for (let i = 0; i < showcases.length; i++) {
             const showcaseId = showcases[i].id;
-            // Fetch items associated with the showcase from the showcase_products table
+
             const items = await queryAsync(`
                 SELECT 
-                    sp.*, 
-                    p.id AS product_id, 
-                    p.seller_id, 
-                    p.name, 
-                    p.description, 
-                    p.category_id, 
-                    p.brand, 
-                    p.model, 
-                    p.product_condition, 
-                    p.price, 
-                    p.available, 
-                    p.created_at, 
-                    u.verified AS is_seller_verified,
-                    GROUP_CONCAT(pi.image_link) AS images
-                FROM 
-                    showcase_products sp 
-                JOIN 
-                    products p ON sp.product_id = p.id 
-                JOIN 
-                    users u ON p.seller_id = u.id 
-                JOIN 
-                    product_images pi ON p.id = pi.product_id
-                WHERE 
-                    sp.showcase_id = ?
-                GROUP BY
-                    sp.id
+                sp.*, 
+                p.id AS product_id, 
+                p.seller_id, 
+                p.name, 
+                GROUP_CONCAT(DISTINCT CONCAT_WS(':', c.name, pc.category_id)) AS categories, 
+                p.brand, 
+                p.model, 
+                p.product_condition, 
+                p.price, 
+                p.available, 
+                p.created_at, 
+                u.verified AS is_seller_verified,
+                GROUP_CONCAT(DISTINCT pi.image_link) AS images
+            FROM 
+                showcase_products sp 
+            JOIN 
+                products p ON sp.product_id = p.id 
+            LEFT JOIN 
+                product_categories pc ON p.id = pc.product_id
+            LEFT JOIN 
+                categories c ON pc.category_id = c.id
+            JOIN 
+                users u ON p.seller_id = u.id 
+            JOIN 
+                product_images pi ON p.id = pi.product_id
+            WHERE 
+                sp.showcase_id = ?
+            GROUP BY
+                sp.id, p.id
             `, [showcaseId]);
-            // Parse image links into an array of objects for each product
+
             items.forEach(item => {
                 item.images = item.images.split(',').map(image_link => ({
                     image_link,
                     imageUrl: `http://localhost:3001/uploads/products/${image_link}`
                 }));
+                item.categories = item.categories.split(',').map(category => {
+                    const [categoryName, categoryId] = category.split(':');
+                    return { categoryName, category_id: parseInt(categoryId) };
+                });
             });
-            // Add the array of items with product details and images to the showcase object
+
             showcases[i].items = items;
         }
 
@@ -59,56 +64,58 @@ const getShowcases = async (req, res) => {
         res.status(500).json({ error: 'Internal Server Error' });
     }
 };
-// Controller to get a showcase by ID with associated product details
+
 const getShowcaseById = async (req, res) => {
     const showcaseId = parseInt(req.params.id);
     try {
-        // Fetch showcase details
         const showcase = await queryAsync('SELECT * FROM showcases WHERE id = ?', [showcaseId]);
+
         if (showcase.length === 0) {
             return res.status(404).json({ error: 'Showcase not found' });
         }
 
-        // Fetch items associated with the showcase from the showcase_products table with product details and images
         const items = await queryAsync(`
             SELECT 
-                sp.*, 
-                p.id AS product_id, 
-                p.seller_id, 
-                p.name, 
-                p.description, 
-                p.category_id, 
-                p.brand, 
-                p.model, 
-                p.product_condition, 
-                p.price, 
-                p.available, 
-                p.created_at, 
-                u.verified AS is_seller_verified,
-                GROUP_CONCAT(pi.image_link) AS images
-            FROM 
-                showcase_products sp 
-            JOIN 
-                products p ON sp.product_id = p.id 
-            JOIN 
-                users u ON p.seller_id = u.id 
-            JOIN 
-                product_images pi ON p.id = pi.product_id
-            WHERE 
-                sp.showcase_id = ?
-            GROUP BY
-                sp.id
+            sp.*, 
+            p.id AS product_id, 
+            p.seller_id, 
+            p.name, 
+            GROUP_CONCAT(DISTINCT CONCAT_WS(':', c.name, pc.category_id)) AS categories, 
+            p.brand, 
+            p.model, 
+            p.product_condition, 
+            p.price, 
+            p.available, 
+            p.created_at, 
+            u.verified AS is_seller_verified,
+            (SELECT GROUP_CONCAT(image_link) FROM product_images WHERE product_id = p.id) AS images
+        FROM 
+            showcase_products sp 
+        JOIN 
+            products p ON sp.product_id = p.id 
+        LEFT JOIN 
+            product_categories pc ON p.id = pc.product_id
+        LEFT JOIN 
+            categories c ON pc.category_id = c.id
+        JOIN 
+            users u ON p.seller_id = u.id 
+        WHERE 
+            sp.showcase_id = ?
+        GROUP BY
+            sp.id, p.id
         `, [showcaseId]);
 
-        // Parse image links into an array of objects for each product
         items.forEach(item => {
             item.images = item.images.split(',').map(image_link => ({
                 image_link,
                 imageUrl: `http://localhost:3001/uploads/products/${image_link}`
             }));
+            item.categories = item.categories.split(',').map(category => {
+                const [categoryName, categoryId] = category.split(':');
+                return { categoryName, category_id: parseInt(categoryId) };
+            });
         });
 
-        // Add the array of items with product details and images to the showcase object
         showcase[0].items = items;
 
         res.json(showcase[0]);
@@ -124,7 +131,7 @@ const createShowcase = async (req, res) => {
     try {
         // Insert showcase details into the showcases table
         const result = await queryAsync('INSERT INTO showcases (title, subtitle, link) VALUES (?, ?, ?)', [title, subtitle, link]);
-        
+
         const showcaseId = result.insertId;
 
         res.status(201).json({ message: 'Showcase created successfully', id: showcaseId });
@@ -184,19 +191,20 @@ const deleteShowcaseById = async (req, res) => {
 // Controller to add an item to a showcase
 // Controller to add an item to a showcase
 const addItemToShowcase = async (req, res) => {
-    const { showcaseId, itemId } = req.body;
+    const showcaseId = parseInt(req.params.showcaseId);
+    const { itemId } = req.body;
     try {
         // Check if the showcase and item exist
         const [showcaseExists] = await queryAsync('SELECT id FROM showcases WHERE id = ?', [showcaseId]);
         const [itemExists] = await queryAsync('SELECT id FROM products WHERE id = ?', [itemId]);
-        
+
         if (!showcaseExists || !itemExists) {
             return res.status(404).json({ error: 'Showcase or item not found' });
         }
 
         // Check if the item is already associated with the showcase
         const [existingAssociation] = await queryAsync('SELECT id FROM showcase_products WHERE showcase_id = ? AND product_id = ?', [showcaseId, itemId]);
-        
+
         if (existingAssociation) {
             return res.status(400).json({ error: 'Item is already in the showcase' });
         }
@@ -215,7 +223,8 @@ const addItemToShowcase = async (req, res) => {
 // Controller to remove an item from a showcase
 // Controller to remove an item from a showcase
 const removeItemFromShowcase = async (req, res) => {
-    const { showcaseId, itemId } = req.body;
+    const showcaseId = parseInt(req.params.showcaseId);
+    const { itemId } = req.body;
     try {
         // Check if the showcase and item exist
         const [showcaseExists] = await queryAsync('SELECT id FROM showcases WHERE id = ?', [showcaseId]);

@@ -21,16 +21,16 @@ const getCategories = async (req, res) => {
     }
 };
 
-const getChildCategoriesByParentId = async (req, res) => {
-    const parentId = req.params.parentId; // Assuming parent ID is passed in the URL params
-    try {
-        const childCategories = await queryAsync('SELECT * FROM categories WHERE parent_category_id = ?', [parentId]);
-        res.json(childCategories);
-    } catch (error) {
-        console.error('Error fetching child categories:', error);
-        res.status(500).json({ error: 'Internal Server Error' });
-    }
-};
+// const getChildCategoriesByParentId = async (req, res) => {
+//     const parentId = req.params.parentId; // Assuming parent ID is passed in the URL params
+//     try {
+//         const childCategories = await queryAsync('SELECT * FROM categories WHERE parent_category_id = ?', [parentId]);
+//         res.json(childCategories);
+//     } catch (error) {
+//         console.error('Error fetching child categories:', error);
+//         res.status(500).json({ error: 'Internal Server Error' });
+//     }
+// };
 
 // Controller to get a category by ID
 const getCategoryById = async (req, res) => {
@@ -40,6 +40,13 @@ const getCategoryById = async (req, res) => {
         if (category.length === 0) {
             return res.status(404).json({ error: 'Category not found' });
         }
+
+        // Fetch children if they exist
+        const children = await queryAsync('SELECT * FROM categories WHERE parent_category_id = ?', [categoryId]);
+        if (children.length > 0) {
+            category[0].children = children;
+        }
+
         res.json(category[0]);
     } catch (error) {
         console.error('Error fetching category:', error);
@@ -110,12 +117,34 @@ const deleteCategoryById = async (req, res) => {
 const getProductsByCategoryId = async (req, res) => {
     const categoryId = parseInt(req.params.id);
     try {
-        // Fetch products for the given category ID
-        const products = await queryAsync('SELECT * FROM products WHERE category_id = ?', [categoryId]);
+        // Fetch products for the given category ID along with all associated categories
+        const products = await queryAsync(`
+            SELECT 
+                p.*, 
+                GROUP_CONCAT(DISTINCT CONCAT_WS(':', c.name, c.id)) AS categories 
+            FROM 
+                products p 
+            LEFT JOIN (
+                SELECT pc.product_id, c.name, c.id 
+                FROM product_categories pc 
+                JOIN categories c ON pc.category_id = c.id
+            ) AS c ON p.id = c.product_id
+            WHERE 
+                p.id IN (SELECT pc.product_id FROM product_categories pc WHERE pc.category_id = ?)
+            GROUP BY 
+                p.id
+        `, [categoryId]);
 
-        // Loop through each product to fetch associated images
+        // Loop through each product to parse categories and fetch associated images
         for (let i = 0; i < products.length; i++) {
+            // Parse categories into array of objects
+            products[i].categories = products[i].categories.split(',').map(category => {
+                const [categoryName, categoryId] = category.split(':');
+                return { categoryName, category_id: parseInt(categoryId) };
+            });
+
             const productId = products[i].id;
+
             // Fetch images associated with the product
             const productImages = await queryAsync('SELECT id, image_link FROM product_images WHERE product_id = ?', [productId]);
 
@@ -138,4 +167,4 @@ const getProductsByCategoryId = async (req, res) => {
 
 
 
-module.exports = {getCategories, getChildCategoriesByParentId, getCategoryById, createCategory, updateCategoryById, deleteCategoryById, getProductsByCategoryId}
+module.exports = {getCategories, getCategoryById, createCategory, updateCategoryById, deleteCategoryById, getProductsByCategoryId}
