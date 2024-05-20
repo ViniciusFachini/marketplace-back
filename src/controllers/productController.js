@@ -23,6 +23,15 @@ const getProducts = async (req, res) => {
             product.categories = JSON.parse(`[${product.categories}]`);
         });
 
+        // Fetch and add images for each product
+        for (let product of products) {
+            const productImages = await queryAsync('SELECT id, image_link FROM product_images WHERE product_id = ?', [product.id]);
+            product.images = productImages.map(image => ({
+                ...image,
+                imageUrl: `http://localhost:${process.env.PORT}/uploads/products/${image.image_link}`
+            }));
+        }
+
         res.json(products);
     } catch (error) {
         console.error('Error fetching products:', error);
@@ -30,7 +39,6 @@ const getProducts = async (req, res) => {
     }
 };
 
-// Controller to get a product by ID
 const getProductById = async (req, res) => {
     const productId = parseInt(req.params.id);
     try {
@@ -61,7 +69,7 @@ const getProductById = async (req, res) => {
         // Add full image paths to the product images
         const fullProductImages = productImages.map(image => ({
             ...image,
-            imageUrl: `http://localhost:3001/uploads/products/${image.image_link}`
+            imageUrl: `http://localhost:${process.env.PORT}/uploads/products/${image.image_link}`
         }));
 
         // Add images with full paths and categories to the product object
@@ -77,6 +85,7 @@ const getProductById = async (req, res) => {
         res.status(500).json({ error: 'Internal Server Error' });
     }
 };
+
 
 // Controller to create a new product
 const createProduct = async (req, res) => {
