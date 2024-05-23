@@ -2,7 +2,7 @@ const express = require('express');
 const cors = require('cors');
 const dotenv = require('dotenv');
 const bodyParser = require('body-parser');
-const { register, login } = require('./controllers/authController');
+const { register, login, updateUser } = require('./controllers/authController');
 const path = require('path')
 const { handleSingleImageUpload } = require('./middleware/uploadsMiddleware');
 
@@ -11,6 +11,7 @@ const categoriesRouter = require('./routes/categoriesRoutes');
 const addressesRouter = require('./routes/addressesRoutes');
 const messagesRoutes = require('./routes/messagesRoutes');
 const showcasesRoutes = require('./routes/showcasesRoutes');
+const { verifyToken } = require('./middleware/authentication');
 
 dotenv.config();
 
@@ -22,8 +23,9 @@ const PORT = process.env.PORT || 3001;
 app.use(cors()); // Enable CORS
 app.use(bodyParser.json()); // Parse JSON bodies
 
-app.post('/login', login);
-app.post('/register', handleSingleImageUpload, register);
+app.post('/users/login', login);
+app.post('/users/register', handleSingleImageUpload, register);
+app.patch('/users/update/:id', verifyToken, handleSingleImageUpload, updateUser);
 
 app.use('/products', productsRouter);
 app.use('/categories', categoriesRouter);

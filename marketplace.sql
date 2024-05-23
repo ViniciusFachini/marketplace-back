@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 23, 2024 at 04:20 AM
+-- Generation Time: May 23, 2024 at 05:28 PM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.2.4
 
@@ -20,60 +20,6 @@ SET time_zone = "+00:00";
 --
 -- Database: `marketplace`
 --
-
-DELIMITER $$
---
--- Functions
---
-CREATE DEFINER=`root`@`localhost` FUNCTION `remove_accents` (`input_text` VARCHAR(255)) RETURNS VARCHAR(255) CHARSET utf8mb4 COLLATE utf8mb4_unicode_520_ci  BEGIN
-    DECLARE output_text VARCHAR(255);
-    
-    -- Remove accents
-    SET output_text = input_text;
-    SET output_text = REPLACE(output_text, 'á', 'a');
-    SET output_text = REPLACE(output_text, 'é', 'e');
-    SET output_text = REPLACE(output_text, 'í', 'i');
-    SET output_text = REPLACE(output_text, 'ó', 'o');
-    SET output_text = REPLACE(output_text, 'ú', 'u');
-    SET output_text = REPLACE(output_text, 'Á', 'A');
-    SET output_text = REPLACE(output_text, 'É', 'E');
-    SET output_text = REPLACE(output_text, 'Í', 'I');
-    SET output_text = REPLACE(output_text, 'Ó', 'O');
-    SET output_text = REPLACE(output_text, 'Ú', 'U');
-    -- Add more replacements for other accented characters as needed
-    
-    RETURN output_text;
-END$$
-
-CREATE DEFINER=`root`@`localhost` FUNCTION `remove_accents2` (`input_text` VARCHAR(255)) RETURNS VARCHAR(255) CHARSET utf8mb4 COLLATE utf8mb4_unicode_520_ci  BEGIN
-    DECLARE output_text VARCHAR(255);
-    
-    -- Normalize the string to decomposed form
-    SET output_text = input_text;
-    -- Lowercase accented characters
-    SET output_text = REPLACE(output_text, 'á', 'a');
-    SET output_text = REPLACE(output_text, 'à', 'a');
-    SET output_text = REPLACE(output_text, 'â', 'a');
-    SET output_text = REPLACE(output_text, 'ä', 'a');
-    SET output_text = REPLACE(output_text, 'é', 'e');
-    SET output_text = REPLACE(output_text, 'è', 'e');
-    SET output_text = REPLACE(output_text, 'ê', 'e');
-    SET output_text = REPLACE(output_text, 'ë', 'e');
-    -- Uppercase accented characters
-    SET output_text = REPLACE(output_text, 'Á', 'A');
-    SET output_text = REPLACE(output_text, 'À', 'A');
-    SET output_text = REPLACE(output_text, 'Â', 'A');
-    SET output_text = REPLACE(output_text, 'Ä', 'A');
-    SET output_text = REPLACE(output_text, 'É', 'E');
-    SET output_text = REPLACE(output_text, 'È', 'E');
-    SET output_text = REPLACE(output_text, 'Ê', 'E');
-    SET output_text = REPLACE(output_text, 'Ë', 'E');
-    -- Add more replacements for other accented characters as needed
-
-    RETURN output_text;
-END$$
-
-DELIMITER ;
 
 -- --------------------------------------------------------
 
@@ -554,7 +500,25 @@ CREATE TABLE `users` (
 
 INSERT INTO `users` (`id`, `name`, `email`, `password`, `username`, `user_image`, `created_at`, `updated_at`, `phone`, `user_type`, `address_id`, `verified`) VALUES
 (1, 'Vinícius', 'vinniebrasil@gmail.com', '$2b$10$v8c51PRHrNdQAR74ZmNGmuLjZyYXDPypMGFKsLw7KJ.mX8aBAQf6a', 'vinnifachini', NULL, '2024-03-14 00:59:41', '2024-05-23 01:58:04', '+55 (18) 99624-8348', 'Admin', 1, 1),
-(2, 'Carlos', 'carlinhos@gmail.com', '$2b$10$89wBouRNsYecQ2EaGd3neOdwalAsxhq6a0nBpxrf6SRZReCVyOmGq', 'carlinhos', NULL, '2024-03-14 01:18:42', '2024-05-22 20:00:13', '+55 (18) 99624-8348', 'Vendedor', 2, 1);
+(2, 'Carlos', 'carlinhos@gmail.com', '$2b$10$89wBouRNsYecQ2EaGd3neOdwalAsxhq6a0nBpxrf6SRZReCVyOmGq', 'carlinhos', NULL, '2024-03-14 01:18:42', '2024-05-22 20:00:13', '+55 (18) 99624-8348', 'Vendedor', 2, 1),
+(3, 'Vinícius de Carvalho Fachini', 'vinicius.fachini@gmail.com', '$2b$10$6f5nqzAJ14GkixGOqBRgwe2GLEhe4MNTP0D1etJP9wFL.bVZZj7Qu', 'ViniciusFachini', NULL, '2024-05-23 14:56:35', '2024-05-23 15:00:30', '+55 (18) 99624-8348', 'Admin', 0, 0),
+(4, 'Vinícius de Carvalho Fachini', 'vinicius.fachini01@gmail.com', '$2b$10$MFZhhfEflc2BNfGMLVV1P.sAsL9HULiR4cydn174lSelceQmSP2xG', 'SeuFax', NULL, '2024-05-23 15:12:56', '2024-05-23 15:12:56', '+55 (18) 99624-8348', 'Admin', NULL, 0),
+(5, 'Vinícius de Carvalho Fachini', 'vinicius.fachini.01@gmail.com', '$2b$10$d7Po4WnvoZww5IOdYVuq.uzc3jjZdJryvHOvJjsyLi/zzFb69N2Ze', 'SeuFax2', NULL, '2024-05-23 15:14:42', '2024-05-23 15:14:42', '+55 (18) 99624-8348', 'Admin', NULL, 0),
+(6, 'Vinícius de Carvalho Fachini', 'vinicius.fachini.02@gmail.com', '$2b$10$/pl2FtZ2KiMbew9dpI5SIefuHzs.jmMIUHEX/iuYCoKBA4QI.64IG', 'SeuFax3', '37df42a3-6078-4552-ae1d-d71cf253a4cb.jpg', '2024-05-23 15:16:14', '2024-05-23 15:16:14', '+55 (18) 99624-8348', 'Admin', NULL, 0),
+(7, 'Vinícius de Carvalho Fachini', 'vinicius.fachini.03@gmail.com', '$2b$10$nmRUm50wFv4CvjLolR3il.AAGTHBNZWrQFp7RlzDMLIs/xcpvnYVi', 'SeuFax21', '09dcaf25-8790-48b9-9898-95022de9d124.jpg', '2024-05-23 15:17:29', '2024-05-23 15:17:29', '+55 (18) 99624-8348', 'Admin', NULL, 0);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `user_addresses`
+--
+
+CREATE TABLE `user_addresses` (
+  `id` int(11) NOT NULL,
+  `user_id` int(11) DEFAULT NULL,
+  `address_id` int(11) DEFAULT NULL,
+  `title` varchar(255) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_520_ci;
 
 --
 -- Indexes for dumped tables
@@ -645,6 +609,14 @@ ALTER TABLE `users`
   ADD UNIQUE KEY `username` (`username`);
 
 --
+-- Indexes for table `user_addresses`
+--
+ALTER TABLE `user_addresses`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `user_id` (`user_id`),
+  ADD KEY `address_id` (`address_id`);
+
+--
 -- AUTO_INCREMENT for dumped tables
 --
 
@@ -712,7 +684,13 @@ ALTER TABLE `transactions`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+
+--
+-- AUTO_INCREMENT for table `user_addresses`
+--
+ALTER TABLE `user_addresses`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- Constraints for dumped tables
@@ -730,6 +708,13 @@ ALTER TABLE `categories`
 ALTER TABLE `product_categories`
   ADD CONSTRAINT `fk_category_id` FOREIGN KEY (`category_id`) REFERENCES `categories` (`id`),
   ADD CONSTRAINT `fk_product_id` FOREIGN KEY (`product_id`) REFERENCES `products` (`id`);
+
+--
+-- Constraints for table `user_addresses`
+--
+ALTER TABLE `user_addresses`
+  ADD CONSTRAINT `user_addresses_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`),
+  ADD CONSTRAINT `user_addresses_ibfk_2` FOREIGN KEY (`address_id`) REFERENCES `addresses` (`id`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

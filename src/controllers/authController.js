@@ -7,7 +7,7 @@ const { queryAsync } = require('../db');
  */
 const register = async (req, res) => {
   try {
-    const { name, email, password, username, profilePicture, phone, user_type, address_id } = req.body;
+    const { name, email, password, username, phone, user_type } = req.body;
 
     const userExists = await queryAsync('SELECT * FROM Users WHERE username = ?', [username]);
     const emailExists = await queryAsync('SELECT * FROM Users WHERE email = ?', [email]);
@@ -22,68 +22,79 @@ const register = async (req, res) => {
 
     const hashedPassword = await bcrypt.hash(String(password), 10);
 
-    let query = 'INSERT INTO users';
-    let fields = '';
-    let placeholders = '';
-    const values = [];
+    let userQuery = 'INSERT INTO Users';
+    let userFields = '';
+    let userPlaceholders = '';
+    const userValues = [];
 
     if (name !== undefined) {
-      fields += 'name, ';
-      placeholders += '?, ';
-      values.push(name);
+      userFields += 'name, ';
+      userPlaceholders += '?, ';
+      userValues.push(name);
     }
 
     if (email !== undefined) {
-      fields += 'email, ';
-      placeholders += '?, ';
-      values.push(email);
+      userFields += 'email, ';
+      userPlaceholders += '?, ';
+      userValues.push(email);
     }
 
     if (password !== undefined) {
-      fields += 'password, ';
-      placeholders += '?, ';
-      values.push(hashedPassword);
+      userFields += 'password, ';
+      userPlaceholders += '?, ';
+      userValues.push(hashedPassword);
     }
 
     if (username !== undefined) {
-      fields += 'username, ';
-      placeholders += '?, ';
-      values.push(username);
+      userFields += 'username, ';
+      userPlaceholders += '?, ';
+      userValues.push(username);
     }
 
-    if (profilePicture !== undefined) {
-      fields += 'user_image, ';
-      placeholders += '?, ';
-      values.push(profilePicture);
+    if (req.body.profilePicture !== undefined) {
+      userFields += 'user_image, ';
+      userPlaceholders += '?, ';
+      userValues.push(req.body.profilePicture);
     }
 
     if (phone !== undefined) {
-      fields += 'phone, ';
-      placeholders += '?, ';
-      values.push(phone);
+      userFields += 'phone, ';
+      userPlaceholders += '?, ';
+      userValues.push(phone);
     }
 
     if (user_type !== undefined) {
-      fields += 'user_type, ';
-      placeholders += '?, ';
-      values.push(user_type);
-    }
-
-    if (address_id !== undefined) {
-      fields += 'address_id, ';
-      placeholders += '?, ';
-      values.push(address_id);
+      userFields += 'user_type, ';
+      userPlaceholders += '?, ';
+      userValues.push(user_type);
     }
 
     // Remove the trailing comma and space from fields and placeholders
-    fields = fields.slice(0, -2);
-    placeholders = placeholders.slice(0, -2);
+    userFields = userFields.slice(0, -2);
+    userPlaceholders = userPlaceholders.slice(0, -2);
 
-    query += ` (${fields}) VALUES (${placeholders})`;
+    userQuery += ` (${userFields}) VALUES (${userPlaceholders})`;
 
-    const result = await queryAsync(query, values);
+    const userResult = await queryAsync(userQuery, userValues);
 
-    req.registeredId = result.insertId
+    const userId = userResult.insertId;
+
+    // Address handling (optional)
+    if (req.body.address) {
+      const { street, city, state, postal_code, country, title } = req.body.address;
+
+      const addressQuery = 'INSERT INTO Addresses (street, city, state, postal_code, country) VALUES (?, ?, ?, ?, ?)';
+      const addressValues = [street, city, state, postal_code, country];
+
+      const addressResult = await queryAsync(addressQuery, addressValues);
+
+      const addressId = addressResult.insertId;
+
+      const userAddressQuery = 'INSERT INTO User_Addresses (user_id, address_id, title) VALUES (?, ?, ?)';
+      const userAddressValues = [userId, addressId, title];
+
+      await queryAsync(userAddressQuery, userAddressValues);
+    }
 
     res.status(201).json({ message: 'User registered successfully' });
   } catch (error) {
@@ -92,9 +103,72 @@ const register = async (req, res) => {
   }
 };
 
+const updateUser = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { currentPassword, email, newPassword, phone } = req.body;
+    const profilePicture = req.body.imagePath;
+
+    // Check if the user exists
+    const userResults = await queryAsync('SELECT * FROM Users WHERE id = ?', [id]);
+    if (userResults.length === 0) {
+      return res.status(404).json({ error: 'User not found' });
+    }
+
+    const user = userResults[0];
+
+    // Check if the provided current password is correct
+    const match = await bcrypt.compare(String(currentPassword), user.password);
+    if (!match) {
+      return res.status(401).json({ error: 'Invalid current password' });
+    }
+
+    // Prepare the update query and values
+    let query = 'UPDATE Users SET ';
+    const fields = [];
+    const values = [];
+
+    if (email) {
+      fields.push('email = ?');
+      values.push(email);
+    }
+
+    if (newPassword) {
+      const hashedPassword = await bcrypt.hash(String(newPassword), 10);
+      fields.push('password = ?');
+      values.push(hashedPassword);
+    }
+
+    if (profilePicture) {
+      fields.push('user_image = ?');
+      values.push(profilePicture);
+    }
+
+    if (phone) {
+      fields.push('phone = ?');
+      values.push(phone);
+    }
+
+    if (fields.length === 0) {
+      return res.status(400).json({ error: 'No fields to update' });
+    }
+
+    query += fields.join(', ') + ' WHERE id = ?';
+    values.push(id);
+
+    // Execute the update query
+    await queryAsync(query, values);
+
+    res.status(200).json({ message: 'User updated successfully' });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+};
 /**
  * Controller function for user login.
  */
+
 const login = async (req, res) => {
   try {
     const { email, password } = req.body;
@@ -113,56 +187,50 @@ const login = async (req, res) => {
           { expiresIn: expirationTime }
         );
 
-        // Query the users table and join with the addresses table to get the user's information and address details
         const detailedUserResults = await queryAsync(`
           SELECT u.id, u.name, u.email, u.username, u.user_image, u.phone, u.user_type, u.verified, u.created_at,
-                 a.street, a.city, a.state, a.postal_code, a.country
+          a.street, a.city, a.state, a.postal_code, a.country
           FROM Users u
-          JOIN Addresses a ON u.address_id = a.id
+          LEFT JOIN User_Addresses ua ON u.id = ua.user_id
+          LEFT JOIN Addresses a ON ua.address_id = a.id
           WHERE u.id = ?
         `, [user.id]);
 
-        if (detailedUserResults.length > 0) {
-          const detailedUser = detailedUserResults[0];
-          const userData = {
-            id: detailedUser.id,
-            name: detailedUser.name,
-            email: detailedUser.email,
-            username: detailedUser.username,
-            profilePicture: detailedUser.user_image,
-            phone: detailedUser.phone,
-            userType: detailedUser.user_type,
-            verified: detailedUser.verified,
-            createdAt: detailedUser.created_at,
-            address: {
-              street: detailedUser.street,
-              city: detailedUser.city,
-              state: detailedUser.state,
-              postalCode: detailedUser.postal_code,
-              country: detailedUser.country
-            }
-          };
+        const userData = {
+          id: user.id,
+          name: user.name,
+          email: user.email,
+          username: user.username,
+          profilePicture: user.user_image ? `http://localhost:${process.env.PORT}/uploads/users/${user.user_image}` : null,
+          phone: user.phone,
+          userType: user.user_type,
+          verified: user.verified,
+          createdAt: user.created_at,
+          addresses: detailedUserResults.map(address => ({
+            title: address.title,
+            street: address.street,
+            city: address.city,
+            state: address.state,
+            postalCode: address.postal_code,
+            country: address.country
+          })).filter(address => address.street) // Filter out undefined addresses
+        };
 
-          // Query the transactions table to get the sales, count cancellations, and sum the total value of all sales
-          const transactionsResults = await queryAsync('SELECT status, total_amount FROM Transactions WHERE seller_id = ?', [user.id]);
+        const transactionsResults = await queryAsync('SELECT status, total_amount FROM Transactions WHERE seller_id = ?', [user.id]);
+        const totalSales = transactionsResults.length;
+        const canceledSales = transactionsResults.filter(transaction => transaction.status === 'Cancelado').length;
+        const totalSalesValue = transactionsResults.reduce((sum, transaction) => sum + transaction.total_amount, 0);
+        const lastTransactionsResults = await queryAsync('SELECT * FROM Transactions WHERE seller_id = ? ORDER BY created_at DESC LIMIT 5', [user.id]);
 
-          const totalSales = transactionsResults.length;
-          const canceledSales = transactionsResults.filter(transaction => transaction.status === 'Cancelado').length;
-          const totalSalesValue = transactionsResults.reduce((sum, transaction) => sum + transaction.total_amount, 0);
+        userData.totalSales = totalSales;
+        userData.canceledSales = canceledSales;
+        userData.totalSalesValue = totalSalesValue;
+        userData.lastTransactions = lastTransactionsResults;
 
-          // Query the transactions table to get the last 5 transactions
-          const lastTransactionsResults = await queryAsync('SELECT * FROM Transactions WHERE seller_id = ? ORDER BY created_at DESC LIMIT 5', [user.id]);
+        // Modify profilePicture to return full URL
+        userData.profilePicture = user.user_image ? `http://localhost:${process.env.PORT}/uploads/users/${user.user_image}` : null;
 
-          // Add sales, total sales value, and last 5 transactions information to user data
-          userData.totalSales = totalSales;
-          userData.canceledSales = canceledSales;
-          userData.totalSalesValue = totalSalesValue;
-          userData.lastTransactions = lastTransactionsResults;
-
-          res.status(200).json({ token, userData, expiresIn: expirationTime });
-        } else {
-          res.status(404).json({ error: 'User not found' });
-        }
+        res.status(200).json({ token, userData, expiresIn: expirationTime });
       } else {
         res.status(401).json({ error: 'Invalid credentials' });
       }
@@ -175,4 +243,4 @@ const login = async (req, res) => {
   }
 };
 
-module.exports = { register, login };
+module.exports = { register, login, updateUser };
