@@ -189,7 +189,7 @@ const login = async (req, res) => {
 
         const detailedUserResults = await queryAsync(`
           SELECT u.id, u.name, u.email, u.username, u.user_image, u.phone, u.user_type, u.verified, u.created_at,
-          a.street, a.city, a.state, a.postal_code, a.country
+          ua.title, ua.main_address, a.street, a.city, a.state, a.postal_code, a.country
           FROM Users u
           LEFT JOIN User_Addresses ua ON u.id = ua.user_id
           LEFT JOIN Addresses a ON ua.address_id = a.id
@@ -206,15 +206,21 @@ const login = async (req, res) => {
           userType: user.user_type,
           verified: user.verified,
           createdAt: user.created_at,
-          addresses: detailedUserResults.map(address => ({
+          addresses: {}
+        };
+
+        // Categorize addresses into main, address_1, address_2, etc.
+        detailedUserResults.forEach((address, index) => {
+          const addressCategory = address.main_address ? 'main' : `address_${index + 1}`;
+          userData.addresses[addressCategory] = {
             title: address.title,
             street: address.street,
             city: address.city,
             state: address.state,
             postalCode: address.postal_code,
             country: address.country
-          })).filter(address => address.street) // Filter out undefined addresses
-        };
+          };
+        });
 
         const transactionsResults = await queryAsync('SELECT status, total_amount FROM Transactions WHERE seller_id = ?', [user.id]);
         const totalSales = transactionsResults.length;
@@ -222,10 +228,20 @@ const login = async (req, res) => {
         const totalSalesValue = transactionsResults.reduce((sum, transaction) => sum + transaction.total_amount, 0);
         const lastTransactionsResults = await queryAsync('SELECT * FROM Transactions WHERE seller_id = ? ORDER BY created_at DESC LIMIT 5', [user.id]);
 
+        // Count announced products
+        const announcedProductsResult = await queryAsync('SELECT COUNT(*) as announcedProducts FROM Products WHERE seller_id = ?', [user.id]);
+        const announcedProducts = announcedProductsResult[0].announcedProducts;
+
+        // Count available products
+        const availableProductsResult = await queryAsync('SELECT COUNT(*) as availableProducts FROM Products WHERE seller_id = ? AND available = 1', [user.id]);
+        const availableProducts = availableProductsResult[0].availableProducts;
+
         userData.totalSales = totalSales;
         userData.canceledSales = canceledSales;
         userData.totalSalesValue = totalSalesValue;
         userData.lastTransactions = lastTransactionsResults;
+        userData.announcedProducts = announcedProducts;
+        userData.availableProducts = availableProducts;
 
         // Modify profilePicture to return full URL
         userData.profilePicture = user.user_image ? `http://localhost:${process.env.PORT}/uploads/users/${user.user_image}` : null;
@@ -242,5 +258,6 @@ const login = async (req, res) => {
     res.status(500).json({ error: 'Internal server error' });
   }
 };
+
 
 module.exports = { register, login, updateUser };
