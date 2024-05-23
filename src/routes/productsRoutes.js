@@ -10,7 +10,6 @@ const router = express.Router();
 router.post('/', verifyToken, handleMultipleImageUpload, createProduct);
 router.get('/', getProducts);
 router.get('/:id', getProductById); 
-router.get('/:productId/seller', getSellerInfo)
 router.get('/slug/:slug', getProductBySlug); 
 router.patch('/:id', verifyToken, updateProductById);
 router.delete('/:id', verifyToken, deleteProductById);

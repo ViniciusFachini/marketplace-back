@@ -88,93 +88,6 @@ const getProductById = async (req, res) => {
     }
 };
 
-const getSellerInfo = async (req, res) => {
-    try {
-        const { productId } = req.params;
-
-        // Query the products table to get the seller ID of the given product
-        const productResults = await queryAsync('SELECT seller_id FROM Products WHERE id = ?', [productId]);
-
-        if (productResults.length > 0) {
-            const product = productResults[0];
-            const sellerId = product.seller_id;
-
-            // Query the users table to get the seller's information and join with the user_addresses table to get the seller's addresses
-            const sellerResults = await queryAsync(`
-                SELECT u.id, u.name, u.email, u.username, u.user_image, u.phone, u.user_type, 
-                    ua.id as address_id, ua.title, ua.main_address, a.street, a.city, a.state, a.postal_code, a.country
-                FROM Users u
-                LEFT JOIN user_addresses ua ON u.id = ua.user_id
-                LEFT JOIN Addresses a ON ua.address_id = a.id
-                WHERE u.id = ?
-            `, [sellerId]);
-
-            if (sellerResults.length > 0) {
-                const sellerData = {
-                    id: sellerResults[0].id,
-                    name: sellerResults[0].name,
-                    email: sellerResults[0].email,
-                    username: sellerResults[0].username,
-                    profilePicture: sellerResults[0].user_image ? `http://localhost:${process.env.PORT}/uploads/users/${sellerResults[0].user_image}` : null,
-                    phone: sellerResults[0].phone,
-                    userType: sellerResults[0].user_type,
-                    addresses: {}
-                };
-
-                // Categorize addresses into main, address_1, address_2, etc.
-                sellerResults.forEach((address, index) => {
-                    const addressCategory = address.main_address ? 'main' : `address_${index + 1}`;
-                    sellerData.addresses[addressCategory] = {
-                        title: address.title,
-                        street: address.street,
-                        city: address.city,
-                        state: address.state,
-                        postalCode: address.postal_code,
-                        country: address.country
-                    };
-                });
-
-                // Query the transactions table to get the sales, count cancellations, and sum the total value of all sales
-                const transactionsResults = await queryAsync('SELECT status, total_amount FROM Transactions WHERE seller_id = ?', [sellerId]);
-
-                const totalSales = transactionsResults.length;
-                const canceledSales = transactionsResults.filter(transaction => transaction.status === 'Cancelado').length;
-                const totalSalesValue = transactionsResults.reduce((sum, transaction) => sum + transaction.total_amount, 0);
-
-                // Query the transactions table to get the last 5 transactions
-                const lastTransactionsResults = await queryAsync('SELECT * FROM Transactions WHERE seller_id = ? ORDER BY created_at DESC LIMIT 5', [sellerId]);
-
-                // Query the products table to get the count of announced products by the seller
-                const announcedProductsResults = await queryAsync('SELECT COUNT(*) as announcedProducts FROM Products WHERE seller_id = ?', [sellerId]);
-
-                const announcedProducts = announcedProductsResults[0].announcedProducts;
-
-                // Query the products table to get the count of available products announced by the seller
-                const availableProductsResults = await queryAsync('SELECT COUNT(*) as availableProducts FROM Products WHERE seller_id = ? AND available = 1', [sellerId]);
-
-                const availableProducts = availableProductsResults[0].availableProducts;
-
-                // Add sales, total sales value, announced products, available products, and last 5 transactions information to seller data
-                sellerData.totalSales = totalSales;
-                sellerData.canceledSales = canceledSales;
-                sellerData.totalSalesValue = totalSalesValue;
-                sellerData.announcedProducts = announcedProducts;
-                sellerData.availableProducts = availableProducts;
-                sellerData.lastTransactions = lastTransactionsResults;
-
-                res.status(200).json(sellerData);
-            } else {
-                res.status(404).json({ error: 'Seller not found' });
-            }
-        } else {
-            res.status(404).json({ error: 'Product not found' });
-        }
-    } catch (error) {
-        console.error(error);
-        res.status(500).json({ error: 'Internal server error' });
-    }
-};
-
 const getProductBySlug = async (req, res) => {
     const slug = req.params.slug;
     try {
@@ -402,4 +315,4 @@ const deleteProductById = async (req, res) => {
     }
 };
 
-module.exports = { getProducts, getProductById, createProduct, updateProductById, getSellerInfo, deleteProductById, getProductBySlug };
+module.exports = { getProducts, getProductById, createProduct, updateProductById, deleteProductById, getProductBySlug };

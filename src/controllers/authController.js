@@ -103,6 +103,49 @@ const register = async (req, res) => {
   }
 };
 
+/**
+ * Controller function for user login.
+ */
+const login = async (req, res) => {
+  try {
+    const { email, password } = req.body;
+
+    const userResults = await queryAsync('SELECT * FROM Users WHERE email = ?', [email]);
+
+    if (userResults.length > 0) {
+      const user = userResults[0];
+      const match = await bcrypt.compare(String(password), user.password);
+
+      if (match) {
+        const token = jwt.sign(
+          { username: user.username, id: user.id },
+          process.env.JWT_SECRET,
+          { expiresIn: '1h' }
+        );
+
+        res.status(200).json({
+          token,
+          user: {
+            id: user.id,
+            name: user.name
+          },
+          expiresIn: 3600
+        });
+      } else {
+        res.status(401).json({ error: 'Invalid credentials' });
+      }
+    } else {
+      res.status(401).json({ error: 'Invalid credentials' });
+    }
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+};
+
+/**
+ * Controller function to update user information.
+ */
 const updateUser = async (req, res) => {
   try {
     const { id } = req.params;
@@ -165,93 +208,32 @@ const updateUser = async (req, res) => {
     res.status(500).json({ error: 'Internal server error' });
   }
 };
+
 /**
- * Controller function for user login.
+ * Controller function to get all users.
  */
-
-const login = async (req, res) => {
+const getUsers = async (req, res) => {
   try {
-    const { email, password } = req.body;
+    const users = await queryAsync('SELECT id, name, email, username FROM Users');
+    res.status(200).json(users);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+};
 
-    const userResults = await queryAsync('SELECT * FROM Users WHERE email = ?', [email]);
+/**
+ * Controller function to get a user by ID.
+ */
+const getUserById = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const userResults = await queryAsync('SELECT id, name, email, username FROM Users WHERE id = ?', [id]);
 
     if (userResults.length > 0) {
-      const user = userResults[0];
-      const match = await bcrypt.compare(String(password), user.password);
-
-      if (match) {
-        const expirationTime = 3600; // 1 hour in seconds
-        const token = jwt.sign(
-          { username: user.username, id: user.id },
-          process.env.JWT_SECRET,
-          { expiresIn: expirationTime }
-        );
-
-        const detailedUserResults = await queryAsync(`
-          SELECT u.id, u.name, u.email, u.username, u.user_image, u.phone, u.user_type, u.verified, u.created_at,
-          ua.title, ua.main_address, a.street, a.city, a.state, a.postal_code, a.country
-          FROM Users u
-          LEFT JOIN User_Addresses ua ON u.id = ua.user_id
-          LEFT JOIN Addresses a ON ua.address_id = a.id
-          WHERE u.id = ?
-        `, [user.id]);
-
-        const userData = {
-          id: user.id,
-          name: user.name,
-          email: user.email,
-          username: user.username,
-          profilePicture: user.user_image ? `http://localhost:${process.env.PORT}/uploads/users/${user.user_image}` : null,
-          phone: user.phone,
-          userType: user.user_type,
-          verified: user.verified,
-          createdAt: user.created_at,
-          addresses: {}
-        };
-
-        // Categorize addresses into main, address_1, address_2, etc.
-        detailedUserResults.forEach((address, index) => {
-          const addressCategory = address.main_address ? 'main' : `address_${index + 1}`;
-          userData.addresses[addressCategory] = {
-            title: address.title,
-            street: address.street,
-            city: address.city,
-            state: address.state,
-            postalCode: address.postal_code,
-            country: address.country
-          };
-        });
-
-        const transactionsResults = await queryAsync('SELECT status, total_amount FROM Transactions WHERE seller_id = ?', [user.id]);
-        const totalSales = transactionsResults.length;
-        const canceledSales = transactionsResults.filter(transaction => transaction.status === 'Cancelado').length;
-        const totalSalesValue = transactionsResults.reduce((sum, transaction) => sum + transaction.total_amount, 0);
-        const lastTransactionsResults = await queryAsync('SELECT * FROM Transactions WHERE seller_id = ? ORDER BY created_at DESC LIMIT 5', [user.id]);
-
-        // Count announced products
-        const announcedProductsResult = await queryAsync('SELECT COUNT(*) as announcedProducts FROM Products WHERE seller_id = ?', [user.id]);
-        const announcedProducts = announcedProductsResult[0].announcedProducts;
-
-        // Count available products
-        const availableProductsResult = await queryAsync('SELECT COUNT(*) as availableProducts FROM Products WHERE seller_id = ? AND available = 1', [user.id]);
-        const availableProducts = availableProductsResult[0].availableProducts;
-
-        userData.totalSales = totalSales;
-        userData.canceledSales = canceledSales;
-        userData.totalSalesValue = totalSalesValue;
-        userData.lastTransactions = lastTransactionsResults;
-        userData.announcedProducts = announcedProducts;
-        userData.availableProducts = availableProducts;
-
-        // Modify profilePicture to return full URL
-        userData.profilePicture = user.user_image ? `http://localhost:${process.env.PORT}/uploads/users/${user.user_image}` : null;
-
-        res.status(200).json({ token, userData, expiresIn: expirationTime });
-      } else {
-        res.status(401).json({ error: 'Invalid credentials' });
-      }
+      res.status(200).json(userResults[0]);
     } else {
-      res.status(401).json({ error: 'Invalid credentials' });
+      res.status(404).json({ error: 'User not found' });
     }
   } catch (error) {
     console.error(error);
@@ -259,5 +241,128 @@ const login = async (req, res) => {
   }
 };
 
+/**
+ * Controller function to get all products from a user.
+ */
+const getProductsFromUser = async (req, res) => {
+  try {
+    const { id } = req.params;
 
-module.exports = { register, login, updateUser };
+    // Fetch products from the specified user with associated categories, SKU, slug, and seller verification status
+    const products = await queryAsync(`
+      SELECT 
+        p.*, 
+        (SELECT verified FROM Users WHERE id = p.seller_id) AS is_seller_verified,
+        GROUP_CONCAT(CONCAT('{ "categoryName": "', c.name, '", "category_id": ', pc.category_id, '}')) AS categories
+      FROM 
+        Products p
+      LEFT JOIN
+        Product_Categories pc ON p.id = pc.product_id
+      LEFT JOIN
+        Categories c ON pc.category_id = c.id
+      WHERE
+        p.seller_id = ?
+      GROUP BY
+        p.id
+    `, [id]);
+
+    // Parse categories for each product
+    products.forEach(product => {
+      product.categories = JSON.parse(`[${product.categories}]`);
+    });
+
+    // Fetch and add images for each product
+    for (let product of products) {
+      const productImages = await queryAsync('SELECT id, image_link FROM Product_Images WHERE product_id = ?', [product.id]);
+      product.images = productImages.map(image => ({
+        ...image,
+        imageUrl: `http://localhost:${process.env.PORT}/uploads/products/${image.image_link}`
+      }));
+    }
+
+    res.json(products);
+  } catch (error) {
+    console.error('Error fetching products:', error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+};
+
+/**
+ * Controller function to get all detailed information about a user.
+ */
+const getAllInfoFromUser = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    const userResults = await queryAsync('SELECT * FROM Users WHERE id = ?', [id]);
+
+    if (userResults.length > 0) {
+      const user = userResults[0];
+
+      const detailedUserResults = await queryAsync(`
+        SELECT u.id, u.name, u.email, u.username, u.user_image, u.phone, u.user_type, u.verified, u.created_at,
+        ua.title, ua.main_address, a.street, a.city, a.state, a.postal_code, a.country
+        FROM Users u
+        LEFT JOIN User_Addresses ua ON u.id = ua.user_id
+        LEFT JOIN Addresses a ON ua.address_id = a.id
+        WHERE u.id = ?
+      `, [user.id]);
+
+      const userData = {
+        id: user.id,
+        name: user.name,
+        email: user.email,
+        username: user.username,
+        profilePicture: user.user_image ? `http://localhost:${process.env.PORT}/uploads/users/${user.user_image}` : null,
+        phone: user.phone,
+        userType: user.user_type,
+        verified: user.verified,
+        createdAt: user.created_at,
+        addresses: {}
+      };
+
+      // Categorize addresses into main, address_1, address_2, etc.
+      detailedUserResults.forEach((address, index) => {
+        const addressCategory = address.main_address ? 'main' : `address_${index + 1}`;
+        userData.addresses[addressCategory] = {
+          title: address.title,
+          street: address.street,
+          city: address.city,
+          state: address.state,
+          postalCode: address.postal_code,
+          country: address.country
+        };
+      });
+
+      const transactionsResults = await queryAsync('SELECT status, total_amount FROM Transactions WHERE seller_id = ?', [user.id]);
+      const totalSales = transactionsResults.length;
+      const canceledSales = transactionsResults.filter(transaction => transaction.status === 'Cancelado').length;
+      const totalSalesValue = transactionsResults.reduce((sum, transaction) => sum + transaction.total_amount, 0);
+      const lastTransactionsResults = await queryAsync('SELECT * FROM Transactions WHERE seller_id = ? ORDER BY created_at DESC LIMIT 5', [user.id]);
+
+      // Count announced products
+      const announcedProductsResult = await queryAsync('SELECT COUNT(*) as announcedProducts FROM Products WHERE seller_id = ?', [user.id]);
+      const announcedProducts = announcedProductsResult[0].announcedProducts;
+
+      // Count available products
+      const availableProductsResult = await queryAsync('SELECT COUNT(*) as availableProducts FROM Products WHERE seller_id = ? AND available = 1', [user.id]);
+      const availableProducts = availableProductsResult[0].availableProducts;
+
+      userData.totalSales = totalSales;
+      userData.canceledSales = canceledSales;
+      userData.totalSalesValue = totalSalesValue;
+      userData.lastTransactions = lastTransactionsResults;
+      userData.announcedProducts = announcedProducts;
+      userData.availableProducts = availableProducts;
+
+      res.status(200).json(userData);
+    } else {
+      res.status(404).json({ error: 'User not found' });
+    }
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+};
+
+module.exports = { register, login, getUsers, getUserById, getProductsFromUser, getAllInfoFromUser, updateUser };
