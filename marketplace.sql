@@ -1,12 +1,85 @@
+-- phpMyAdmin SQL Dump
+-- version 5.2.1
+-- https://www.phpmyadmin.net/
+--
+-- Host: 127.0.0.1
+-- Generation Time: May 23, 2024 at 04:20 AM
+-- Server version: 10.4.28-MariaDB
+-- PHP Version: 8.2.4
+
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
 SET time_zone = "+00:00";
+
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
 /*!40101 SET NAMES utf8mb4 */;
 
+--
+-- Database: `marketplace`
+--
+
+DELIMITER $$
+--
+-- Functions
+--
+CREATE DEFINER=`root`@`localhost` FUNCTION `remove_accents` (`input_text` VARCHAR(255)) RETURNS VARCHAR(255) CHARSET utf8mb4 COLLATE utf8mb4_unicode_520_ci  BEGIN
+    DECLARE output_text VARCHAR(255);
+    
+    -- Remove accents
+    SET output_text = input_text;
+    SET output_text = REPLACE(output_text, 'á', 'a');
+    SET output_text = REPLACE(output_text, 'é', 'e');
+    SET output_text = REPLACE(output_text, 'í', 'i');
+    SET output_text = REPLACE(output_text, 'ó', 'o');
+    SET output_text = REPLACE(output_text, 'ú', 'u');
+    SET output_text = REPLACE(output_text, 'Á', 'A');
+    SET output_text = REPLACE(output_text, 'É', 'E');
+    SET output_text = REPLACE(output_text, 'Í', 'I');
+    SET output_text = REPLACE(output_text, 'Ó', 'O');
+    SET output_text = REPLACE(output_text, 'Ú', 'U');
+    -- Add more replacements for other accented characters as needed
+    
+    RETURN output_text;
+END$$
+
+CREATE DEFINER=`root`@`localhost` FUNCTION `remove_accents2` (`input_text` VARCHAR(255)) RETURNS VARCHAR(255) CHARSET utf8mb4 COLLATE utf8mb4_unicode_520_ci  BEGIN
+    DECLARE output_text VARCHAR(255);
+    
+    -- Normalize the string to decomposed form
+    SET output_text = input_text;
+    -- Lowercase accented characters
+    SET output_text = REPLACE(output_text, 'á', 'a');
+    SET output_text = REPLACE(output_text, 'à', 'a');
+    SET output_text = REPLACE(output_text, 'â', 'a');
+    SET output_text = REPLACE(output_text, 'ä', 'a');
+    SET output_text = REPLACE(output_text, 'é', 'e');
+    SET output_text = REPLACE(output_text, 'è', 'e');
+    SET output_text = REPLACE(output_text, 'ê', 'e');
+    SET output_text = REPLACE(output_text, 'ë', 'e');
+    -- Uppercase accented characters
+    SET output_text = REPLACE(output_text, 'Á', 'A');
+    SET output_text = REPLACE(output_text, 'À', 'A');
+    SET output_text = REPLACE(output_text, 'Â', 'A');
+    SET output_text = REPLACE(output_text, 'Ä', 'A');
+    SET output_text = REPLACE(output_text, 'É', 'E');
+    SET output_text = REPLACE(output_text, 'È', 'E');
+    SET output_text = REPLACE(output_text, 'Ê', 'E');
+    SET output_text = REPLACE(output_text, 'Ë', 'E');
+    -- Add more replacements for other accented characters as needed
+
+    RETURN output_text;
+END$$
+
+DELIMITER ;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `addresses`
+--
 
 CREATE TABLE `addresses` (
   `id` int(11) NOT NULL,
@@ -20,6 +93,20 @@ CREATE TABLE `addresses` (
   `created_at` timestamp NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_520_ci;
 
+--
+-- Dumping data for table `addresses`
+--
+
+INSERT INTO `addresses` (`id`, `street`, `neighbourhood`, `number`, `city`, `state`, `postal_code`, `country`, `created_at`) VALUES
+(1, 'Marechal Rondon', 'Centro', 525, 'Osvaldo Cruz', 'São Paulo', '17700-000', 'Brasil', '2024-05-22 19:52:15'),
+(2, 'Marechal Rondon', 'Centro', 525, 'Tupã', 'São Paulo', '17700-000', 'Brasil', '2024-05-22 20:00:08');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `categories`
+--
+
 CREATE TABLE `categories` (
   `id` int(11) NOT NULL,
   `name` varchar(255) NOT NULL,
@@ -27,6 +114,10 @@ CREATE TABLE `categories` (
   `parent_category_id` int(11) DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_520_ci;
+
+--
+-- Dumping data for table `categories`
+--
 
 INSERT INTO `categories` (`id`, `name`, `description`, `parent_category_id`, `created_at`) VALUES
 (1, 'Electronics', 'Electronic devices and accessories', NULL, '2024-03-21 01:03:14'),
@@ -41,7 +132,14 @@ INSERT INTO `categories` (`id`, `name`, `description`, `parent_category_id`, `cr
 (10, 'Fiction', 'Fiction books in various genres', 3, '2024-03-21 01:03:14'),
 (11, 'Non-Fiction', 'Non-fiction books on various topics', 3, '2024-03-21 01:03:14'),
 (12, 'Children\'s Books', 'Books for children and young readers', 3, '2024-03-21 01:03:14'),
-(13, 'Patrocinados', 'Produtos Patrocinados', NULL, '2024-05-19 20:41:32');
+(13, 'Patrocinados', 'Produtos Patrocinados', NULL, '2024-05-19 20:41:32'),
+(15, 'Melhores da Semana - Patrocinados', 'Os melhores da semana para você! Todos os produtos selecionados e aprovados pela Desa Shop!', 13, '2024-05-19 22:13:09');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `messages`
+--
 
 CREATE TABLE `messages` (
   `id` int(11) NOT NULL,
@@ -51,6 +149,12 @@ CREATE TABLE `messages` (
   `is_read` tinyint(1) DEFAULT 0,
   `timestamp` timestamp NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_520_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `products`
+--
 
 CREATE TABLE `products` (
   `id` int(11) NOT NULL,
@@ -63,40 +167,61 @@ CREATE TABLE `products` (
   `price` decimal(10,2) DEFAULT NULL,
   `available` tinyint(1) DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT current_timestamp(),
-  `is_seller_verified` tinyint(1) DEFAULT NULL
+  `sku` varchar(255) NOT NULL,
+  `slug` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_520_ci;
 
-INSERT INTO `products` (`id`, `seller_id`, `name`, `description`, `brand`, `model`, `product_condition`, `price`, `available`, `created_at`, `is_seller_verified`) VALUES
-(1, 1, 'Tênis Nike Structure 25 Masculino\n\n', 'Com estabilidade onde você precisa, amortecimento onde você quer, o Structure 25 proporciona suporte para longas quilometragens, corridas curtas e até mesmo descanso antes do final do dia. Ele tem a estabilidade que você busca, lealdade desde a primeira amarração, testada e confiável, com um sistema de mediopé que oferece suporte total e amortecimento mais confortável do que antes.', 'Nike', 'Nike Structure', 'Novo', 721.99, 1, '2024-05-18 23:11:41', 1),
-(2, 1, 'Tênis Nike Structure 25 Masculino\n\n', 'Com estabilidade onde você precisa, amortecimento onde você quer, o Structure 25 proporciona suporte para longas quilometragens, corridas curtas e até mesmo descanso antes do final do dia. Ele tem a estabilidade que você busca, lealdade desde a primeira amarração, testada e confiável, com um sistema de mediopé que oferece suporte total e amortecimento mais confortável do que antes.', 'Nike', 'Nike Structure', 'Novo', 721.99, 1, '2024-05-18 23:13:39', 1),
-(3, 1, 'Tênis Nike Structure 25 Masculino\n\n', 'Com estabilidade onde você precisa, amortecimento onde você quer, o Structure 25 proporciona suporte para longas quilometragens, corridas curtas e até mesmo descanso antes do final do dia. Ele tem a estabilidade que você busca, lealdade desde a primeira amarração, testada e confiável, com um sistema de mediopé que oferece suporte total e amortecimento mais confortável do que antes.', 'Nike', 'Nike Structure', 'Novo', 721.99, 1, '2024-05-18 23:13:40', 1),
-(4, 1, 'Tênis Nike Structure 25 Masculino\n\n', 'Com estabilidade onde você precisa, amortecimento onde você quer, o Structure 25 proporciona suporte para longas quilometragens, corridas curtas e até mesmo descanso antes do final do dia. Ele tem a estabilidade que você busca, lealdade desde a primeira amarração, testada e confiável, com um sistema de mediopé que oferece suporte total e amortecimento mais confortável do que antes.', 'Nike', 'Nike Structure', 'Novo', 721.99, 1, '2024-05-18 23:13:40', 1),
-(5, 1, 'Tênis Nike Structure 25 Masculino\n\n', 'Com estabilidade onde você precisa, amortecimento onde você quer, o Structure 25 proporciona suporte para longas quilometragens, corridas curtas e até mesmo descanso antes do final do dia. Ele tem a estabilidade que você busca, lealdade desde a primeira amarração, testada e confiável, com um sistema de mediopé que oferece suporte total e amortecimento mais confortável do que antes.', 'Nike', 'Nike Structure', 'Novo', 721.99, 1, '2024-05-18 23:13:41', 1),
-(6, 1, 'Tênis Nike Structure 25 Masculino\n\n', 'Com estabilidade onde você precisa, amortecimento onde você quer, o Structure 25 proporciona suporte para longas quilometragens, corridas curtas e até mesmo descanso antes do final do dia. Ele tem a estabilidade que você busca, lealdade desde a primeira amarração, testada e confiável, com um sistema de mediopé que oferece suporte total e amortecimento mais confortável do que antes.', 'Nike', 'Nike Structure', 'Novo', 721.99, 1, '2024-05-18 23:13:42', 1),
-(7, 1, 'Tênis Nike Structure 25 Masculino\n\n', 'Com estabilidade onde você precisa, amortecimento onde você quer, o Structure 25 proporciona suporte para longas quilometragens, corridas curtas e até mesmo descanso antes do final do dia. Ele tem a estabilidade que você busca, lealdade desde a primeira amarração, testada e confiável, com um sistema de mediopé que oferece suporte total e amortecimento mais confortável do que antes.', 'Nike', 'Nike Structure', 'Novo', 721.99, 1, '2024-05-18 23:13:42', 1),
-(8, 1, 'Tênis Nike Structure 25 Masculino\n\n', 'Com estabilidade onde você precisa, amortecimento onde você quer, o Structure 25 proporciona suporte para longas quilometragens, corridas curtas e até mesmo descanso antes do final do dia. Ele tem a estabilidade que você busca, lealdade desde a primeira amarração, testada e confiável, com um sistema de mediopé que oferece suporte total e amortecimento mais confortável do que antes.', 'Nike', 'Nike Structure', 'Novo', 721.99, 1, '2024-05-18 23:13:43', 1),
-(9, 1, 'Tênis Nike Structure 25 Masculino\n\n', 'Com estabilidade onde você precisa, amortecimento onde você quer, o Structure 25 proporciona suporte para longas quilometragens, corridas curtas e até mesmo descanso antes do final do dia. Ele tem a estabilidade que você busca, lealdade desde a primeira amarração, testada e confiável, com um sistema de mediopé que oferece suporte total e amortecimento mais confortável do que antes.', 'Nike', 'Nike Structure', 'Novo', 721.99, 1, '2024-05-18 23:13:45', 1),
-(10, 1, 'Tênis Nike Structure 25 Masculino\n\n', 'Com estabilidade onde você precisa, amortecimento onde você quer, o Structure 25 proporciona suporte para longas quilometragens, corridas curtas e até mesmo descanso antes do final do dia. Ele tem a estabilidade que você busca, lealdade desde a primeira amarração, testada e confiável, com um sistema de mediopé que oferece suporte total e amortecimento mais confortável do que antes.', 'Nike', 'Nike Structure', 'Novo', 721.99, 1, '2024-05-18 23:13:46', 1),
-(11, 1, 'Tênis Nike Structure 25 Masculino\n\n', 'Com estabilidade onde você precisa, amortecimento onde você quer, o Structure 25 proporciona suporte para longas quilometragens, corridas curtas e até mesmo descanso antes do final do dia. Ele tem a estabilidade que você busca, lealdade desde a primeira amarração, testada e confiável, com um sistema de mediopé que oferece suporte total e amortecimento mais confortável do que antes.', 'Nike', 'Nike Structure', 'Novo', 721.99, 1, '2024-05-18 23:13:46', 1),
-(12, 1, 'Tênis Nike Structure 25 Masculino\n\n', 'Com estabilidade onde você precisa, amortecimento onde você quer, o Structure 25 proporciona suporte para longas quilometragens, corridas curtas e até mesmo descanso antes do final do dia. Ele tem a estabilidade que você busca, lealdade desde a primeira amarração, testada e confiável, com um sistema de mediopé que oferece suporte total e amortecimento mais confortável do que antes.', 'Nike', 'Nike Structure', 'Novo', 721.99, 1, '2024-05-18 23:13:47', 1),
-(13, 1, 'Tênis Nike Structure 25 Masculino\n\n', 'Com estabilidade onde você precisa, amortecimento onde você quer, o Structure 25 proporciona suporte para longas quilometragens, corridas curtas e até mesmo descanso antes do final do dia. Ele tem a estabilidade que você busca, lealdade desde a primeira amarração, testada e confiável, com um sistema de mediopé que oferece suporte total e amortecimento mais confortável do que antes.', 'Nike', 'Nike Structure', 'Novo', 721.99, 1, '2024-05-18 23:13:48', 1),
-(14, 1, 'Tênis Nike Structure 25 Masculino\n\n', 'Com estabilidade onde você precisa, amortecimento onde você quer, o Structure 25 proporciona suporte para longas quilometragens, corridas curtas e até mesmo descanso antes do final do dia. Ele tem a estabilidade que você busca, lealdade desde a primeira amarração, testada e confiável, com um sistema de mediopé que oferece suporte total e amortecimento mais confortável do que antes.', 'Nike', 'Nike Structure', 'Novo', 721.99, 1, '2024-05-18 23:13:48', 1),
-(15, 1, 'Tênis Nike Structure 25 Masculino\n\n', 'Com estabilidade onde você precisa, amortecimento onde você quer, o Structure 25 proporciona suporte para longas quilometragens, corridas curtas e até mesmo descanso antes do final do dia. Ele tem a estabilidade que você busca, lealdade desde a primeira amarração, testada e confiável, com um sistema de mediopé que oferece suporte total e amortecimento mais confortável do que antes.', 'Nike', 'Nike Structure', 'Novo', 721.99, 1, '2024-05-18 23:13:49', 1),
-(16, 1, 'Tênis Nike Structure 25 Masculino\n\n', 'Com estabilidade onde você precisa, amortecimento onde você quer, o Structure 25 proporciona suporte para longas quilometragens, corridas curtas e até mesmo descanso antes do final do dia. Ele tem a estabilidade que você busca, lealdade desde a primeira amarração, testada e confiável, com um sistema de mediopé que oferece suporte total e amortecimento mais confortável do que antes.', 'Nike', 'Nike Structure', 'Novo', 721.99, 1, '2024-05-18 23:13:50', 1),
-(17, 1, 'Tênis Nike Structure 25 Masculino\n\n', 'Com estabilidade onde você precisa, amortecimento onde você quer, o Structure 25 proporciona suporte para longas quilometragens, corridas curtas e até mesmo descanso antes do final do dia. Ele tem a estabilidade que você busca, lealdade desde a primeira amarração, testada e confiável, com um sistema de mediopé que oferece suporte total e amortecimento mais confortável do que antes.', 'Nike', 'Nike Structure', 'Novo', 721.99, 1, '2024-05-18 23:40:29', 1),
-(18, 1, 'Bota Eliane Cano Curto Salto Médio Gelo\n', 'Elegante e fashion. Com a Bota Cano Curto Eliane Salto Médio Gelo, você estará sempre pronta para qualquer ocasião, sem abrir mão do conforto. O gelo é uma tendência neutra e suave que transmite serenidade ao look. Leve e flexível, esse modelo foi pensado nas necessidades de todas as mulheres. O acabamento confortável e o forro superfofinho torna-a indispensável para quem precisa ficar horas de pé no trabalho. Ela também oferece máxima absorção controlando tanto umidade quanto temperatura. Já o superamortecimento da bota proporciona maior absorção de impactos. Para as mulheres que não dispensam o jeans, use esse modelo e dobre as barras da calça para realçar os seus pés. PICCADILLY, caminhe em direção ao novo e se surpreenda com o conforto! Você sabia que todos os produtos da PICCADILLY têm o Calce Perfeito? É um conjunto de benefícios exclusivos que respeita a anatomia do pé, diminui o cansaço e permite que você vá mais longe nas suas jornadas diárias.\n', 'Piccadilly', 'Nike Structure', 'Usado', 389.90, 1, '2024-05-19 21:17:35', 1),
-(19, 1, 'Bota Eliane Cano Curto Salto Médio Gelo\n', 'Elegante e fashion. Com a Bota Cano Curto Eliane Salto Médio Gelo, você estará sempre pronta para qualquer ocasião, sem abrir mão do conforto. O gelo é uma tendência neutra e suave que transmite serenidade ao look. Leve e flexível, esse modelo foi pensado nas necessidades de todas as mulheres. O acabamento confortável e o forro superfofinho torna-a indispensável para quem precisa ficar horas de pé no trabalho. Ela também oferece máxima absorção controlando tanto umidade quanto temperatura. Já o superamortecimento da bota proporciona maior absorção de impactos. Para as mulheres que não dispensam o jeans, use esse modelo e dobre as barras da calça para realçar os seus pés. PICCADILLY, caminhe em direção ao novo e se surpreenda com o conforto! Você sabia que todos os produtos da PICCADILLY têm o Calce Perfeito? É um conjunto de benefícios exclusivos que respeita a anatomia do pé, diminui o cansaço e permite que você vá mais longe nas suas jornadas diárias.\n', 'Piccadilly', 'Nike Structure', 'Usado', 389.90, 1, '2024-05-19 21:18:25', 1),
-(20, 1, 'Bota Eliane Cano Curto Salto Médio Gelo\n', 'Elegante e fashion. Com a Bota Cano Curto Eliane Salto Médio Gelo, você estará sempre pronta para qualquer ocasião, sem abrir mão do conforto. O gelo é uma tendência neutra e suave que transmite serenidade ao look. Leve e flexível, esse modelo foi pensado nas necessidades de todas as mulheres. O acabamento confortável e o forro superfofinho torna-a indispensável para quem precisa ficar horas de pé no trabalho. Ela também oferece máxima absorção controlando tanto umidade quanto temperatura. Já o superamortecimento da bota proporciona maior absorção de impactos. Para as mulheres que não dispensam o jeans, use esse modelo e dobre as barras da calça para realçar os seus pés. PICCADILLY, caminhe em direção ao novo e se surpreenda com o conforto! Você sabia que todos os produtos da PICCADILLY têm o Calce Perfeito? É um conjunto de benefícios exclusivos que respeita a anatomia do pé, diminui o cansaço e permite que você vá mais longe nas suas jornadas diárias.\n', 'Piccadilly', 'Nike Structure', 'Usado', 389.90, 1, '2024-05-19 21:21:02', 1),
-(21, 1, 'Bota Eliane Cano Curto Salto Médio Gelo\n', 'Elegante e fashion. Com a Bota Cano Curto Eliane Salto Médio Gelo, você estará sempre pronta para qualquer ocasião, sem abrir mão do conforto. O gelo é uma tendência neutra e suave que transmite serenidade ao look. Leve e flexível, esse modelo foi pensado nas necessidades de todas as mulheres. O acabamento confortável e o forro superfofinho torna-a indispensável para quem precisa ficar horas de pé no trabalho. Ela também oferece máxima absorção controlando tanto umidade quanto temperatura. Já o superamortecimento da bota proporciona maior absorção de impactos. Para as mulheres que não dispensam o jeans, use esse modelo e dobre as barras da calça para realçar os seus pés. PICCADILLY, caminhe em direção ao novo e se surpreenda com o conforto! Você sabia que todos os produtos da PICCADILLY têm o Calce Perfeito? É um conjunto de benefícios exclusivos que respeita a anatomia do pé, diminui o cansaço e permite que você vá mais longe nas suas jornadas diárias.\n', 'Piccadilly', 'Nike Structure', 'Usado', 389.90, 1, '2024-05-19 21:21:42', 1),
-(22, 1, 'Bota Eliane Cano Curto Salto Médio Gelo\n', 'Elegante e fashion. Com a Bota Cano Curto Eliane Salto Médio Gelo, você estará sempre pronta para qualquer ocasião, sem abrir mão do conforto. O gelo é uma tendência neutra e suave que transmite serenidade ao look. Leve e flexível, esse modelo foi pensado nas necessidades de todas as mulheres. O acabamento confortável e o forro superfofinho torna-a indispensável para quem precisa ficar horas de pé no trabalho. Ela também oferece máxima absorção controlando tanto umidade quanto temperatura. Já o superamortecimento da bota proporciona maior absorção de impactos. Para as mulheres que não dispensam o jeans, use esse modelo e dobre as barras da calça para realçar os seus pés. PICCADILLY, caminhe em direção ao novo e se surpreenda com o conforto! Você sabia que todos os produtos da PICCADILLY têm o Calce Perfeito? É um conjunto de benefícios exclusivos que respeita a anatomia do pé, diminui o cansaço e permite que você vá mais longe nas suas jornadas diárias.\n', 'Piccadilly', 'Nike Structure', 'Usado', 389.90, 1, '2024-05-19 21:22:42', 1),
-(23, 1, 'Bota Eliane Cano Curto Salto Médio Gelo\n', 'Elegante e fashion. Com a Bota Cano Curto Eliane Salto Médio Gelo, você estará sempre pronta para qualquer ocasião, sem abrir mão do conforto. O gelo é uma tendência neutra e suave que transmite serenidade ao look. Leve e flexível, esse modelo foi pensado nas necessidades de todas as mulheres. O acabamento confortável e o forro superfofinho torna-a indispensável para quem precisa ficar horas de pé no trabalho. Ela também oferece máxima absorção controlando tanto umidade quanto temperatura. Já o superamortecimento da bota proporciona maior absorção de impactos. Para as mulheres que não dispensam o jeans, use esse modelo e dobre as barras da calça para realçar os seus pés. PICCADILLY, caminhe em direção ao novo e se surpreenda com o conforto! Você sabia que todos os produtos da PICCADILLY têm o Calce Perfeito? É um conjunto de benefícios exclusivos que respeita a anatomia do pé, diminui o cansaço e permite que você vá mais longe nas suas jornadas diárias.\n', 'Piccadilly', 'Nike Structure', 'Usado', 389.90, 1, '2024-05-19 21:22:44', 1),
-(24, 1, 'Bota Eliane Cano Curto Salto Médio Gelo\n', 'Elegante e fashion. Com a Bota Cano Curto Eliane Salto Médio Gelo, você estará sempre pronta para qualquer ocasião, sem abrir mão do conforto. O gelo é uma tendência neutra e suave que transmite serenidade ao look. Leve e flexível, esse modelo foi pensado nas necessidades de todas as mulheres. O acabamento confortável e o forro superfofinho torna-a indispensável para quem precisa ficar horas de pé no trabalho. Ela também oferece máxima absorção controlando tanto umidade quanto temperatura. Já o superamortecimento da bota proporciona maior absorção de impactos. Para as mulheres que não dispensam o jeans, use esse modelo e dobre as barras da calça para realçar os seus pés. PICCADILLY, caminhe em direção ao novo e se surpreenda com o conforto! Você sabia que todos os produtos da PICCADILLY têm o Calce Perfeito? É um conjunto de benefícios exclusivos que respeita a anatomia do pé, diminui o cansaço e permite que você vá mais longe nas suas jornadas diárias.\n', 'Piccadilly', 'Nike Structure', 'Usado', 389.90, 1, '2024-05-19 21:25:20', 1);
+--
+-- Dumping data for table `products`
+--
+
+INSERT INTO `products` (`id`, `seller_id`, `name`, `description`, `brand`, `model`, `product_condition`, `price`, `available`, `created_at`, `sku`, `slug`) VALUES
+(1, 1, 'Tênis Nike Structure 25 Masculino\n\n', 'Com estabilidade onde você precisa, amortecimento onde você quer, o Structure 25 proporciona suporte para longas quilometragens, corridas curtas e até mesmo descanso antes do final do dia. Ele tem a estabilidade que você busca, lealdade desde a primeira amarração, testada e confiável, com um sistema de mediopé que oferece suporte total e amortecimento mais confortável do que antes.', 'Nike', 'Nike Structure', 'Novo', 721.99, 1, '2024-05-18 23:11:41', 'tenis-nike-structure-25-masculino-1', 'tenis-nike-structure-25-masculino-1'),
+(2, 1, 'Tênis Nike Structure 25 Masculino\n\n', 'Com estabilidade onde você precisa, amortecimento onde você quer, o Structure 25 proporciona suporte para longas quilometragens, corridas curtas e até mesmo descanso antes do final do dia. Ele tem a estabilidade que você busca, lealdade desde a primeira amarração, testada e confiável, com um sistema de mediopé que oferece suporte total e amortecimento mais confortável do que antes.', 'Nike', 'Nike Structure', 'Novo', 721.99, 1, '2024-05-18 23:13:39', 'tenis-nike-structure-25-masculino-2', 'tenis-nike-structure-25-masculino-2'),
+(3, 1, 'Tênis Nike Structure 25 Masculino\n\n', 'Com estabilidade onde você precisa, amortecimento onde você quer, o Structure 25 proporciona suporte para longas quilometragens, corridas curtas e até mesmo descanso antes do final do dia. Ele tem a estabilidade que você busca, lealdade desde a primeira amarração, testada e confiável, com um sistema de mediopé que oferece suporte total e amortecimento mais confortável do que antes.', 'Nike', 'Nike Structure', 'Novo', 721.99, 1, '2024-05-18 23:13:40', 'tenis-nike-structure-25-masculino-3', 'tenis-nike-structure-25-masculino-3'),
+(4, 1, 'Tênis Nike Structure 25 Masculino\n\n', 'Com estabilidade onde você precisa, amortecimento onde você quer, o Structure 25 proporciona suporte para longas quilometragens, corridas curtas e até mesmo descanso antes do final do dia. Ele tem a estabilidade que você busca, lealdade desde a primeira amarração, testada e confiável, com um sistema de mediopé que oferece suporte total e amortecimento mais confortável do que antes.', 'Nike', 'Nike Structure', 'Novo', 721.99, 1, '2024-05-18 23:13:40', 'tenis-nike-structure-25-masculino-4', 'tenis-nike-structure-25-masculino-4'),
+(5, 1, 'Tênis Nike Structure 25 Masculino\n\n', 'Com estabilidade onde você precisa, amortecimento onde você quer, o Structure 25 proporciona suporte para longas quilometragens, corridas curtas e até mesmo descanso antes do final do dia. Ele tem a estabilidade que você busca, lealdade desde a primeira amarração, testada e confiável, com um sistema de mediopé que oferece suporte total e amortecimento mais confortável do que antes.', 'Nike', 'Nike Structure', 'Novo', 721.99, 1, '2024-05-18 23:13:41', 'tenis-nike-structure-25-masculino-5', 'tenis-nike-structure-25-masculino-5'),
+(6, 1, 'Tênis Nike Structure 25 Masculino\n\n', 'Com estabilidade onde você precisa, amortecimento onde você quer, o Structure 25 proporciona suporte para longas quilometragens, corridas curtas e até mesmo descanso antes do final do dia. Ele tem a estabilidade que você busca, lealdade desde a primeira amarração, testada e confiável, com um sistema de mediopé que oferece suporte total e amortecimento mais confortável do que antes.', 'Nike', 'Nike Structure', 'Novo', 721.99, 1, '2024-05-18 23:13:42', 'tenis-nike-structure-25-masculino-6', 'tenis-nike-structure-25-masculino-6'),
+(7, 1, 'Tênis Nike Structure 25 Masculino\n\n', 'Com estabilidade onde você precisa, amortecimento onde você quer, o Structure 25 proporciona suporte para longas quilometragens, corridas curtas e até mesmo descanso antes do final do dia. Ele tem a estabilidade que você busca, lealdade desde a primeira amarração, testada e confiável, com um sistema de mediopé que oferece suporte total e amortecimento mais confortável do que antes.', 'Nike', 'Nike Structure', 'Novo', 721.99, 1, '2024-05-18 23:13:42', 'tenis-nike-structure-25-masculino-7', 'tenis-nike-structure-25-masculino-7'),
+(8, 1, 'Tênis Nike Structure 25 Masculino\n\n', 'Com estabilidade onde você precisa, amortecimento onde você quer, o Structure 25 proporciona suporte para longas quilometragens, corridas curtas e até mesmo descanso antes do final do dia. Ele tem a estabilidade que você busca, lealdade desde a primeira amarração, testada e confiável, com um sistema de mediopé que oferece suporte total e amortecimento mais confortável do que antes.', 'Nike', 'Nike Structure', 'Novo', 721.99, 1, '2024-05-18 23:13:43', 'tenis-nike-structure-25-masculino-8', 'tenis-nike-structure-25-masculino-8'),
+(9, 1, 'Tênis Nike Structure 25 Masculino\n\n', 'Com estabilidade onde você precisa, amortecimento onde você quer, o Structure 25 proporciona suporte para longas quilometragens, corridas curtas e até mesmo descanso antes do final do dia. Ele tem a estabilidade que você busca, lealdade desde a primeira amarração, testada e confiável, com um sistema de mediopé que oferece suporte total e amortecimento mais confortável do que antes.', 'Nike', 'Nike Structure', 'Novo', 721.99, 1, '2024-05-18 23:13:45', 'tenis-nike-structure-25-masculino-9', 'tenis-nike-structure-25-masculino-9'),
+(10, 1, 'Tênis Nike Structure 25 Masculino\n\n', 'Com estabilidade onde você precisa, amortecimento onde você quer, o Structure 25 proporciona suporte para longas quilometragens, corridas curtas e até mesmo descanso antes do final do dia. Ele tem a estabilidade que você busca, lealdade desde a primeira amarração, testada e confiável, com um sistema de mediopé que oferece suporte total e amortecimento mais confortável do que antes.', 'Nike', 'Nike Structure', 'Novo', 721.99, 1, '2024-05-18 23:13:46', 'tenis-nike-structure-25-masculino-10', 'tenis-nike-structure-25-masculino-10'),
+(11, 1, 'Tênis Nike Structure 25 Masculino\n\n', 'Com estabilidade onde você precisa, amortecimento onde você quer, o Structure 25 proporciona suporte para longas quilometragens, corridas curtas e até mesmo descanso antes do final do dia. Ele tem a estabilidade que você busca, lealdade desde a primeira amarração, testada e confiável, com um sistema de mediopé que oferece suporte total e amortecimento mais confortável do que antes.', 'Nike', 'Nike Structure', 'Novo', 721.99, 1, '2024-05-18 23:13:46', 'tenis-nike-structure-25-masculino-11', 'tenis-nike-structure-25-masculino-11'),
+(12, 1, 'Tênis Nike Structure 25 Masculino\n\n', 'Com estabilidade onde você precisa, amortecimento onde você quer, o Structure 25 proporciona suporte para longas quilometragens, corridas curtas e até mesmo descanso antes do final do dia. Ele tem a estabilidade que você busca, lealdade desde a primeira amarração, testada e confiável, com um sistema de mediopé que oferece suporte total e amortecimento mais confortável do que antes.', 'Nike', 'Nike Structure', 'Novo', 721.99, 1, '2024-05-18 23:13:47', 'tenis-nike-structure-25-masculino-12', 'tenis-nike-structure-25-masculino-12'),
+(13, 1, 'Tênis Nike Structure 25 Masculino\n\n', 'Com estabilidade onde você precisa, amortecimento onde você quer, o Structure 25 proporciona suporte para longas quilometragens, corridas curtas e até mesmo descanso antes do final do dia. Ele tem a estabilidade que você busca, lealdade desde a primeira amarração, testada e confiável, com um sistema de mediopé que oferece suporte total e amortecimento mais confortável do que antes.', 'Nike', 'Nike Structure', 'Novo', 721.99, 1, '2024-05-18 23:13:48', 'tenis-nike-structure-25-masculino-13', 'tenis-nike-structure-25-masculino-13'),
+(14, 1, 'Tênis Nike Structure 25 Masculino\n\n', 'Com estabilidade onde você precisa, amortecimento onde você quer, o Structure 25 proporciona suporte para longas quilometragens, corridas curtas e até mesmo descanso antes do final do dia. Ele tem a estabilidade que você busca, lealdade desde a primeira amarração, testada e confiável, com um sistema de mediopé que oferece suporte total e amortecimento mais confortável do que antes.', 'Nike', 'Nike Structure', 'Novo', 721.99, 1, '2024-05-18 23:13:48', 'tenis-nike-structure-25-masculino-14', 'tenis-nike-structure-25-masculino-14'),
+(15, 1, 'Tênis Nike Structure 25 Masculino\n\n', 'Com estabilidade onde você precisa, amortecimento onde você quer, o Structure 25 proporciona suporte para longas quilometragens, corridas curtas e até mesmo descanso antes do final do dia. Ele tem a estabilidade que você busca, lealdade desde a primeira amarração, testada e confiável, com um sistema de mediopé que oferece suporte total e amortecimento mais confortável do que antes.', 'Nike', 'Nike Structure', 'Novo', 721.99, 1, '2024-05-18 23:13:49', 'tenis-nike-structure-25-masculino-15', 'tenis-nike-structure-25-masculino-15'),
+(16, 1, 'Tênis Nike Structure 25 Masculino\n\n', 'Com estabilidade onde você precisa, amortecimento onde você quer, o Structure 25 proporciona suporte para longas quilometragens, corridas curtas e até mesmo descanso antes do final do dia. Ele tem a estabilidade que você busca, lealdade desde a primeira amarração, testada e confiável, com um sistema de mediopé que oferece suporte total e amortecimento mais confortável do que antes.', 'Nike', 'Nike Structure', 'Novo', 721.99, 1, '2024-05-18 23:13:50', 'tenis-nike-structure-25-masculino-16', 'tenis-nike-structure-25-masculino-16'),
+(17, 1, 'Tênis Nike Structure 25 Masculino\n\n', 'Com estabilidade onde você precisa, amortecimento onde você quer, o Structure 25 proporciona suporte para longas quilometragens, corridas curtas e até mesmo descanso antes do final do dia. Ele tem a estabilidade que você busca, lealdade desde a primeira amarração, testada e confiável, com um sistema de mediopé que oferece suporte total e amortecimento mais confortável do que antes.', 'Nike', 'Nike Structure', 'Novo', 721.99, 1, '2024-05-18 23:40:29', 'tenis-nike-structure-25-masculino-17', 'tenis-nike-structure-25-masculino-17'),
+(18, 1, 'Bota Eliane Cano Curto Salto Médio Gelo\n', 'Elegante e fashion. Com a Bota Cano Curto Eliane Salto Médio Gelo, você estará sempre pronta para qualquer ocasião, sem abrir mão do conforto. O gelo é uma tendência neutra e suave que transmite serenidade ao look. Leve e flexível, esse modelo foi pensado nas necessidades de todas as mulheres. O acabamento confortável e o forro superfofinho torna-a indispensável para quem precisa ficar horas de pé no trabalho. Ela também oferece máxima absorção controlando tanto umidade quanto temperatura. Já o superamortecimento da bota proporciona maior absorção de impactos. Para as mulheres que não dispensam o jeans, use esse modelo e dobre as barras da calça para realçar os seus pés. PICCADILLY, caminhe em direção ao novo e se surpreenda com o conforto! Você sabia que todos os produtos da PICCADILLY têm o Calce Perfeito? É um conjunto de benefícios exclusivos que respeita a anatomia do pé, diminui o cansaço e permite que você vá mais longe nas suas jornadas diárias.\n', 'Piccadilly', 'Nike Structure', 'Usado', 389.90, 1, '2024-05-19 21:17:35', 'bota-eliane-cano-curto-salto-medio-gelo-18', 'bota-eliane-cano-curto-salto-medio-gelo-18'),
+(19, 1, 'Bota Eliane Cano Curto Salto Médio Gelo\n', 'Elegante e fashion. Com a Bota Cano Curto Eliane Salto Médio Gelo, você estará sempre pronta para qualquer ocasião, sem abrir mão do conforto. O gelo é uma tendência neutra e suave que transmite serenidade ao look. Leve e flexível, esse modelo foi pensado nas necessidades de todas as mulheres. O acabamento confortável e o forro superfofinho torna-a indispensável para quem precisa ficar horas de pé no trabalho. Ela também oferece máxima absorção controlando tanto umidade quanto temperatura. Já o superamortecimento da bota proporciona maior absorção de impactos. Para as mulheres que não dispensam o jeans, use esse modelo e dobre as barras da calça para realçar os seus pés. PICCADILLY, caminhe em direção ao novo e se surpreenda com o conforto! Você sabia que todos os produtos da PICCADILLY têm o Calce Perfeito? É um conjunto de benefícios exclusivos que respeita a anatomia do pé, diminui o cansaço e permite que você vá mais longe nas suas jornadas diárias.\n', 'Piccadilly', 'Nike Structure', 'Usado', 389.90, 1, '2024-05-19 21:18:25', 'bota-eliane-cano-curto-salto-medio-gelo-19', 'bota-eliane-cano-curto-salto-medio-gelo-19'),
+(20, 1, 'Bota Eliane Cano Curto Salto Médio Gelo\n', 'Elegante e fashion. Com a Bota Cano Curto Eliane Salto Médio Gelo, você estará sempre pronta para qualquer ocasião, sem abrir mão do conforto. O gelo é uma tendência neutra e suave que transmite serenidade ao look. Leve e flexível, esse modelo foi pensado nas necessidades de todas as mulheres. O acabamento confortável e o forro superfofinho torna-a indispensável para quem precisa ficar horas de pé no trabalho. Ela também oferece máxima absorção controlando tanto umidade quanto temperatura. Já o superamortecimento da bota proporciona maior absorção de impactos. Para as mulheres que não dispensam o jeans, use esse modelo e dobre as barras da calça para realçar os seus pés. PICCADILLY, caminhe em direção ao novo e se surpreenda com o conforto! Você sabia que todos os produtos da PICCADILLY têm o Calce Perfeito? É um conjunto de benefícios exclusivos que respeita a anatomia do pé, diminui o cansaço e permite que você vá mais longe nas suas jornadas diárias.\n', 'Piccadilly', 'Nike Structure', 'Usado', 389.90, 1, '2024-05-19 21:21:02', 'bota-eliane-cano-curto-salto-medio-gelo-20', 'bota-eliane-cano-curto-salto-medio-gelo-20'),
+(21, 1, 'Bota Eliane Cano Curto Salto Médio Gelo\n', 'Elegante e fashion. Com a Bota Cano Curto Eliane Salto Médio Gelo, você estará sempre pronta para qualquer ocasião, sem abrir mão do conforto. O gelo é uma tendência neutra e suave que transmite serenidade ao look. Leve e flexível, esse modelo foi pensado nas necessidades de todas as mulheres. O acabamento confortável e o forro superfofinho torna-a indispensável para quem precisa ficar horas de pé no trabalho. Ela também oferece máxima absorção controlando tanto umidade quanto temperatura. Já o superamortecimento da bota proporciona maior absorção de impactos. Para as mulheres que não dispensam o jeans, use esse modelo e dobre as barras da calça para realçar os seus pés. PICCADILLY, caminhe em direção ao novo e se surpreenda com o conforto! Você sabia que todos os produtos da PICCADILLY têm o Calce Perfeito? É um conjunto de benefícios exclusivos que respeita a anatomia do pé, diminui o cansaço e permite que você vá mais longe nas suas jornadas diárias.\n', 'Piccadilly', 'Nike Structure', 'Usado', 389.90, 1, '2024-05-19 21:21:42', 'bota-eliane-cano-curto-salto-medio-gelo-21', 'bota-eliane-cano-curto-salto-medio-gelo-21'),
+(22, 1, 'Bota Eliane Cano Curto Salto Médio Gelo\n', 'Elegante e fashion. Com a Bota Cano Curto Eliane Salto Médio Gelo, você estará sempre pronta para qualquer ocasião, sem abrir mão do conforto. O gelo é uma tendência neutra e suave que transmite serenidade ao look. Leve e flexível, esse modelo foi pensado nas necessidades de todas as mulheres. O acabamento confortável e o forro superfofinho torna-a indispensável para quem precisa ficar horas de pé no trabalho. Ela também oferece máxima absorção controlando tanto umidade quanto temperatura. Já o superamortecimento da bota proporciona maior absorção de impactos. Para as mulheres que não dispensam o jeans, use esse modelo e dobre as barras da calça para realçar os seus pés. PICCADILLY, caminhe em direção ao novo e se surpreenda com o conforto! Você sabia que todos os produtos da PICCADILLY têm o Calce Perfeito? É um conjunto de benefícios exclusivos que respeita a anatomia do pé, diminui o cansaço e permite que você vá mais longe nas suas jornadas diárias.\n', 'Piccadilly', 'Nike Structure', 'Usado', 389.90, 1, '2024-05-19 21:22:42', 'bota-eliane-cano-curto-salto-medio-gelo-22', 'bota-eliane-cano-curto-salto-medio-gelo-22'),
+(23, 1, 'Bota Eliane Cano Curto Salto Médio Gelo\n', 'Elegante e fashion. Com a Bota Cano Curto Eliane Salto Médio Gelo, você estará sempre pronta para qualquer ocasião, sem abrir mão do conforto. O gelo é uma tendência neutra e suave que transmite serenidade ao look. Leve e flexível, esse modelo foi pensado nas necessidades de todas as mulheres. O acabamento confortável e o forro superfofinho torna-a indispensável para quem precisa ficar horas de pé no trabalho. Ela também oferece máxima absorção controlando tanto umidade quanto temperatura. Já o superamortecimento da bota proporciona maior absorção de impactos. Para as mulheres que não dispensam o jeans, use esse modelo e dobre as barras da calça para realçar os seus pés. PICCADILLY, caminhe em direção ao novo e se surpreenda com o conforto! Você sabia que todos os produtos da PICCADILLY têm o Calce Perfeito? É um conjunto de benefícios exclusivos que respeita a anatomia do pé, diminui o cansaço e permite que você vá mais longe nas suas jornadas diárias.\n', 'Piccadilly', 'Nike Structure', 'Usado', 389.90, 1, '2024-05-19 21:22:44', 'bota-eliane-cano-curto-salto-medio-gelo-23', 'bota-eliane-cano-curto-salto-medio-gelo-23'),
+(24, 1, 'Bota Eliane Cano Curto Salto Médio Gelo\n', 'Elegante e fashion. Com a Bota Cano Curto Eliane Salto Médio Gelo, você estará sempre pronta para qualquer ocasião, sem abrir mão do conforto. O gelo é uma tendência neutra e suave que transmite serenidade ao look. Leve e flexível, esse modelo foi pensado nas necessidades de todas as mulheres. O acabamento confortável e o forro superfofinho torna-a indispensável para quem precisa ficar horas de pé no trabalho. Ela também oferece máxima absorção controlando tanto umidade quanto temperatura. Já o superamortecimento da bota proporciona maior absorção de impactos. Para as mulheres que não dispensam o jeans, use esse modelo e dobre as barras da calça para realçar os seus pés. PICCADILLY, caminhe em direção ao novo e se surpreenda com o conforto! Você sabia que todos os produtos da PICCADILLY têm o Calce Perfeito? É um conjunto de benefícios exclusivos que respeita a anatomia do pé, diminui o cansaço e permite que você vá mais longe nas suas jornadas diárias.\n', 'Piccadilly', 'Nike Structure', 'Usado', 389.90, 1, '2024-05-19 21:25:20', 'bota-eliane-cano-curto-salto-medio-gelo-24', 'bota-eliane-cano-curto-salto-medio-gelo-24'),
+(25, 1, 'Bota Eliane Cano Curto Salto Médio Gelo\n', 'Elegante e fashion. Com a Bota Cano Curto Eliane Salto Médio Gelo, você estará sempre pronta para qualquer ocasião, sem abrir mão do conforto. O gelo é uma tendência neutra e suave que transmite serenidade ao look. Leve e flexível, esse modelo foi pensado nas necessidades de todas as mulheres. O acabamento confortável e o forro superfofinho torna-a indispensável para quem precisa ficar horas de pé no trabalho. Ela também oferece máxima absorção controlando tanto umidade quanto temperatura. Já o superamortecimento da bota proporciona maior absorção de impactos. Para as mulheres que não dispensam o jeans, use esse modelo e dobre as barras da calça para realçar os seus pés. PICCADILLY, caminhe em direção ao novo e se surpreenda com o conforto! Você sabia que todos os produtos da PICCADILLY têm o Calce Perfeito? É um conjunto de benefícios exclusivos que respeita a anatomia do pé, diminui o cansaço e permite que você vá mais longe nas suas jornadas diárias.\n', 'Piccadilly', 'Nike Structure', 'Usado', 389.90, 1, '2024-05-19 21:28:10', 'bota-eliane-cano-curto-salto-medio-gelo-25', 'bota-eliane-cano-curto-salto-medio-gelo-25'),
+(32, 2, 'Bóta de Segürança Elegância à Adventure em Couro', 'Cabedal confeccionado em couro Premium com padrão internacional de qualidade, cor dark brown, tecido e sintético de alta resistência, taloneira em TPU, costuras reforçadas, forração interna e colarinho acolchoado para maior conforto.', 'Estival', 'Coturno', 'Novo', 320.50, 1, '2024-05-22 17:37:55', '2-bota-de-seguranca-elegancia-a-adventure-em-couro-estival-coturno-8758-32', 'bota-de-seguranca-elegancia-a-adventure-em-couro-32'),
+(33, 2, 'Bóta de Segürança Elegância à Adventure em Couro', 'Cabedal confeccionado em couro Premium com padrão internacional de qualidade, cor dark brown, tecido e sintético de alta resistência, taloneira em TPU, costuras reforçadas, forração interna e colarinho acolchoado para maior conforto.', 'Estival', 'Coturno', 'Novo', 320.50, 1, '2024-05-22 18:28:05', '2-bota-de-seguranca-elegancia-a-adventure-em-couro-estival-coturno-2674', 'bota-de-seguranca-elegancia-a-adventure-em-couro-33'),
+(34, 2, 'Bóta de Segürança Elegância à Adventure em Couro', 'Cabedal confeccionado em couro Premium com padrão internacional de qualidade, cor dark brown, tecido e sintético de alta resistência, taloneira em TPU, costuras reforçadas, forração interna e colarinho acolchoado para maior conforto.', 'Estival', 'Coturno', 'Novo', 320.50, 1, '2024-05-22 18:57:04', '[object Promise]', 'bota-de-seguranca-elegancia-a-adventure-em-couro-34'),
+(35, 2, 'Bóta de Segürança Elegância à Adventure em Couro', 'Cabedal confeccionado em couro Premium com padrão internacional de qualidade, cor dark brown, tecido e sintético de alta resistência, taloneira em TPU, costuras reforçadas, forração interna e colarinho acolchoado para maior conforto.', 'Estival', 'Coturno', 'Novo', 320.50, 1, '2024-05-22 18:57:23', '0000002351743734', 'bota-de-seguranca-elegancia-a-adventure-em-couro-35'),
+(36, 1, 'Bóta de Segürança Elegância à Adventure em Couro', 'Cabedal confeccionado em couro Premium com padrão internacional de qualidade, cor dark brown, tecido e sintético de alta resistência, taloneira em TPU, costuras reforçadas, forração interna e colarinho acolchoado para maior conforto.', 'Estival', 'Coturno', 'Novo', 320.50, 1, '2024-05-22 19:59:03', '0000001361547521', 'bota-de-seguranca-elegancia-a-adventure-em-couro-36');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `product_categories`
+--
 
 CREATE TABLE `product_categories` (
   `id` int(11) NOT NULL,
   `product_id` int(11) NOT NULL,
   `category_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_520_ci;
+
+--
+-- Dumping data for table `product_categories`
+--
 
 INSERT INTO `product_categories` (`id`, `product_id`, `category_id`) VALUES
 (2, 1, 7),
@@ -114,7 +239,6 @@ INSERT INTO `product_categories` (`id`, `product_id`, `category_id`) VALUES
 (14, 7, 7),
 (15, 7, 13),
 (16, 8, 7),
-(17, 8, 13),
 (18, 9, 7),
 (19, 9, 13),
 (20, 10, 7),
@@ -123,7 +247,6 @@ INSERT INTO `product_categories` (`id`, `product_id`, `category_id`) VALUES
 (23, 11, 13),
 (24, 12, 7),
 (25, 12, 13),
-(26, 13, 7),
 (27, 13, 13),
 (28, 14, 7),
 (29, 14, 13),
@@ -132,13 +255,49 @@ INSERT INTO `product_categories` (`id`, `product_id`, `category_id`) VALUES
 (32, 16, 7),
 (33, 16, 13),
 (34, 17, 7),
-(35, 17, 13);
+(35, 17, 13),
+(77, 25, 7),
+(78, 25, 13),
+(79, 25, 6),
+(80, 25, 4),
+(81, 26, 7),
+(82, 26, 13),
+(83, 27, 7),
+(84, 27, 13),
+(85, 28, 7),
+(86, 28, 13),
+(87, 29, 7),
+(88, 29, 13),
+(89, 30, 7),
+(90, 30, 13),
+(91, 31, 7),
+(92, 31, 13),
+(93, 32, 7),
+(94, 32, 13),
+(95, 33, 7),
+(96, 33, 13),
+(97, 34, 7),
+(98, 34, 13),
+(99, 35, 7),
+(100, 35, 13),
+(101, 36, 7),
+(102, 36, 13);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `product_images`
+--
 
 CREATE TABLE `product_images` (
   `id` int(11) NOT NULL,
   `product_id` int(11) DEFAULT NULL,
   `image_link` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_520_ci;
+
+--
+-- Dumping data for table `product_images`
+--
 
 INSERT INTO `product_images` (`id`, `product_id`, `image_link`) VALUES
 (1, 1, '0b84cf21-4f8f-479a-9bbd-dbc150e67296.avif'),
@@ -214,7 +373,61 @@ INSERT INTO `product_images` (`id`, `product_id`, `image_link`) VALUES
 (71, 20, '128c53b9-d9b5-4a4b-9aab-0339797b0471.webp'),
 (72, 20, '4a33ce66-3479-4f3f-bcde-4483894d88cd.webp'),
 (73, 20, 'f8a97f5d-9fb5-4169-a511-7b41069e2c70.webp'),
-(74, 20, '059e108d-7bc9-430d-8198-09888cfd4d78.webp');
+(74, 20, '059e108d-7bc9-430d-8198-09888cfd4d78.webp'),
+(75, 25, 'f1344295-90d4-44c4-a0c8-bfb3551cbf0b.webp'),
+(76, 25, '950e6450-a89e-4da2-b975-a9b41bf06107.webp'),
+(77, 25, '4709c1e0-a8b9-4be7-818f-2fd2d2c0850a.webp'),
+(78, 25, 'eb3b888d-e096-4048-9699-dd4e09b4040e.webp'),
+(79, 26, '36b23e22-f76b-4e5a-a555-d7d07e965988.jpg'),
+(80, 26, '8a57fd01-b6bf-4104-b19e-6cdc9eeabba3.jpg'),
+(81, 26, 'efa795af-d634-4e3c-95ae-ae197551457a.jpg'),
+(82, 26, '7c84cc35-6c91-46d5-b7a0-c4d6745a137f.avif'),
+(83, 27, 'd3dbdf79-45a4-4db2-aa9e-8e9d1af4300e.jpg'),
+(84, 27, '8022f7fa-d879-47c4-99db-3f668fa402f6.jpg'),
+(85, 27, 'e1d5b3f1-8ad2-4ed4-9fba-5d469fbe2a39.jpg'),
+(86, 27, '2982576b-8dde-47ad-a058-25dda6cdd2b2.avif'),
+(87, 28, '1a04e26d-8b62-4ba5-8703-076e5ec1fa79.jpg'),
+(88, 28, '2dd6d244-75da-47cf-9a43-3dd4a11892dd.jpg'),
+(89, 28, 'db51699e-de56-4d9a-bf8a-2815470c522a.jpg'),
+(90, 28, '81edfcc0-eecc-4e04-956f-9b5355554eb0.avif'),
+(91, 29, '717b35b1-1a6c-4c18-991c-4dd3f8e6677d.jpg'),
+(92, 29, 'a4f98f92-7de0-474b-b99c-3c7de8a08e00.jpg'),
+(93, 29, 'c833d724-51f3-44ae-826c-76bf3160df2c.jpg'),
+(94, 29, 'a2467861-c078-4fef-afa5-b1ab586a1a14.avif'),
+(95, 30, 'd58ad2d6-47d0-4b06-8eaf-73ea1440560b.jpg'),
+(96, 30, 'ff9db83c-212f-4702-9027-6b39434f24de.jpg'),
+(97, 30, '2eb4e589-5009-438b-94e0-563a68e5a072.jpg'),
+(98, 30, 'ce23faf4-76b2-46d0-957a-59b45c8626e4.avif'),
+(99, 31, 'e7509b2e-7457-4d78-a305-53a431af5831.jpg'),
+(100, 31, '5392f48c-9632-42b6-bb15-50bd83058582.jpg'),
+(101, 31, '3464c71b-4b49-46cd-9440-939b1298a20a.jpg'),
+(102, 31, 'de8d3f59-1a33-40d4-b6ce-c1587d14b2f5.avif'),
+(103, 32, '05817582-7953-4af9-8284-52b54c5e672b.jpg'),
+(104, 32, '6d1519a4-b002-4706-bc37-0b2a43004257.jpg'),
+(105, 32, '91ee2e84-2820-47b0-844e-8e8d3e155d71.jpg'),
+(106, 32, '068d195f-e74a-4029-b70a-046d5abfa023.avif'),
+(107, 33, 'f92b1a6d-b72c-4e0c-a0dc-14879858f9ba.jpg'),
+(108, 33, '459deb24-a169-48e3-aab3-1806db0ff9e3.jpg'),
+(109, 33, '67af8c26-9adb-46d6-9c57-79c66ae7e5ca.jpg'),
+(110, 33, '69e60dea-056f-4535-bf31-551c55d043af.avif'),
+(111, 34, '852e349c-8722-4cf1-9e62-99d95696091f.jpg'),
+(112, 34, 'a95b3a88-ef02-47df-8bdc-643c2a4054e1.jpg'),
+(113, 34, '4ef05ae6-d3d3-4f97-9a87-69a498430f32.jpg'),
+(114, 34, '25a486d1-7411-4042-b3d8-15353f5b5a9d.avif'),
+(115, 35, '6652a7c1-387a-429a-8be1-31c33870780b.jpg'),
+(116, 35, 'b8929bf4-e8d1-4301-a00b-860c7ba42a77.jpg'),
+(117, 35, '1ab8ca5f-5e14-4409-bf95-6c2bf1eba341.jpg'),
+(118, 35, 'be57eb08-7e99-4823-9049-e21018ceddf3.avif'),
+(119, 36, 'e1cda15a-950a-4c56-b072-c13dff843e52.jpg'),
+(120, 36, 'f66d7d63-b279-433a-bae9-9d36e39fd75c.jpg'),
+(121, 36, '21653c0d-35f1-47aa-b2d6-5602ffe65543.jpg'),
+(122, 36, 'ccc03156-7ff2-4773-9abd-3766bc7f5c79.avif');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `reviews`
+--
 
 CREATE TABLE `reviews` (
   `id` int(11) NOT NULL,
@@ -227,6 +440,12 @@ CREATE TABLE `reviews` (
   `created_at` timestamp NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_520_ci;
 
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `showcases`
+--
+
 CREATE TABLE `showcases` (
   `id` int(11) NOT NULL,
   `title` varchar(255) DEFAULT NULL,
@@ -234,16 +453,30 @@ CREATE TABLE `showcases` (
   `link` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_520_ci;
 
+--
+-- Dumping data for table `showcases`
+--
+
 INSERT INTO `showcases` (`id`, `title`, `subtitle`, `link`) VALUES
 (1, 'Ofertas do dia', NULL, '/ofertas'),
 (2, 'Mais Vendidos', NULL, '/mais-vendidos'),
 (3, 'Mais Acessados Hoje', NULL, '/mais-acessados');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `showcase_products`
+--
 
 CREATE TABLE `showcase_products` (
   `id` int(11) NOT NULL,
   `product_id` int(11) DEFAULT NULL,
   `showcase_id` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_520_ci;
+
+--
+-- Dumping data for table `showcase_products`
+--
 
 INSERT INTO `showcase_products` (`id`, `product_id`, `showcase_id`) VALUES
 (1, 1, 1),
@@ -269,7 +502,14 @@ INSERT INTO `showcase_products` (`id`, `product_id`, `showcase_id`) VALUES
 (21, 16, 3),
 (22, 15, 3),
 (23, 13, 3),
-(24, 12, 3);
+(24, 12, 3),
+(25, 25, 3);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `transactions`
+--
 
 CREATE TABLE `transactions` (
   `id` int(11) NOT NULL,
@@ -287,6 +527,12 @@ CREATE TABLE `transactions` (
   `created_at` timestamp NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_520_ci;
 
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `users`
+--
+
 CREATE TABLE `users` (
   `id` int(11) NOT NULL,
   `name` varchar(255) NOT NULL,
@@ -302,50 +548,86 @@ CREATE TABLE `users` (
   `verified` tinyint(1) DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_520_ci;
 
+--
+-- Dumping data for table `users`
+--
+
 INSERT INTO `users` (`id`, `name`, `email`, `password`, `username`, `user_image`, `created_at`, `updated_at`, `phone`, `user_type`, `address_id`, `verified`) VALUES
-(1, 'Vinícius', 'vinniebrasil@gmail.com', '$2b$10$v8c51PRHrNdQAR74ZmNGmuLjZyYXDPypMGFKsLw7KJ.mX8aBAQf6a', 'vinnifachini', NULL, '2024-03-14 00:59:41', '2024-05-17 22:36:34', '+55 (18) 99624-8348', 'Admin', NULL, 1),
-(2, 'Carlos', 'carlinhos@gmail.com', '$2b$10$89wBouRNsYecQ2EaGd3neOdwalAsxhq6a0nBpxrf6SRZReCVyOmGq', 'carlinhos', NULL, '2024-03-14 01:18:42', '2024-03-14 01:18:42', '+55 (18) 99624-8348', 'Vendedor', NULL, 0);
+(1, 'Vinícius', 'vinniebrasil@gmail.com', '$2b$10$v8c51PRHrNdQAR74ZmNGmuLjZyYXDPypMGFKsLw7KJ.mX8aBAQf6a', 'vinnifachini', NULL, '2024-03-14 00:59:41', '2024-05-23 01:58:04', '+55 (18) 99624-8348', 'Admin', 1, 1),
+(2, 'Carlos', 'carlinhos@gmail.com', '$2b$10$89wBouRNsYecQ2EaGd3neOdwalAsxhq6a0nBpxrf6SRZReCVyOmGq', 'carlinhos', NULL, '2024-03-14 01:18:42', '2024-05-22 20:00:13', '+55 (18) 99624-8348', 'Vendedor', 2, 1);
 
+--
+-- Indexes for dumped tables
+--
 
+--
+-- Indexes for table `addresses`
+--
 ALTER TABLE `addresses`
   ADD PRIMARY KEY (`id`);
 
+--
+-- Indexes for table `categories`
+--
 ALTER TABLE `categories`
   ADD PRIMARY KEY (`id`),
   ADD KEY `fk_category_parent` (`parent_category_id`);
 
+--
+-- Indexes for table `messages`
+--
 ALTER TABLE `messages`
   ADD PRIMARY KEY (`id`),
   ADD KEY `sender_id` (`sender_id`),
   ADD KEY `receiver_id` (`receiver_id`);
 
+--
+-- Indexes for table `products`
+--
 ALTER TABLE `products`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `fk_product_seller` (`seller_id`),
-  ADD KEY `fk_is_seller_verified` (`is_seller_verified`);
+  ADD KEY `fk_product_seller` (`seller_id`);
 
+--
+-- Indexes for table `product_categories`
+--
 ALTER TABLE `product_categories`
   ADD PRIMARY KEY (`id`),
   ADD KEY `fk_product_id` (`product_id`),
   ADD KEY `fk_category_id` (`category_id`);
 
+--
+-- Indexes for table `product_images`
+--
 ALTER TABLE `product_images`
   ADD PRIMARY KEY (`id`),
   ADD KEY `product_id` (`product_id`);
 
+--
+-- Indexes for table `reviews`
+--
 ALTER TABLE `reviews`
   ADD PRIMARY KEY (`id`),
   ADD KEY `user_id` (`user_id`),
   ADD KEY `product_id` (`product_id`);
 
+--
+-- Indexes for table `showcases`
+--
 ALTER TABLE `showcases`
   ADD PRIMARY KEY (`id`);
 
+--
+-- Indexes for table `showcase_products`
+--
 ALTER TABLE `showcase_products`
   ADD PRIMARY KEY (`id`),
   ADD KEY `product_id` (`product_id`),
   ADD KEY `showcase_id` (`showcase_id`);
 
+--
+-- Indexes for table `transactions`
+--
 ALTER TABLE `transactions`
   ADD PRIMARY KEY (`id`),
   ADD KEY `buyer_id` (`buyer_id`),
@@ -354,49 +636,97 @@ ALTER TABLE `transactions`
   ADD KEY `buyer_address_id` (`buyer_address_id`),
   ADD KEY `seller_address_id` (`seller_address_id`);
 
+--
+-- Indexes for table `users`
+--
 ALTER TABLE `users`
   ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `email` (`email`),
   ADD UNIQUE KEY `username` (`username`);
 
+--
+-- AUTO_INCREMENT for dumped tables
+--
 
+--
+-- AUTO_INCREMENT for table `addresses`
+--
 ALTER TABLE `addresses`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
+--
+-- AUTO_INCREMENT for table `categories`
+--
 ALTER TABLE `categories`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
+--
+-- AUTO_INCREMENT for table `messages`
+--
 ALTER TABLE `messages`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
+--
+-- AUTO_INCREMENT for table `products`
+--
 ALTER TABLE `products`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=37;
 
+--
+-- AUTO_INCREMENT for table `product_categories`
+--
 ALTER TABLE `product_categories`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=72;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=103;
 
+--
+-- AUTO_INCREMENT for table `product_images`
+--
 ALTER TABLE `product_images`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=75;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=123;
 
+--
+-- AUTO_INCREMENT for table `reviews`
+--
 ALTER TABLE `reviews`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
+--
+-- AUTO_INCREMENT for table `showcases`
+--
 ALTER TABLE `showcases`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
+--
+-- AUTO_INCREMENT for table `showcase_products`
+--
 ALTER TABLE `showcase_products`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
 
+--
+-- AUTO_INCREMENT for table `transactions`
+--
 ALTER TABLE `transactions`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
+--
+-- AUTO_INCREMENT for table `users`
+--
 ALTER TABLE `users`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
+--
+-- Constraints for dumped tables
+--
 
+--
+-- Constraints for table `categories`
+--
 ALTER TABLE `categories`
   ADD CONSTRAINT `fk_category_parent` FOREIGN KEY (`parent_category_id`) REFERENCES `categories` (`id`) ON DELETE SET NULL;
 
+--
+-- Constraints for table `product_categories`
+--
 ALTER TABLE `product_categories`
   ADD CONSTRAINT `fk_category_id` FOREIGN KEY (`category_id`) REFERENCES `categories` (`id`),
   ADD CONSTRAINT `fk_product_id` FOREIGN KEY (`product_id`) REFERENCES `products` (`id`);

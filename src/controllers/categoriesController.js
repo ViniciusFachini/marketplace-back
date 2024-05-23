@@ -117,10 +117,11 @@ const deleteCategoryById = async (req, res) => {
 const getProductsByCategoryId = async (req, res) => {
     const categoryId = parseInt(req.params.id);
     try {
-        // Fetch products for the given category ID along with all associated categories
+        // Fetch products for the given category ID along with all associated categories and seller verification status
         const products = await queryAsync(`
             SELECT 
                 p.*, 
+                (SELECT verified FROM users WHERE id = p.seller_id) AS is_seller_verified,
                 GROUP_CONCAT(DISTINCT CONCAT_WS(':', c.name, c.id)) AS categories 
             FROM 
                 products p 
@@ -164,6 +165,7 @@ const getProductsByCategoryId = async (req, res) => {
         res.status(500).json({ error: 'Internal Server Error' });
     }
 };
+
 
 
 
