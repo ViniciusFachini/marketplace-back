@@ -21,7 +21,9 @@ const PORT = process.env.PORT || 3001;
 
 // Middleware
 app.use(cors()); // Enable CORS
-app.use(bodyParser.json()); // Parse JSON bodies
+// app.use(bodyParser.json()); // Parse JSON bodies
+app.use(bodyParser.json({ limit: '50mb' }));
+app.use(bodyParser.urlencoded({ limit: '50mb', extended: true }));
 
 app.post('/users/login', login);
 app.post('/users/register', handleSingleImageUpload, register);

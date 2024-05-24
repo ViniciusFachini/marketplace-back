@@ -1,3 +1,4 @@
+const { parse } = require('path');
 const { queryAsync } = require('../db');
 
 // Interface to represent a product
@@ -190,17 +191,23 @@ function generateSlug(productName) {
 
 // Controller to create a new product
 const createProduct = async (req, res) => {
-    const { seller_id, name, description, category_ids, brand, model, product_condition, price, available } = req.body;
+    const { seller_id, name, description, category_ids, brand, model, product_condition, price, available } = req.body;    
     try {
         // Check if the seller is verified
-        const [{ verified }] = await queryAsync('SELECT verified FROM users WHERE id = ?', [seller_id]);
+        const userData = await queryAsync('SELECT verified FROM users WHERE id = ?', [seller_id]);
+
+        if (userData.length === 0) {
+            return res.status(404).json({ error: 'User not found' });
+        }
+
+        const { verified } = userData[0];
 
         if (verified === undefined) {
-            return res.status(404).json({ error: 'User not found or verification status not available' });
+            return res.status(404).json({ error: 'Verification status not available' });
         }
 
         // Parse category_ids string into an array of integers
-        const parsedCategoryIds = JSON.parse(category_ids);
+        console.log(category_ids, category_ids)
 
         // Generate SKU and Slug
         const sku = generateSlug(name);
@@ -217,9 +224,9 @@ const createProduct = async (req, res) => {
         await queryAsync('UPDATE products SET slug = ?, sku = ? WHERE id = ?', [updatedSlug, updatedSku, productId]);
 
         // Insert product categories into the product_categories table
-        if (parsedCategoryIds && Array.isArray(parsedCategoryIds)) {
+        if (category_ids && Array.isArray(category_ids)) {
             // Ensure only unique categories are inserted
-            const uniqueCategoryIds = Array.from(new Set(parsedCategoryIds));
+            const uniqueCategoryIds = Array.from(new Set(category_ids));
             const categoryInsertPromises = uniqueCategoryIds.map(async (categoryId) => {
                 await queryAsync('INSERT INTO product_categories (product_id, category_id) VALUES (?, ?)', [productId, categoryId]);
             });
