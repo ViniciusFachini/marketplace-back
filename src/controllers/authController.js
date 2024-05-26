@@ -294,71 +294,136 @@ const getAllInfoFromUser = async (req, res) => {
   try {
     const { id } = req.params;
 
+    // Fetch user information
     const userResults = await queryAsync('SELECT * FROM Users WHERE id = ?', [id]);
 
-    if (userResults.length > 0) {
-      const user = userResults[0];
-
-      const detailedUserResults = await queryAsync(`
-        SELECT u.id, u.name, u.email, u.username, u.user_image, u.phone, u.user_type, u.verified, u.created_at,
-        ua.title, ua.main_address, a.street, a.city, a.state, a.postal_code, a.country
-        FROM Users u
-        LEFT JOIN User_Addresses ua ON u.id = ua.user_id
-        LEFT JOIN Addresses a ON ua.address_id = a.id
-        WHERE u.id = ?
-      `, [user.id]);
-
-      const userData = {
-        id: user.id,
-        name: user.name,
-        email: user.email,
-        username: user.username,
-        profilePicture: user.user_image ? `http://localhost:${process.env.PORT}/uploads/users/${user.user_image}` : null,
-        phone: user.phone,
-        userType: user.user_type,
-        verified: user.verified,
-        createdAt: user.created_at,
-        addresses: {}
-      };
-
-      // Categorize addresses into main, address_1, address_2, etc.
-      detailedUserResults.forEach((address, index) => {
-        const addressCategory = address.main_address ? 'main' : `address_${index + 1}`;
-        userData.addresses[addressCategory] = {
-          title: address.title,
-          street: address.street,
-          city: address.city,
-          state: address.state,
-          postalCode: address.postal_code,
-          country: address.country
-        };
-      });
-
-      const transactionsResults = await queryAsync('SELECT status, total_amount FROM Transactions WHERE seller_id = ?', [user.id]);
-      const totalSales = transactionsResults.length;
-      const canceledSales = transactionsResults.filter(transaction => transaction.status === 'Cancelado').length;
-      const totalSalesValue = transactionsResults.reduce((sum, transaction) => sum + transaction.total_amount, 0);
-      const lastTransactionsResults = await queryAsync('SELECT * FROM Transactions WHERE seller_id = ? ORDER BY created_at DESC LIMIT 5', [user.id]);
-
-      // Count announced products
-      const announcedProductsResult = await queryAsync('SELECT COUNT(*) as announcedProducts FROM Products WHERE seller_id = ?', [user.id]);
-      const announcedProducts = announcedProductsResult[0].announcedProducts;
-
-      // Count available products
-      const availableProductsResult = await queryAsync('SELECT COUNT(*) as availableProducts FROM Products WHERE seller_id = ? AND available = 1', [user.id]);
-      const availableProducts = availableProductsResult[0].availableProducts;
-
-      userData.totalSales = totalSales;
-      userData.canceledSales = canceledSales;
-      userData.totalSalesValue = totalSalesValue;
-      userData.lastTransactions = lastTransactionsResults;
-      userData.announcedProducts = announcedProducts;
-      userData.availableProducts = availableProducts;
-
-      res.status(200).json(userData);
-    } else {
-      res.status(404).json({ error: 'User not found' });
+    if (userResults.length === 0) {
+      return res.status(404).json({ error: 'User not found' });
     }
+
+    const user = userResults[0];
+
+    // Fetch user addresses
+    const addressesResults = await queryAsync(`
+      SELECT ua.title, ua.main_address, a.street, a.city, a.state, a.postal_code, a.country
+      FROM User_Addresses ua
+      LEFT JOIN Addresses a ON ua.address_id = a.id
+      WHERE ua.user_id = ?
+    `, [id]);
+
+    const addresses = addressesResults.map(address => ({
+      title: address.title,
+      street: address.street,
+      city: address.city,
+      state: address.state,
+      postalCode: address.postal_code,
+      country: address.country,
+      isMainAddress: address.main_address === 1
+    }));
+
+    // Fetch all transactions with specified statuses
+    const transactionsResults = await queryAsync(`
+      SELECT t.id, t.status, t.total_amount, t.created_at,
+             GROUP_CONCAT(CONCAT(tsh.old_status, ' -> ', tsh.new_status, ' at ', tsh.changed_at) ORDER BY tsh.changed_at DESC SEPARATOR '; ') AS status_history
+      FROM Transactions t
+      LEFT JOIN Transaction_Status_History tsh ON t.id = tsh.transaction_id
+      WHERE t.seller_id = ? AND t.status IN ('Aguardando Pagamento', 'Pagamento Recebido', 'Processando', 'Enviado', 'Entregue', 'Concluído', 'Cancelado')
+      GROUP BY t.id
+    `, [id]);
+
+    // Calculate total sales and total sales value
+    let totalSales = 0;
+    let totalSalesValue = 0;
+
+    transactionsResults.forEach(transaction => {
+      if (transaction.status !== 'Cancelado') {
+        totalSales++;
+        totalSalesValue += transaction.total_amount;
+      }
+    });
+
+    // Fetch wallet information
+    const walletResults = await queryAsync('SELECT * FROM Wallets WHERE user_id = ?', [id]);
+    const wallet = walletResults.length > 0 ? walletResults[0] : null;
+
+    // Calculate mean rating of the seller
+    const meanRatingResult = await queryAsync('SELECT AVG(rating) AS meanRating FROM Reviews WHERE seller_id = ?', [id]);
+    const meanRating = meanRatingResult[0].meanRating || 0;
+
+    // Fetch reviews with user names and pictures
+    const reviewsResults = await queryAsync(`
+      SELECT r.rating, r.comment, r.created_at, u.id AS userId, u.name AS userName, u.user_image AS userImage
+      FROM Reviews r
+      INNER JOIN Users u ON r.user_id = u.id
+      WHERE r.seller_id = ?
+    `, [id]);
+
+    const reviews = reviewsResults.map(review => ({
+      userId: review.userId,
+      userName: review.userName,
+      userImage: review.userImage ? `http://localhost:${process.env.PORT}/uploads/users/${review.userImage}` : null,
+      rating: review.rating,
+      comment: review.comment,
+      createdAt: review.created_at
+    }));
+
+    const transactions = transactionsResults.map(transaction => {
+      let statusHistory = [];
+      if (transaction.status_history) {
+        statusHistory = transaction.status_history.split('; ').map(entry => {
+          const [statusChange, changedAt] = entry.split(' at ');
+          const [oldStatus, newStatus] = statusChange.split(' -> ');
+          return { 
+            newStatus: newStatus.trim(),
+            oldStatus: oldStatus.trim(),
+            changedAt: new Date(changedAt.trim()).toISOString()
+          };
+        });
+      }
+    
+      return {
+        id: transaction.id,
+        status: transaction.status,
+        totalAmount: transaction.total_amount,
+        createdAt: transaction.created_at,
+        statusHistory
+      };
+    });
+
+    // Fetch product-related information
+    const announcedProductsResult = await queryAsync('SELECT COUNT(*) as announcedProducts FROM Products WHERE seller_id = ?', [id]);
+    const announcedProducts = announcedProductsResult[0].announcedProducts;
+
+    const availableProductsResult = await queryAsync('SELECT COUNT(*) as availableProducts FROM Products WHERE seller_id = ? AND available = 1', [id]);
+    const availableProducts = availableProductsResult[0].availableProducts;
+
+    const soldProductsResult = await queryAsync('SELECT COUNT(*) as soldProducts FROM Transactions WHERE seller_id = ? AND status = "Concluído"', [id]);
+    const soldProducts = soldProductsResult[0].soldProducts;
+
+    // Construct user info object
+    const userInfo = {
+      id: user.id,
+      name: user.name,
+      email: user.email,
+      username: user.username,
+      profilePicture: user.user_image ? `http://localhost:${process.env.PORT}/uploads/users/${user.user_image}` : null,
+      phone: user.phone,
+      userType: user.user_type,
+      verified: user.verified,
+      createdAt: user.created_at,
+      addresses,
+      totalSales,
+      totalSalesValue,
+      wallet,
+      meanRating,
+      reviews,
+      announcedProducts,
+      availableProducts,
+      soldProducts,
+      transactions
+    };
+
+    res.status(200).json(userInfo);
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: 'Internal server error' });

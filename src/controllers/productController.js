@@ -6,18 +6,20 @@ const getProducts = async (req, res) => {
     try {
         // Fetch all products with their associated categories, SKU, slug, and seller verification status
         const products = await queryAsync(`
-            SELECT 
-                p.*, 
-                (SELECT verified FROM users WHERE id = p.seller_id) AS is_seller_verified,
-                GROUP_CONCAT(CONCAT('{ "categoryName": "', c.name, '", "category_id": ', pc.category_id, '}')) AS categories
-            FROM 
-                products p
-            LEFT JOIN
-                product_categories pc ON p.id = pc.product_id
-            LEFT JOIN
-                categories c ON pc.category_id = c.id
-            GROUP BY
-                p.id
+        SELECT 
+            p.*, 
+            (SELECT verified FROM users WHERE id = p.seller_id) AS is_seller_verified,
+            GROUP_CONCAT(CONCAT('{ "categoryName": "', c.name, '", "category_id": ', pc.category_id, '}')) AS categories
+        FROM 
+            products p
+        LEFT JOIN
+            product_categories pc ON p.id = pc.product_id
+        LEFT JOIN
+            categories c ON pc.category_id = c.id
+        WHERE
+            p.available = 1
+        GROUP BY
+            p.id;    
         `);
 
         // Parse categories for each product
@@ -46,20 +48,21 @@ const getProductById = async (req, res) => {
     try {
         // Fetch product details along with associated categories, SKU, slug, and seller verification status
         const product = await queryAsync(`
-            SELECT 
-                p.*, 
-                (SELECT verified FROM users WHERE id = p.seller_id) AS is_seller_verified,
-                GROUP_CONCAT(CONCAT('{ "categoryName": "', c.name, '", "category_id": ', pc.category_id, '}')) AS categories
-            FROM 
-                products p
-            LEFT JOIN
-                product_categories pc ON p.id = pc.product_id
-            LEFT JOIN
-                categories c ON pc.category_id = c.id
-            WHERE 
-                p.id = ?
-            GROUP BY
-                p.id
+        SELECT 
+            p.*, 
+            (SELECT verified FROM users WHERE id = p.seller_id) AS is_seller_verified,
+            GROUP_CONCAT(CONCAT('{ "categoryName": "', c.name, '", "category_id": ', pc.category_id, '}')) AS categories
+        FROM 
+            products p
+        LEFT JOIN
+            product_categories pc ON p.id = pc.product_id
+        LEFT JOIN
+            categories c ON pc.category_id = c.id
+        WHERE 
+            p.id = ? AND
+            p.available = 1
+        GROUP BY
+            p.id;
         `, [productId]);
 
         if (product.length === 0) {
@@ -88,6 +91,55 @@ const getProductById = async (req, res) => {
         res.status(500).json({ error: 'Internal Server Error' });
     }
 };
+
+const searchProducts = async (req, res) => {
+    const { query } = req.query;
+    try {
+        // Fetch products based on search query
+        const products = await queryAsync(`
+            SELECT 
+                p.*, 
+                (SELECT verified FROM users WHERE id = p.seller_id) AS is_seller_verified,
+                GROUP_CONCAT(CONCAT('{ "categoryName": "', c.name, '", "category_id": ', pc.category_id, '}')) AS categories
+            FROM 
+                products p
+            LEFT JOIN
+                product_categories pc ON p.id = pc.product_id
+            LEFT JOIN
+                categories c ON pc.category_id = c.id
+            WHERE 
+                p.available = 1 AND
+                (p.name LIKE ? OR p.description LIKE ?)
+            GROUP BY
+                p.id;
+        `, [`%${query}%`, `%${query}%`]);
+
+        // If no products match the search query, return an empty array
+        if (products.length === 0) {
+            return res.json([]);
+        }
+
+        // Parse categories for each product
+        products.forEach(product => {
+            product.categories = JSON.parse(`[${product.categories}]`);
+        });
+
+        // Fetch and add images for each product
+        for (let product of products) {
+            const productImages = await queryAsync('SELECT id, image_link FROM product_images WHERE product_id = ?', [product.id]);
+            product.images = productImages.map(image => ({
+                ...image,
+                imageUrl: `http://localhost:${process.env.PORT}/uploads/products/${image.image_link}`
+            }));
+        }
+
+        res.json(products);
+    } catch (error) {
+        console.error('Error searching products:', error);
+        res.status(500).json({ error: 'Internal Server Error' });
+    }
+};
+
 
 const getProductBySlug = async (req, res) => {
     const slug = req.params.slug;
@@ -191,7 +243,7 @@ function generateSlug(productName) {
 
 // Controller to create a new product
 const createProduct = async (req, res) => {
-    const { seller_id, name, description, category_ids, brand, model, product_condition, price, available } = req.body;    
+    const { seller_id, name, description, category_ids, brand, model, product_condition, price, available } = req.body;
     try {
         // Check if the seller is verified
         const userData = await queryAsync('SELECT verified FROM users WHERE id = ?', [seller_id]);
@@ -322,4 +374,4 @@ const deleteProductById = async (req, res) => {
     }
 };
 
-module.exports = { getProducts, getProductById, createProduct, updateProductById, deleteProductById, getProductBySlug };
+module.exports = { getProducts, getProductById, createProduct, updateProductById, deleteProductById, getProductBySlug, searchProducts };

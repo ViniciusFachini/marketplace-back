@@ -12,38 +12,39 @@ const getShowcases = async (req, res) => {
             const showcaseId = showcases[i].id;
 
             const items = await queryAsync(`
-                SELECT 
-                    sp.*, 
-                    p.id AS product_id, 
-                    p.seller_id, 
-                    p.name, 
-                    p.sku,
-                    p.slug,
-                    GROUP_CONCAT(DISTINCT CONCAT_WS(':', c.name, pc.category_id)) AS categories, 
-                    p.brand, 
-                    p.model, 
-                    p.product_condition, 
-                    p.price, 
-                    p.available, 
-                    p.created_at, 
-                    u.verified AS is_seller_verified,
-                    GROUP_CONCAT(DISTINCT pi.image_link) AS images
-                FROM 
-                    showcase_products sp 
-                JOIN 
-                    products p ON sp.product_id = p.id 
-                LEFT JOIN 
-                    product_categories pc ON p.id = pc.product_id
-                LEFT JOIN 
-                    categories c ON pc.category_id = c.id
-                JOIN 
-                    users u ON p.seller_id = u.id 
-                JOIN 
-                    product_images pi ON p.id = pi.product_id
-                WHERE 
-                    sp.showcase_id = ?
-                GROUP BY
-                    sp.id, p.id
+            SELECT 
+                sp.*, 
+                p.id AS product_id, 
+                p.seller_id, 
+                p.name, 
+                p.sku,
+                p.slug,
+                GROUP_CONCAT(DISTINCT CONCAT_WS(':', c.name, pc.category_id)) AS categories, 
+                p.brand, 
+                p.model, 
+                p.product_condition, 
+                p.price, 
+                p.available, 
+                p.created_at, 
+                u.verified AS is_seller_verified,
+                GROUP_CONCAT(DISTINCT pi.image_link) AS images
+            FROM 
+                showcase_products sp 
+            JOIN 
+                products p ON sp.product_id = p.id 
+            LEFT JOIN 
+                product_categories pc ON p.id = pc.product_id
+            LEFT JOIN 
+                categories c ON pc.category_id = c.id
+            JOIN 
+                users u ON p.seller_id = u.id 
+            JOIN 
+                product_images pi ON p.id = pi.product_id
+            WHERE 
+                sp.showcase_id = ? AND
+                p.available = 1
+            GROUP BY
+                sp.id, p.id;        
             `, [showcaseId]);
 
             items.forEach(item => {
@@ -77,36 +78,37 @@ const getShowcaseById = async (req, res) => {
         }
 
         const items = await queryAsync(`
-            SELECT 
-                sp.*, 
-                p.id AS product_id, 
-                p.seller_id, 
-                p.name, 
-                p.sku,
-                p.slug,
-                GROUP_CONCAT(DISTINCT CONCAT_WS(':', c.name, pc.category_id)) AS categories, 
-                p.brand, 
-                p.model, 
-                p.product_condition, 
-                p.price, 
-                p.available, 
-                p.created_at, 
-                u.verified AS is_seller_verified,
-                (SELECT GROUP_CONCAT(image_link) FROM product_images WHERE product_id = p.id) AS images
-            FROM 
-                showcase_products sp 
-            JOIN 
-                products p ON sp.product_id = p.id 
-            LEFT JOIN 
-                product_categories pc ON p.id = pc.product_id
-            LEFT JOIN 
-                categories c ON pc.category_id = c.id
-            JOIN 
-                users u ON p.seller_id = u.id 
-            WHERE 
-                sp.showcase_id = ?
-            GROUP BY
-                sp.id, p.id
+        SELECT 
+            sp.*, 
+            p.id AS product_id, 
+            p.seller_id, 
+            p.name, 
+            p.sku,
+            p.slug,
+            GROUP_CONCAT(DISTINCT CONCAT_WS(':', c.name, pc.category_id)) AS categories, 
+            p.brand, 
+            p.model, 
+            p.product_condition, 
+            p.price, 
+            p.available, 
+            p.created_at, 
+            u.verified AS is_seller_verified,
+            (SELECT GROUP_CONCAT(image_link) FROM product_images WHERE product_id = p.id) AS images
+        FROM 
+            showcase_products sp 
+        JOIN 
+            products p ON sp.product_id = p.id 
+        LEFT JOIN 
+            product_categories pc ON p.id = pc.product_id
+        LEFT JOIN 
+            categories c ON pc.category_id = c.id
+        JOIN 
+            users u ON p.seller_id = u.id 
+        WHERE 
+            sp.showcase_id = ? AND
+            p.available = 1
+        GROUP BY
+            sp.id, p.id;    
         `, [showcaseId]);
 
         items.forEach(item => {

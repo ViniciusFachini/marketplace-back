@@ -9,9 +9,11 @@ const { handleSingleImageUpload } = require('./middleware/uploadsMiddleware');
 const productsRouter = require('./routes/productsRoutes');
 const categoriesRouter = require('./routes/categoriesRoutes');
 const addressesRouter = require('./routes/addressesRoutes');
+const transactionsRoutes = require('./routes/transactionsRoutes');
 const messagesRoutes = require('./routes/messagesRoutes');
 const showcasesRoutes = require('./routes/showcasesRoutes');
 const { verifyToken } = require('./middleware/authentication');
+const { searchProducts } = require('./controllers/productController');
 
 dotenv.config();
 
@@ -24,6 +26,8 @@ app.use(cors()); // Enable CORS
 // app.use(bodyParser.json()); // Parse JSON bodies
 app.use(bodyParser.json({ limit: '50mb' }));
 app.use(bodyParser.urlencoded({ limit: '50mb', extended: true }));
+
+app.get('/search', searchProducts)
 
 app.post('/users/login', login);
 app.post('/users/register', handleSingleImageUpload, register);
@@ -38,6 +42,7 @@ app.use('/categories', categoriesRouter);
 app.use('/addresses', addressesRouter);
 app.use('/messages', messagesRoutes);
 app.use('/showcases', showcasesRoutes);
+app.use('/transactions', transactionsRoutes);
 
 app.use('/uploads/products', express.static(path.join(__dirname, '..', 'uploads', 'products')))
 app.use('/uploads/users', express.static(path.join(__dirname, '..', 'uploads', 'users')))
