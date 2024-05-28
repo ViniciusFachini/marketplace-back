@@ -7,7 +7,8 @@ const { queryAsync } = require('../db');
  */
 const register = async (req, res) => {
   try {
-    const { name, email, password, username, phone, user_type } = req.body;
+    const { name, email, password, username, phone, user_type, address } = req.body;
+    console.log(req.body)
 
     const userExists = await queryAsync('SELECT * FROM Users WHERE username = ?', [username]);
     const emailExists = await queryAsync('SELECT * FROM Users WHERE email = ?', [email]);
@@ -75,23 +76,28 @@ const register = async (req, res) => {
 
     userQuery += ` (${userFields}) VALUES (${userPlaceholders})`;
 
+    console.log(userQuery, userFields,userPlaceholders)
+
     const userResult = await queryAsync(userQuery, userValues);
 
     const userId = userResult.insertId;
 
     // Address handling (optional)
-    if (req.body.address) {
-      const { street, city, state, postal_code, country, title } = req.body.address;
+    if (address) {
+      const { street, neighbourhood, number, city, state, postal_code, country, title } = address;
 
-      const addressQuery = 'INSERT INTO Addresses (street, city, state, postal_code, country) VALUES (?, ?, ?, ?, ?)';
-      const addressValues = [street, city, state, postal_code, country];
+      const addressQuery = 'INSERT INTO Addresses (street, neighbourhood, number, city, state, postal_code, country) VALUES (?, ?, ?, ?, ?, ?, ?)';
+      const addressValues = [street, neighbourhood, number, city, state, postal_code, country];
 
       const addressResult = await queryAsync(addressQuery, addressValues);
-
       const addressId = addressResult.insertId;
 
-      const userAddressQuery = 'INSERT INTO User_Addresses (user_id, address_id, title) VALUES (?, ?, ?)';
-      const userAddressValues = [userId, addressId, title];
+      // Check if this is the first address for the user
+      const userAddresses = await queryAsync('SELECT * FROM User_Addresses WHERE user_id = ?', [userId]);
+      const mainAddressFlag = userAddresses.length === 0 ? 1 : 0;
+
+      const userAddressQuery = 'INSERT INTO User_Addresses (user_id, address_id, title, main_address) VALUES (?, ?, ?, ?)';
+      const userAddressValues = [userId, addressId, title, mainAddressFlag];
 
       await queryAsync(userAddressQuery, userAddressValues);
     }
