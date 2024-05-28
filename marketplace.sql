@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 28, 2024 at 08:22 PM
+-- Generation Time: May 28, 2024 at 11:37 PM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.2.4
 
@@ -164,7 +164,8 @@ INSERT INTO `products` (`id`, `seller_id`, `name`, `description`, `brand`, `mode
 (42, 1, '1', '2', '4', '5', 'usado', 61.00, 1, '2024-05-24 20:35:02', '0000001421250330', '1-42'),
 (43, 1, '1', '2', '4', '5', 'usado', 5.00, 1, '2024-05-24 20:36:11', '0000001431741113', '1-43'),
 (44, 1, '1', '2', '4', '5', 'usado', 612.00, 1, '2024-05-25 21:24:26', '0000001441749161', '1-44'),
-(45, 1, 'Vibrador Dildo Prótese 20,3cm x 4,1cm Ponto G Texturizado 10 Modos de Vibração com Controle Remoto - LILO', 'Vibrador Dildo Prótese 20,3cm x 4,1cm Ponto G Texturizado 10 Modos de Vibração com Controle Remoto Alta flexibilidade permitindo criar diversos movimentos. Surpreende pelo seu realismo e incrível semelhança com um pênis real. Produto com altíssima qualidade levando em consideração prazer e segurança. Sua maciez é incontestável com toque agradável e suave. Possui escroto e ventosa que permite fixação em superfícies lisas. A ventosa permite mãos livres para maior liberdade e usabilidade do produto. Pode-se fixá-lo no box do banheiro por exemplo ou mesmo no revestimento da parede desde que seja liso, resistente à água, o controle remoto não, então quando for usá-lo no banheiro por exemplo, tome cuidado. Composto por vibrador multivelocidade com 10 intensidades de vibração. Confeccionado em TPE 100% atóxico. Formato levando em consideração a riqueza de detalhes como glande, saliências e veias. A vibração fica por conta de um motor potente e silencioso que emite ondas vibrantes e altamente excitantes que proporcionam um prazer inigualável. O manuseio do vibrador é simples e descomplicado, com simples toques é possível acionar o vibrador e alternar os estágios de estimulação. O controle remoto com fio permite seu parceiro ou parceira intensificar e diversificar a brincadeira a dois.  Pênis com glande saltada, escroto e ventosa resistente.Possui 10 níveis de vibração que podem ser controlados através do controle remoto que acompanha o produto.Confeccionado em material macio, possui veias e texturas no corpo da protese, trazendo naturalidade e realismo. Medidas 20,3 cm de comprimento, 4,1cm de largura (medidas aproximadas) Peso: 299g Material: TPE Utiliza:Cabo USB incluso,2 pilhas AAA para controle não inclusas Higienização: Lavar com água e sabão neutro antes e após o uso, evite molhar o compartimento de recarga Seque com papel toalha ou deixe secar naturalmente.', 'Lilo', 'Lilo', 'novo', 99999999.99, 0, '2024-05-26 19:11:35', '0000001451987515', 'vibrador-dildo-protese-203cm-x-41cm-ponto-g-texturizado-10-modos-de-vibracao-com-controle-remoto---lilo-45');
+(45, 1, 'Vibrador Dildo Prótese 20,3cm x 4,1cm Ponto G Texturizado 10 Modos de Vibração com Controle Remoto - LILO', 'Vibrador Dildo Prótese 20,3cm x 4,1cm Ponto G Texturizado 10 Modos de Vibração com Controle Remoto Alta flexibilidade permitindo criar diversos movimentos. Surpreende pelo seu realismo e incrível semelhança com um pênis real. Produto com altíssima qualidade levando em consideração prazer e segurança. Sua maciez é incontestável com toque agradável e suave. Possui escroto e ventosa que permite fixação em superfícies lisas. A ventosa permite mãos livres para maior liberdade e usabilidade do produto. Pode-se fixá-lo no box do banheiro por exemplo ou mesmo no revestimento da parede desde que seja liso, resistente à água, o controle remoto não, então quando for usá-lo no banheiro por exemplo, tome cuidado. Composto por vibrador multivelocidade com 10 intensidades de vibração. Confeccionado em TPE 100% atóxico. Formato levando em consideração a riqueza de detalhes como glande, saliências e veias. A vibração fica por conta de um motor potente e silencioso que emite ondas vibrantes e altamente excitantes que proporcionam um prazer inigualável. O manuseio do vibrador é simples e descomplicado, com simples toques é possível acionar o vibrador e alternar os estágios de estimulação. O controle remoto com fio permite seu parceiro ou parceira intensificar e diversificar a brincadeira a dois.  Pênis com glande saltada, escroto e ventosa resistente.Possui 10 níveis de vibração que podem ser controlados através do controle remoto que acompanha o produto.Confeccionado em material macio, possui veias e texturas no corpo da protese, trazendo naturalidade e realismo. Medidas 20,3 cm de comprimento, 4,1cm de largura (medidas aproximadas) Peso: 299g Material: TPE Utiliza:Cabo USB incluso,2 pilhas AAA para controle não inclusas Higienização: Lavar com água e sabão neutro antes e após o uso, evite molhar o compartimento de recarga Seque com papel toalha ou deixe secar naturalmente.', 'Lilo', 'Lilo', 'novo', 99999999.99, 0, '2024-05-26 19:11:35', '0000001451987515', 'vibrador-dildo-protese-203cm-x-41cm-ponto-g-texturizado-10-modos-de-vibracao-com-controle-remoto---lilo-45'),
+(46, 15, 'Vagner Com V', 'Boneco de manequim', 'Vagner', 'Vagner Com V', 'semi_novo', 3400.00, 1, '2024-05-28 20:31:28', '0000015460366646', 'vagner-com-v-46');
 
 -- --------------------------------------------------------
 
@@ -245,7 +246,8 @@ INSERT INTO `product_categories` (`id`, `product_id`, `category_id`) VALUES
 (104, 38, 7),
 (105, 43, 3),
 (106, 44, 4),
-(107, 45, 3);
+(107, 45, 3),
+(108, 46, 11);
 
 -- --------------------------------------------------------
 
@@ -421,7 +423,9 @@ INSERT INTO `product_images` (`id`, `product_id`, `image_link`) VALUES
 (155, 45, '456e2194-5b6e-48de-bba3-d4c36b92c9f1.webp'),
 (156, 45, 'cec3fb30-4695-47df-a373-45b677c5cbb3.webp'),
 (157, 45, '8b267698-5519-40ec-8f89-c048484e6114.webp'),
-(158, 45, '790adba4-73d1-4667-8a11-24c5a1606eb0.webp');
+(158, 45, '790adba4-73d1-4667-8a11-24c5a1606eb0.webp'),
+(159, 46, '4fc6eed2-7d30-4535-af78-b4dce919cf71.jpeg'),
+(160, 46, 'd0e64dc8-f6cc-481a-a837-d9f8e2f2b549.jpeg');
 
 -- --------------------------------------------------------
 
@@ -755,7 +759,8 @@ INSERT INTO `users` (`id`, `name`, `email`, `password`, `username`, `user_image`
 (7, 'Vinícius de Carvalho Fachini', 'vinicius.fachini.03@gmail.com', '$2b$10$nmRUm50wFv4CvjLolR3il.AAGTHBNZWrQFp7RlzDMLIs/xcpvnYVi', 'SeuFax21', '09dcaf25-8790-48b9-9898-95022de9d124.jpg', '2024-05-23 15:17:29', '2024-05-23 16:36:12', '+55 (18) 99624-8348', 'Admin', NULL, 1),
 (8, '', '', '', '', NULL, '2024-05-28 17:31:50', '2024-05-28 18:10:23', '', 'User', NULL, 0),
 (14, '123', '123@123.123', '$2b$10$UcMbOY91Va9bF3QJdYpU4.pWLAzi1x1HE6nvcoz7OGLfFHD/LJVV2', '123', NULL, '2024-05-28 18:09:04', '2024-05-28 18:10:26', '123', 'User', NULL, 0),
-(15, 'Maicon Küster', 'maiconkusteroficial@gmail.com', '$2b$10$CMCQFzAu8pDbFg8Ey/sJQuUZByF0IFQ6iuxLmXBWduuYcOJydMYcG', 'maiconkusterkk', NULL, '2024-05-28 18:13:18', '2024-05-28 18:13:18', '+55 (18) 99624-8348', 'User', NULL, 0);
+(15, 'Maicon Küster', 'maiconkusteroficial@gmail.com', '$2b$10$CMCQFzAu8pDbFg8Ey/sJQuUZByF0IFQ6iuxLmXBWduuYcOJydMYcG', 'maiconkusterkk', NULL, '2024-05-28 18:13:18', '2024-05-28 18:13:18', '+55 (18) 99624-8348', 'User', NULL, 0),
+(16, '1', '1@ga.com', '$2b$10$LFGOF2IQfC40j7j5DcjxGuFi6M8dHvhsaABn4JeQjv./uxSz86k.a', '1', NULL, '2024-05-28 20:20:41', '2024-05-28 20:20:41', '123', 'User', NULL, 0);
 
 --
 -- Triggers `users`
@@ -828,7 +833,8 @@ INSERT INTO `wallets` (`id`, `user_id`, `balance`, `withdrawable_amount`, `creat
 (7, 1, 0.00, 0.00, '2024-05-26 01:50:30', '2024-05-26 19:25:52'),
 (8, 8, 0.00, 0.00, '2024-05-28 17:31:50', '2024-05-28 17:31:50'),
 (9, 14, 0.00, 0.00, '2024-05-28 18:09:04', '2024-05-28 18:09:04'),
-(10, 15, 0.00, 0.00, '2024-05-28 18:13:18', '2024-05-28 18:13:18');
+(10, 15, 0.00, 0.00, '2024-05-28 18:13:18', '2024-05-28 18:13:18'),
+(11, 16, 0.00, 0.00, '2024-05-28 20:20:41', '2024-05-28 20:20:41');
 
 --
 -- Indexes for dumped tables
@@ -965,19 +971,19 @@ ALTER TABLE `messages`
 -- AUTO_INCREMENT for table `products`
 --
 ALTER TABLE `products`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=46;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=47;
 
 --
 -- AUTO_INCREMENT for table `product_categories`
 --
 ALTER TABLE `product_categories`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=108;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=109;
 
 --
 -- AUTO_INCREMENT for table `product_images`
 --
 ALTER TABLE `product_images`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=159;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=161;
 
 --
 -- AUTO_INCREMENT for table `reviews`
@@ -1013,7 +1019,7 @@ ALTER TABLE `transaction_status_history`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 
 --
 -- AUTO_INCREMENT for table `user_addresses`
@@ -1025,7 +1031,7 @@ ALTER TABLE `user_addresses`
 -- AUTO_INCREMENT for table `wallets`
 --
 ALTER TABLE `wallets`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- Constraints for dumped tables
