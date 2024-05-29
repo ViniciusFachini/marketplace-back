@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 28, 2024 at 11:37 PM
+-- Generation Time: May 29, 2024 at 06:57 PM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.2.4
 
@@ -126,23 +126,23 @@ CREATE TABLE `products` (
 --
 
 INSERT INTO `products` (`id`, `seller_id`, `name`, `description`, `brand`, `model`, `product_condition`, `price`, `available`, `created_at`, `sku`, `slug`) VALUES
-(1, 1, 'Tênis Nike Structure 25 Masculino\n\n', 'Com estabilidade onde você precisa, amortecimento onde você quer, o Structure 25 proporciona suporte para longas quilometragens, corridas curtas e até mesmo descanso antes do final do dia. Ele tem a estabilidade que você busca, lealdade desde a primeira amarração, testada e confiável, com um sistema de mediopé que oferece suporte total e amortecimento mais confortável do que antes.', 'Nike', 'Nike Structure', 'Novo', 721.99, 0, '2024-05-18 23:11:41', 'tenis-nike-structure-25-masculino-1', 'tenis-nike-structure-25-masculino-1'),
-(2, 1, 'Tênis Nike Structure 25 Masculino\n\n', 'Com estabilidade onde você precisa, amortecimento onde você quer, o Structure 25 proporciona suporte para longas quilometragens, corridas curtas e até mesmo descanso antes do final do dia. Ele tem a estabilidade que você busca, lealdade desde a primeira amarração, testada e confiável, com um sistema de mediopé que oferece suporte total e amortecimento mais confortável do que antes.', 'Nike', 'Nike Structure', 'Novo', 721.99, 0, '2024-05-18 23:13:39', 'tenis-nike-structure-25-masculino-2', 'tenis-nike-structure-25-masculino-2'),
-(3, 1, 'Tênis Nike Structure 25 Masculino\n\n', 'Com estabilidade onde você precisa, amortecimento onde você quer, o Structure 25 proporciona suporte para longas quilometragens, corridas curtas e até mesmo descanso antes do final do dia. Ele tem a estabilidade que você busca, lealdade desde a primeira amarração, testada e confiável, com um sistema de mediopé que oferece suporte total e amortecimento mais confortável do que antes.', 'Nike', 'Nike Structure', 'Novo', 721.99, 0, '2024-05-18 23:13:40', 'tenis-nike-structure-25-masculino-3', 'tenis-nike-structure-25-masculino-3'),
-(4, 1, 'Tênis Nike Structure 25 Masculino\n\n', 'Com estabilidade onde você precisa, amortecimento onde você quer, o Structure 25 proporciona suporte para longas quilometragens, corridas curtas e até mesmo descanso antes do final do dia. Ele tem a estabilidade que você busca, lealdade desde a primeira amarração, testada e confiável, com um sistema de mediopé que oferece suporte total e amortecimento mais confortável do que antes.', 'Nike', 'Nike Structure', 'Novo', 721.99, 0, '2024-05-18 23:13:40', 'tenis-nike-structure-25-masculino-4', 'tenis-nike-structure-25-masculino-4'),
+(1, 1, 'Tênis Nike Structure 25 Masculino\n\n', 'Com estabilidade onde você precisa, amortecimento onde você quer, o Structure 25 proporciona suporte para longas quilometragens, corridas curtas e até mesmo descanso antes do final do dia. Ele tem a estabilidade que você busca, lealdade desde a primeira amarração, testada e confiável, com um sistema de mediopé que oferece suporte total e amortecimento mais confortável do que antes.', 'Nike', 'Nike Structure', 'Novo', 721.99, 1, '2024-05-18 23:11:41', 'tenis-nike-structure-25-masculino-1', 'tenis-nike-structure-25-masculino-1'),
+(2, 1, 'Tênis Nike Structure 25 Masculino\n\n', 'Com estabilidade onde você precisa, amortecimento onde você quer, o Structure 25 proporciona suporte para longas quilometragens, corridas curtas e até mesmo descanso antes do final do dia. Ele tem a estabilidade que você busca, lealdade desde a primeira amarração, testada e confiável, com um sistema de mediopé que oferece suporte total e amortecimento mais confortável do que antes.', 'Nike', 'Nike Structure', 'Novo', 721.99, 1, '2024-05-18 23:13:39', 'tenis-nike-structure-25-masculino-2', 'tenis-nike-structure-25-masculino-2'),
+(3, 1, 'Tênis Nike Structure 25 Masculino\n\n', 'Com estabilidade onde você precisa, amortecimento onde você quer, o Structure 25 proporciona suporte para longas quilometragens, corridas curtas e até mesmo descanso antes do final do dia. Ele tem a estabilidade que você busca, lealdade desde a primeira amarração, testada e confiável, com um sistema de mediopé que oferece suporte total e amortecimento mais confortável do que antes.', 'Nike', 'Nike Structure', 'Novo', 721.99, 1, '2024-05-18 23:13:40', 'tenis-nike-structure-25-masculino-3', 'tenis-nike-structure-25-masculino-3'),
+(4, 1, 'Tênis Nike Structure 25 Masculino\n\n', 'Com estabilidade onde você precisa, amortecimento onde você quer, o Structure 25 proporciona suporte para longas quilometragens, corridas curtas e até mesmo descanso antes do final do dia. Ele tem a estabilidade que você busca, lealdade desde a primeira amarração, testada e confiável, com um sistema de mediopé que oferece suporte total e amortecimento mais confortável do que antes.', 'Nike', 'Nike Structure', 'Novo', 721.99, 1, '2024-05-18 23:13:40', 'tenis-nike-structure-25-masculino-4', 'tenis-nike-structure-25-masculino-4'),
 (5, 1, 'Tênis Nike Structure 25 Masculino\n\n', 'Com estabilidade onde você precisa, amortecimento onde você quer, o Structure 25 proporciona suporte para longas quilometragens, corridas curtas e até mesmo descanso antes do final do dia. Ele tem a estabilidade que você busca, lealdade desde a primeira amarração, testada e confiável, com um sistema de mediopé que oferece suporte total e amortecimento mais confortável do que antes.', 'Nike', 'Nike Structure', 'Novo', 721.99, 1, '2024-05-18 23:13:41', 'tenis-nike-structure-25-masculino-5', 'tenis-nike-structure-25-masculino-5'),
-(6, 1, 'Tênis Nike Structure 25 Masculino\n\n', 'Com estabilidade onde você precisa, amortecimento onde você quer, o Structure 25 proporciona suporte para longas quilometragens, corridas curtas e até mesmo descanso antes do final do dia. Ele tem a estabilidade que você busca, lealdade desde a primeira amarração, testada e confiável, com um sistema de mediopé que oferece suporte total e amortecimento mais confortável do que antes.', 'Nike', 'Nike Structure', 'Novo', 721.99, 0, '2024-05-18 23:13:42', 'tenis-nike-structure-25-masculino-6', 'tenis-nike-structure-25-masculino-6'),
-(7, 1, 'Tênis Nike Structure 25 Masculino\n\n', 'Com estabilidade onde você precisa, amortecimento onde você quer, o Structure 25 proporciona suporte para longas quilometragens, corridas curtas e até mesmo descanso antes do final do dia. Ele tem a estabilidade que você busca, lealdade desde a primeira amarração, testada e confiável, com um sistema de mediopé que oferece suporte total e amortecimento mais confortável do que antes.', 'Nike', 'Nike Structure', 'Novo', 721.99, 0, '2024-05-18 23:13:42', 'tenis-nike-structure-25-masculino-7', 'tenis-nike-structure-25-masculino-7'),
-(8, 1, 'Tênis Nike Structure 25 Masculino\n\n', 'Com estabilidade onde você precisa, amortecimento onde você quer, o Structure 25 proporciona suporte para longas quilometragens, corridas curtas e até mesmo descanso antes do final do dia. Ele tem a estabilidade que você busca, lealdade desde a primeira amarração, testada e confiável, com um sistema de mediopé que oferece suporte total e amortecimento mais confortável do que antes.', 'Nike', 'Nike Structure', 'Novo', 721.99, 0, '2024-05-18 23:13:43', 'tenis-nike-structure-25-masculino-8', 'tenis-nike-structure-25-masculino-8'),
-(9, 1, 'Tênis Nike Structure 25 Masculino\n\n', 'Com estabilidade onde você precisa, amortecimento onde você quer, o Structure 25 proporciona suporte para longas quilometragens, corridas curtas e até mesmo descanso antes do final do dia. Ele tem a estabilidade que você busca, lealdade desde a primeira amarração, testada e confiável, com um sistema de mediopé que oferece suporte total e amortecimento mais confortável do que antes.', 'Nike', 'Nike Structure', 'Novo', 721.99, 0, '2024-05-18 23:13:45', 'tenis-nike-structure-25-masculino-9', 'tenis-nike-structure-25-masculino-9'),
+(6, 1, 'Tênis Nike Structure 25 Masculino\n\n', 'Com estabilidade onde você precisa, amortecimento onde você quer, o Structure 25 proporciona suporte para longas quilometragens, corridas curtas e até mesmo descanso antes do final do dia. Ele tem a estabilidade que você busca, lealdade desde a primeira amarração, testada e confiável, com um sistema de mediopé que oferece suporte total e amortecimento mais confortável do que antes.', 'Nike', 'Nike Structure', 'Novo', 721.99, 1, '2024-05-18 23:13:42', 'tenis-nike-structure-25-masculino-6', 'tenis-nike-structure-25-masculino-6'),
+(7, 1, 'Tênis Nike Structure 25 Masculino\n\n', 'Com estabilidade onde você precisa, amortecimento onde você quer, o Structure 25 proporciona suporte para longas quilometragens, corridas curtas e até mesmo descanso antes do final do dia. Ele tem a estabilidade que você busca, lealdade desde a primeira amarração, testada e confiável, com um sistema de mediopé que oferece suporte total e amortecimento mais confortável do que antes.', 'Nike', 'Nike Structure', 'Novo', 721.99, 1, '2024-05-18 23:13:42', 'tenis-nike-structure-25-masculino-7', 'tenis-nike-structure-25-masculino-7'),
+(8, 1, 'Tênis Nike Structure 25 Masculino\n\n', 'Com estabilidade onde você precisa, amortecimento onde você quer, o Structure 25 proporciona suporte para longas quilometragens, corridas curtas e até mesmo descanso antes do final do dia. Ele tem a estabilidade que você busca, lealdade desde a primeira amarração, testada e confiável, com um sistema de mediopé que oferece suporte total e amortecimento mais confortável do que antes.', 'Nike', 'Nike Structure', 'Novo', 721.99, 1, '2024-05-18 23:13:43', 'tenis-nike-structure-25-masculino-8', 'tenis-nike-structure-25-masculino-8'),
+(9, 1, 'Tênis Nike Structure 25 Masculino\n\n', 'Com estabilidade onde você precisa, amortecimento onde você quer, o Structure 25 proporciona suporte para longas quilometragens, corridas curtas e até mesmo descanso antes do final do dia. Ele tem a estabilidade que você busca, lealdade desde a primeira amarração, testada e confiável, com um sistema de mediopé que oferece suporte total e amortecimento mais confortável do que antes.', 'Nike', 'Nike Structure', 'Novo', 721.99, 1, '2024-05-18 23:13:45', 'tenis-nike-structure-25-masculino-9', 'tenis-nike-structure-25-masculino-9'),
 (10, 1, 'Tênis Nike Structure 25 Masculino\n\n', 'Com estabilidade onde você precisa, amortecimento onde você quer, o Structure 25 proporciona suporte para longas quilometragens, corridas curtas e até mesmo descanso antes do final do dia. Ele tem a estabilidade que você busca, lealdade desde a primeira amarração, testada e confiável, com um sistema de mediopé que oferece suporte total e amortecimento mais confortável do que antes.', 'Nike', 'Nike Structure', 'Novo', 721.99, 1, '2024-05-18 23:13:46', 'tenis-nike-structure-25-masculino-10', 'tenis-nike-structure-25-masculino-10'),
-(11, 1, 'Tênis Nike Structure 25 Masculino\n\n', 'Com estabilidade onde você precisa, amortecimento onde você quer, o Structure 25 proporciona suporte para longas quilometragens, corridas curtas e até mesmo descanso antes do final do dia. Ele tem a estabilidade que você busca, lealdade desde a primeira amarração, testada e confiável, com um sistema de mediopé que oferece suporte total e amortecimento mais confortável do que antes.', 'Nike', 'Nike Structure', 'Novo', 721.99, 0, '2024-05-18 23:13:46', 'tenis-nike-structure-25-masculino-11', 'tenis-nike-structure-25-masculino-11'),
-(12, 1, 'Tênis Nike Structure 25 Masculino\n\n', 'Com estabilidade onde você precisa, amortecimento onde você quer, o Structure 25 proporciona suporte para longas quilometragens, corridas curtas e até mesmo descanso antes do final do dia. Ele tem a estabilidade que você busca, lealdade desde a primeira amarração, testada e confiável, com um sistema de mediopé que oferece suporte total e amortecimento mais confortável do que antes.', 'Nike', 'Nike Structure', 'Novo', 721.99, 0, '2024-05-18 23:13:47', 'tenis-nike-structure-25-masculino-12', 'tenis-nike-structure-25-masculino-12'),
-(13, 1, 'Tênis Nike Structure 25 Masculino\n\n', 'Com estabilidade onde você precisa, amortecimento onde você quer, o Structure 25 proporciona suporte para longas quilometragens, corridas curtas e até mesmo descanso antes do final do dia. Ele tem a estabilidade que você busca, lealdade desde a primeira amarração, testada e confiável, com um sistema de mediopé que oferece suporte total e amortecimento mais confortável do que antes.', 'Nike', 'Nike Structure', 'Novo', 721.99, 0, '2024-05-18 23:13:48', 'tenis-nike-structure-25-masculino-13', 'tenis-nike-structure-25-masculino-13'),
-(14, 1, 'Tênis Nike Structure 25 Masculino\n\n', 'Com estabilidade onde você precisa, amortecimento onde você quer, o Structure 25 proporciona suporte para longas quilometragens, corridas curtas e até mesmo descanso antes do final do dia. Ele tem a estabilidade que você busca, lealdade desde a primeira amarração, testada e confiável, com um sistema de mediopé que oferece suporte total e amortecimento mais confortável do que antes.', 'Nike', 'Nike Structure', 'Novo', 721.99, 0, '2024-05-18 23:13:48', 'tenis-nike-structure-25-masculino-14', 'tenis-nike-structure-25-masculino-14'),
-(15, 1, 'Tênis Nike Structure 25 Masculino\n\n', 'Com estabilidade onde você precisa, amortecimento onde você quer, o Structure 25 proporciona suporte para longas quilometragens, corridas curtas e até mesmo descanso antes do final do dia. Ele tem a estabilidade que você busca, lealdade desde a primeira amarração, testada e confiável, com um sistema de mediopé que oferece suporte total e amortecimento mais confortável do que antes.', 'Nike', 'Nike Structure', 'Novo', 721.99, 0, '2024-05-18 23:13:49', 'tenis-nike-structure-25-masculino-15', 'tenis-nike-structure-25-masculino-15'),
-(16, 1, 'Tênis Nike Structure 25 Masculino\n\n', 'Com estabilidade onde você precisa, amortecimento onde você quer, o Structure 25 proporciona suporte para longas quilometragens, corridas curtas e até mesmo descanso antes do final do dia. Ele tem a estabilidade que você busca, lealdade desde a primeira amarração, testada e confiável, com um sistema de mediopé que oferece suporte total e amortecimento mais confortável do que antes.', 'Nike', 'Nike Structure', 'Novo', 721.99, 0, '2024-05-18 23:13:50', 'tenis-nike-structure-25-masculino-16', 'tenis-nike-structure-25-masculino-16'),
-(17, 1, 'Tênis Nike Structure 25 Masculino\n\n', 'Com estabilidade onde você precisa, amortecimento onde você quer, o Structure 25 proporciona suporte para longas quilometragens, corridas curtas e até mesmo descanso antes do final do dia. Ele tem a estabilidade que você busca, lealdade desde a primeira amarração, testada e confiável, com um sistema de mediopé que oferece suporte total e amortecimento mais confortável do que antes.', 'Nike', 'Nike Structure', 'Novo', 721.99, 0, '2024-05-18 23:40:29', 'tenis-nike-structure-25-masculino-17', 'tenis-nike-structure-25-masculino-17'),
+(11, 1, 'Tênis Nike Structure 25 Masculino\n\n', 'Com estabilidade onde você precisa, amortecimento onde você quer, o Structure 25 proporciona suporte para longas quilometragens, corridas curtas e até mesmo descanso antes do final do dia. Ele tem a estabilidade que você busca, lealdade desde a primeira amarração, testada e confiável, com um sistema de mediopé que oferece suporte total e amortecimento mais confortável do que antes.', 'Nike', 'Nike Structure', 'Novo', 721.99, 1, '2024-05-18 23:13:46', 'tenis-nike-structure-25-masculino-11', 'tenis-nike-structure-25-masculino-11'),
+(12, 1, 'Tênis Nike Structure 25 Masculino\n\n', 'Com estabilidade onde você precisa, amortecimento onde você quer, o Structure 25 proporciona suporte para longas quilometragens, corridas curtas e até mesmo descanso antes do final do dia. Ele tem a estabilidade que você busca, lealdade desde a primeira amarração, testada e confiável, com um sistema de mediopé que oferece suporte total e amortecimento mais confortável do que antes.', 'Nike', 'Nike Structure', 'Novo', 721.99, 1, '2024-05-18 23:13:47', 'tenis-nike-structure-25-masculino-12', 'tenis-nike-structure-25-masculino-12'),
+(13, 1, 'Tênis Nike Structure 25 Masculino\n\n', 'Com estabilidade onde você precisa, amortecimento onde você quer, o Structure 25 proporciona suporte para longas quilometragens, corridas curtas e até mesmo descanso antes do final do dia. Ele tem a estabilidade que você busca, lealdade desde a primeira amarração, testada e confiável, com um sistema de mediopé que oferece suporte total e amortecimento mais confortável do que antes.', 'Nike', 'Nike Structure', 'Novo', 721.99, 1, '2024-05-18 23:13:48', 'tenis-nike-structure-25-masculino-13', 'tenis-nike-structure-25-masculino-13'),
+(14, 1, 'Tênis Nike Structure 25 Masculino\n\n', 'Com estabilidade onde você precisa, amortecimento onde você quer, o Structure 25 proporciona suporte para longas quilometragens, corridas curtas e até mesmo descanso antes do final do dia. Ele tem a estabilidade que você busca, lealdade desde a primeira amarração, testada e confiável, com um sistema de mediopé que oferece suporte total e amortecimento mais confortável do que antes.', 'Nike', 'Nike Structure', 'Novo', 721.99, 1, '2024-05-18 23:13:48', 'tenis-nike-structure-25-masculino-14', 'tenis-nike-structure-25-masculino-14'),
+(15, 1, 'Tênis Nike Structure 25 Masculino\n\n', 'Com estabilidade onde você precisa, amortecimento onde você quer, o Structure 25 proporciona suporte para longas quilometragens, corridas curtas e até mesmo descanso antes do final do dia. Ele tem a estabilidade que você busca, lealdade desde a primeira amarração, testada e confiável, com um sistema de mediopé que oferece suporte total e amortecimento mais confortável do que antes.', 'Nike', 'Nike Structure', 'Novo', 721.99, 1, '2024-05-18 23:13:49', 'tenis-nike-structure-25-masculino-15', 'tenis-nike-structure-25-masculino-15'),
+(16, 1, 'Tênis Nike Structure 25 Masculino\n\n', 'Com estabilidade onde você precisa, amortecimento onde você quer, o Structure 25 proporciona suporte para longas quilometragens, corridas curtas e até mesmo descanso antes do final do dia. Ele tem a estabilidade que você busca, lealdade desde a primeira amarração, testada e confiável, com um sistema de mediopé que oferece suporte total e amortecimento mais confortável do que antes.', 'Nike', 'Nike Structure', 'Novo', 721.99, 1, '2024-05-18 23:13:50', 'tenis-nike-structure-25-masculino-16', 'tenis-nike-structure-25-masculino-16'),
+(17, 1, 'Tênis Nike Structure 25 Masculino\n\n', 'Com estabilidade onde você precisa, amortecimento onde você quer, o Structure 25 proporciona suporte para longas quilometragens, corridas curtas e até mesmo descanso antes do final do dia. Ele tem a estabilidade que você busca, lealdade desde a primeira amarração, testada e confiável, com um sistema de mediopé que oferece suporte total e amortecimento mais confortável do que antes.', 'Nike', 'Nike Structure', 'Novo', 721.99, 1, '2024-05-18 23:40:29', 'tenis-nike-structure-25-masculino-17', 'tenis-nike-structure-25-masculino-17'),
 (18, 1, 'Bota Eliane Cano Curto Salto Médio Gelo\n', 'Elegante e fashion. Com a Bota Cano Curto Eliane Salto Médio Gelo, você estará sempre pronta para qualquer ocasião, sem abrir mão do conforto. O gelo é uma tendência neutra e suave que transmite serenidade ao look. Leve e flexível, esse modelo foi pensado nas necessidades de todas as mulheres. O acabamento confortável e o forro superfofinho torna-a indispensável para quem precisa ficar horas de pé no trabalho. Ela também oferece máxima absorção controlando tanto umidade quanto temperatura. Já o superamortecimento da bota proporciona maior absorção de impactos. Para as mulheres que não dispensam o jeans, use esse modelo e dobre as barras da calça para realçar os seus pés. PICCADILLY, caminhe em direção ao novo e se surpreenda com o conforto! Você sabia que todos os produtos da PICCADILLY têm o Calce Perfeito? É um conjunto de benefícios exclusivos que respeita a anatomia do pé, diminui o cansaço e permite que você vá mais longe nas suas jornadas diárias.\n', 'Piccadilly', 'Nike Structure', 'Usado', 389.90, 1, '2024-05-19 21:17:35', 'bota-eliane-cano-curto-salto-medio-gelo-18', 'bota-eliane-cano-curto-salto-medio-gelo-18'),
 (19, 1, 'Bota Eliane Cano Curto Salto Médio Gelo\n', 'Elegante e fashion. Com a Bota Cano Curto Eliane Salto Médio Gelo, você estará sempre pronta para qualquer ocasião, sem abrir mão do conforto. O gelo é uma tendência neutra e suave que transmite serenidade ao look. Leve e flexível, esse modelo foi pensado nas necessidades de todas as mulheres. O acabamento confortável e o forro superfofinho torna-a indispensável para quem precisa ficar horas de pé no trabalho. Ela também oferece máxima absorção controlando tanto umidade quanto temperatura. Já o superamortecimento da bota proporciona maior absorção de impactos. Para as mulheres que não dispensam o jeans, use esse modelo e dobre as barras da calça para realçar os seus pés. PICCADILLY, caminhe em direção ao novo e se surpreenda com o conforto! Você sabia que todos os produtos da PICCADILLY têm o Calce Perfeito? É um conjunto de benefícios exclusivos que respeita a anatomia do pé, diminui o cansaço e permite que você vá mais longe nas suas jornadas diárias.\n', 'Piccadilly', 'Nike Structure', 'Usado', 389.90, 1, '2024-05-19 21:18:25', 'bota-eliane-cano-curto-salto-medio-gelo-19', 'bota-eliane-cano-curto-salto-medio-gelo-19'),
 (20, 1, 'Bota Eliane Cano Curto Salto Médio Gelo\n', 'Elegante e fashion. Com a Bota Cano Curto Eliane Salto Médio Gelo, você estará sempre pronta para qualquer ocasião, sem abrir mão do conforto. O gelo é uma tendência neutra e suave que transmite serenidade ao look. Leve e flexível, esse modelo foi pensado nas necessidades de todas as mulheres. O acabamento confortável e o forro superfofinho torna-a indispensável para quem precisa ficar horas de pé no trabalho. Ela também oferece máxima absorção controlando tanto umidade quanto temperatura. Já o superamortecimento da bota proporciona maior absorção de impactos. Para as mulheres que não dispensam o jeans, use esse modelo e dobre as barras da calça para realçar os seus pés. PICCADILLY, caminhe em direção ao novo e se surpreenda com o conforto! Você sabia que todos os produtos da PICCADILLY têm o Calce Perfeito? É um conjunto de benefícios exclusivos que respeita a anatomia do pé, diminui o cansaço e permite que você vá mais longe nas suas jornadas diárias.\n', 'Piccadilly', 'Nike Structure', 'Usado', 389.90, 1, '2024-05-19 21:21:02', 'bota-eliane-cano-curto-salto-medio-gelo-20', 'bota-eliane-cano-curto-salto-medio-gelo-20'),
@@ -164,7 +164,7 @@ INSERT INTO `products` (`id`, `seller_id`, `name`, `description`, `brand`, `mode
 (42, 1, '1', '2', '4', '5', 'usado', 61.00, 1, '2024-05-24 20:35:02', '0000001421250330', '1-42'),
 (43, 1, '1', '2', '4', '5', 'usado', 5.00, 1, '2024-05-24 20:36:11', '0000001431741113', '1-43'),
 (44, 1, '1', '2', '4', '5', 'usado', 612.00, 1, '2024-05-25 21:24:26', '0000001441749161', '1-44'),
-(45, 1, 'Vibrador Dildo Prótese 20,3cm x 4,1cm Ponto G Texturizado 10 Modos de Vibração com Controle Remoto - LILO', 'Vibrador Dildo Prótese 20,3cm x 4,1cm Ponto G Texturizado 10 Modos de Vibração com Controle Remoto Alta flexibilidade permitindo criar diversos movimentos. Surpreende pelo seu realismo e incrível semelhança com um pênis real. Produto com altíssima qualidade levando em consideração prazer e segurança. Sua maciez é incontestável com toque agradável e suave. Possui escroto e ventosa que permite fixação em superfícies lisas. A ventosa permite mãos livres para maior liberdade e usabilidade do produto. Pode-se fixá-lo no box do banheiro por exemplo ou mesmo no revestimento da parede desde que seja liso, resistente à água, o controle remoto não, então quando for usá-lo no banheiro por exemplo, tome cuidado. Composto por vibrador multivelocidade com 10 intensidades de vibração. Confeccionado em TPE 100% atóxico. Formato levando em consideração a riqueza de detalhes como glande, saliências e veias. A vibração fica por conta de um motor potente e silencioso que emite ondas vibrantes e altamente excitantes que proporcionam um prazer inigualável. O manuseio do vibrador é simples e descomplicado, com simples toques é possível acionar o vibrador e alternar os estágios de estimulação. O controle remoto com fio permite seu parceiro ou parceira intensificar e diversificar a brincadeira a dois.  Pênis com glande saltada, escroto e ventosa resistente.Possui 10 níveis de vibração que podem ser controlados através do controle remoto que acompanha o produto.Confeccionado em material macio, possui veias e texturas no corpo da protese, trazendo naturalidade e realismo. Medidas 20,3 cm de comprimento, 4,1cm de largura (medidas aproximadas) Peso: 299g Material: TPE Utiliza:Cabo USB incluso,2 pilhas AAA para controle não inclusas Higienização: Lavar com água e sabão neutro antes e após o uso, evite molhar o compartimento de recarga Seque com papel toalha ou deixe secar naturalmente.', 'Lilo', 'Lilo', 'novo', 99999999.99, 0, '2024-05-26 19:11:35', '0000001451987515', 'vibrador-dildo-protese-203cm-x-41cm-ponto-g-texturizado-10-modos-de-vibracao-com-controle-remoto---lilo-45'),
+(45, 1, 'Vibrador Dildo Prótese 20,3cm x 4,1cm Ponto G Texturizado 10 Modos de Vibração com Controle Remoto - LILO', 'Vibrador Dildo Prótese 20,3cm x 4,1cm Ponto G Texturizado 10 Modos de Vibração com Controle Remoto Alta flexibilidade permitindo criar diversos movimentos. Surpreende pelo seu realismo e incrível semelhança com um pênis real. Produto com altíssima qualidade levando em consideração prazer e segurança. Sua maciez é incontestável com toque agradável e suave. Possui escroto e ventosa que permite fixação em superfícies lisas. A ventosa permite mãos livres para maior liberdade e usabilidade do produto. Pode-se fixá-lo no box do banheiro por exemplo ou mesmo no revestimento da parede desde que seja liso, resistente à água, o controle remoto não, então quando for usá-lo no banheiro por exemplo, tome cuidado. Composto por vibrador multivelocidade com 10 intensidades de vibração. Confeccionado em TPE 100% atóxico. Formato levando em consideração a riqueza de detalhes como glande, saliências e veias. A vibração fica por conta de um motor potente e silencioso que emite ondas vibrantes e altamente excitantes que proporcionam um prazer inigualável. O manuseio do vibrador é simples e descomplicado, com simples toques é possível acionar o vibrador e alternar os estágios de estimulação. O controle remoto com fio permite seu parceiro ou parceira intensificar e diversificar a brincadeira a dois.  Pênis com glande saltada, escroto e ventosa resistente.Possui 10 níveis de vibração que podem ser controlados através do controle remoto que acompanha o produto.Confeccionado em material macio, possui veias e texturas no corpo da protese, trazendo naturalidade e realismo. Medidas 20,3 cm de comprimento, 4,1cm de largura (medidas aproximadas) Peso: 299g Material: TPE Utiliza:Cabo USB incluso,2 pilhas AAA para controle não inclusas Higienização: Lavar com água e sabão neutro antes e após o uso, evite molhar o compartimento de recarga Seque com papel toalha ou deixe secar naturalmente.', 'Lilo', 'Lilo', 'novo', 99999999.99, 1, '2024-05-26 19:11:35', '0000001451987515', 'vibrador-dildo-protese-203cm-x-41cm-ponto-g-texturizado-10-modos-de-vibracao-com-controle-remoto---lilo-45'),
 (46, 15, 'Vagner Com V', 'Boneco de manequim', 'Vagner', 'Vagner Com V', 'semi_novo', 3400.00, 1, '2024-05-28 20:31:28', '0000015460366646', 'vagner-com-v-46');
 
 -- --------------------------------------------------------
@@ -548,51 +548,6 @@ CREATE TABLE `transactions` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_520_ci;
 
 --
--- Dumping data for table `transactions`
---
-
-INSERT INTO `transactions` (`id`, `buyer_id`, `seller_id`, `product_id`, `quantity`, `total_amount`, `transaction_type`, `buyer_address_id`, `seller_address_id`, `payment_method`, `shipping_method`, `status`, `created_at`) VALUES
-(1, 7, 1, 3, 1, 721.99, 'Compra', 1, 4, 'Cartão de Débito', 'Envio Expresso', 'Cancelado', '2024-05-25 17:36:13'),
-(2, 7, 1, 10, 1, 721.99, 'Compra', 1, 4, 'Cartão de Débito', 'Envio Expresso', 'Cancelado', '2024-05-25 17:36:13'),
-(3, 7, 1, 11, 1, 721.99, 'Compra', 1, 4, 'Cartão de Débito', 'Envio Expresso', 'Cancelado', '2024-05-25 17:50:07'),
-(4, 1, 2, 32, 1, 320.50, 'Compra', 4, 3, 'Cartão de Débito', 'Envio Expresso', 'Cancelado', '2024-05-25 18:20:42'),
-(5, 2, 1, 2, 1, 721.99, 'Compra', 3, 4, 'Cartão de Débito', 'Envio Expresso', 'Cancelado', '2024-05-25 18:22:25'),
-(6, 2, 1, 5, 1, 721.99, 'Compra', 3, 4, 'Cartão de Débito', 'Envio Expresso', 'Cancelado', '2024-05-25 18:22:25'),
-(7, 2, 1, 1, 1, 721.99, 'Compra', 3, 4, 'Cartão de Débito', 'Envio Expresso', 'Cancelado', '2024-05-25 18:22:25'),
-(8, 7, 1, 8, 1, 721.99, 'Compra', 1, 4, 'Cartão de Débito', 'Envio Expresso', 'Cancelado', '2024-05-25 22:34:19'),
-(9, 7, 1, 6, 1, 721.99, 'Compra', 1, 4, 'Cartão de Débito', 'Envio Expresso', 'Cancelado', '2024-05-26 02:20:20'),
-(10, 6, 1, 15, 1, 721.99, 'Compra', 5, 4, 'Cartão de Débito', 'Envio Expresso', 'Cancelado', '2024-05-26 02:27:12'),
-(11, 6, 1, 4, 1, 721.99, 'Compra', 5, 4, 'Cartão de Débito', 'Envio Expresso', 'Cancelado', '2024-05-26 02:27:12'),
-(12, 6, 1, 16, 1, 721.99, 'Compra', 5, 4, 'Cartão de Débito', 'Envio Expresso', 'Cancelado', '2024-05-26 02:27:12'),
-(13, 6, 1, 25, 1, 389.90, 'Compra', 5, 4, 'Cartão de Débito', 'Envio Expresso', 'Cancelado', '2024-05-26 02:27:12'),
-(14, 6, 2, 33, 1, 320.50, 'Compra', 5, 3, 'Cartão de Débito', 'Envio Expresso', 'Cancelado', '2024-05-26 02:27:12'),
-(15, 6, 1, 7, 1, 721.99, 'Compra', 5, 4, 'Cartão de Débito', 'Envio Expresso', 'Cancelado', '2024-05-26 02:51:45'),
-(16, 6, 1, 9, 1, 721.99, 'Compra', 5, 4, 'Cartão de Débito', 'Envio Expresso', 'Cancelado', '2024-05-26 02:51:45'),
-(17, 6, 1, 12, 1, 721.99, 'Compra', 5, 4, 'Cartão de Débito', 'Envio Expresso', 'Cancelado', '2024-05-26 02:51:45'),
-(18, 6, 1, 13, 1, 721.99, 'Compra', 5, 4, 'Cartão de Débito', 'Envio Expresso', 'Cancelado', '2024-05-26 02:51:45'),
-(19, 6, 1, 14, 1, 721.99, 'Compra', 5, 4, 'Cartão de Débito', 'Envio Expresso', 'Cancelado', '2024-05-26 02:51:45'),
-(20, 7, 2, 34, 1, 320.50, 'Compra', 1, 3, 'Cartão de Débito', 'Envio Expresso', 'Cancelado', '2024-05-26 03:38:59'),
-(21, 7, 1, 39, 1, 6.00, 'Compra', 1, 4, 'Cartão de Débito', 'Envio Expresso', 'Cancelado', '2024-05-26 03:39:10'),
-(22, 3, 1, 1, 1, 721.99, 'Compra', 4, 4, '', 'Envio Expresso', 'Concluído', '2024-05-26 15:37:29'),
-(23, 3, 1, 2, 1, 721.99, 'Compra', 4, 4, '', 'Envio Expresso', 'Concluído', '2024-05-26 15:37:46'),
-(24, 3, 1, 3, 1, 721.99, 'Compra', 4, 4, '', 'Envio Expresso', 'Concluído', '2024-05-26 15:37:47'),
-(25, 3, 1, 4, 1, 721.99, 'Compra', 4, 4, '', 'Envio Expresso', 'Concluído', '2024-05-26 15:37:48'),
-(26, 3, 1, 5, 1, 721.99, 'Compra', 4, 4, '', 'Envio Expresso', 'Cancelado', '2024-05-26 15:37:49'),
-(27, 3, 1, 6, 1, 721.99, 'Compra', 4, 4, '', 'Envio Expresso', 'Concluído', '2024-05-26 15:37:50'),
-(28, 3, 1, 7, 1, 721.99, 'Compra', 4, 4, '', 'Envio Expresso', 'Concluído', '2024-05-26 15:37:53'),
-(29, 3, 1, 8, 1, 721.99, 'Compra', 4, 4, '', 'Envio Expresso', 'Concluído', '2024-05-26 15:37:55'),
-(30, 3, 1, 9, 1, 721.99, 'Compra', 4, 4, '', 'Envio Expresso', 'Concluído', '2024-05-26 15:37:57'),
-(31, 3, 1, 10, 1, 721.99, 'Compra', 4, 4, '', 'Envio Expresso', 'Cancelado', '2024-05-26 15:37:59'),
-(32, 3, 1, 11, 1, 721.99, 'Compra', 4, 4, '', 'Envio Expresso', 'Concluído', '2024-05-26 15:38:00'),
-(33, 3, 1, 12, 1, 721.99, 'Compra', 4, 4, '', 'Envio Expresso', 'Aguardando Pagamento', '2024-05-26 15:38:01'),
-(34, 3, 1, 13, 1, 721.99, 'Compra', 4, 4, '', 'Envio Expresso', 'Aguardando Pagamento', '2024-05-26 15:38:02'),
-(35, 3, 1, 14, 1, 721.99, 'Compra', 4, 4, '', 'Envio Expresso', 'Aguardando Pagamento', '2024-05-26 15:38:02'),
-(36, 3, 1, 15, 1, 721.99, 'Compra', 4, 4, '', 'Envio Expresso', 'Aguardando Pagamento', '2024-05-26 15:38:03'),
-(37, 3, 1, 16, 1, 721.99, 'Compra', 4, 4, '', 'Envio Expresso', 'Aguardando Pagamento', '2024-05-26 15:38:04'),
-(38, 3, 1, 17, 1, 721.99, 'Compra', 4, 4, '', 'Envio Expresso', 'Aguardando Pagamento', '2024-05-26 15:38:06'),
-(39, 7, 1, 45, 1, 99999999.99, 'Compra', 1, 4, 'Cartão de Débito', 'Envio Expresso', 'Concluído', '2024-05-26 19:16:29');
-
---
 -- Triggers `transactions`
 --
 DELIMITER $$
@@ -622,107 +577,6 @@ CREATE TABLE `transaction_status_history` (
   `changed_at` timestamp NOT NULL DEFAULT current_timestamp(),
   `changed_by` varchar(100) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_520_ci;
-
---
--- Dumping data for table `transaction_status_history`
---
-
-INSERT INTO `transaction_status_history` (`id`, `transaction_id`, `old_status`, `new_status`, `changed_at`, `changed_by`) VALUES
-(1, 4, 'Pagamento Recebido', 'Processando', '2024-05-26 01:31:40', 'root@localhost'),
-(2, 4, 'Processando', 'Enviado', '2024-05-26 01:32:05', 'root@localhost'),
-(3, 4, 'Enviado', 'Concluído', '2024-05-26 01:32:16', 'root@localhost'),
-(4, 3, 'Entregue', 'Concluído', '2024-05-26 01:32:23', 'root@localhost'),
-(5, 5, 'Enviado', 'Concluído', '2024-05-26 01:32:25', 'root@localhost'),
-(6, 9, 'Aguardando Pagamento', 'Pagamento Recebido\n', '2024-05-26 02:21:04', 'root@localhost'),
-(7, 9, 'Pagamento Recebido\n', 'Processando', '2024-05-26 02:21:11', 'root@localhost'),
-(8, 9, 'Pagamento Recebido\nProcessando', 'Processando', '2024-05-26 02:21:13', 'root@localhost'),
-(9, 9, 'Processando', 'Enviado', '2024-05-26 02:21:21', 'root@localhost'),
-(10, 9, 'Enviado', 'Entregue', '2024-05-26 02:21:28', 'root@localhost'),
-(11, 9, 'Entregue', 'Concluído', '2024-05-26 02:21:33', 'root@localhost'),
-(12, 10, 'Aguardando Pagamento', 'Pagamento Recebido\n', '2024-05-26 02:27:49', 'root@localhost'),
-(13, 11, 'Aguardando Pagamento', 'Pagamento Recebido', '2024-05-26 02:27:53', 'root@localhost'),
-(14, 12, 'Aguardando Pagamento', 'Pagamento Recebido', '2024-05-26 02:27:57', 'root@localhost'),
-(15, 13, 'Aguardando Pagamento', 'Pagamento Recebido\n', '2024-05-26 02:27:59', 'root@localhost'),
-(16, 14, 'Aguardando Pagamento', 'Pagamento Recebido\n', '2024-05-26 02:28:01', 'root@localhost'),
-(17, 10, 'Pagamento Recebido\n', 'Processando', '2024-05-26 02:28:09', 'root@localhost'),
-(18, 11, 'Pagamento Recebido', 'Processando', '2024-05-26 02:28:11', 'root@localhost'),
-(19, 12, 'Pagamento Recebido', 'Processando', '2024-05-26 02:28:12', 'root@localhost'),
-(20, 13, 'Pagamento Recebido\n', 'Processando', '2024-05-26 02:28:14', 'root@localhost'),
-(21, 14, 'Pagamento Recebido\n', 'Processando', '2024-05-26 02:28:16', 'root@localhost'),
-(22, 10, 'Processando', 'Enviado', '2024-05-26 02:28:29', 'root@localhost'),
-(23, 11, 'Processando', 'Enviado', '2024-05-26 02:28:31', 'root@localhost'),
-(24, 13, 'Processando', 'Enviado', '2024-05-26 02:28:32', 'root@localhost'),
-(25, 14, 'Processando', 'Enviado', '2024-05-26 02:28:34', 'root@localhost'),
-(26, 12, 'Processando', 'Cancelado', '2024-05-26 02:28:40', 'root@localhost'),
-(27, 10, 'Enviado', 'Entregue', '2024-05-26 02:28:46', 'root@localhost'),
-(28, 11, 'Enviado', 'Entregue', '2024-05-26 02:28:47', 'root@localhost'),
-(29, 13, 'Enviado', 'Entregue', '2024-05-26 02:28:49', 'root@localhost'),
-(30, 14, 'Enviado', 'Entregue', '2024-05-26 02:28:50', 'root@localhost'),
-(31, 10, 'Entregue', 'Concluído', '2024-05-26 02:28:57', 'root@localhost'),
-(32, 11, 'Entregue', 'Concluído', '2024-05-26 02:28:59', 'root@localhost'),
-(33, 13, 'Entregue', 'Concluído', '2024-05-26 02:29:02', 'root@localhost'),
-(34, 14, 'Entregue', 'Concluído', '2024-05-26 02:29:04', 'root@localhost'),
-(35, 15, 'Aguardando Pagamento', 'Pagamento Recebido', '2024-05-26 02:54:07', 'root@localhost'),
-(36, 15, 'Pagamento Recebido', 'Processando', '2024-05-26 02:55:03', 'root@localhost'),
-(37, 15, 'Processando', 'Enviado', '2024-05-26 02:55:26', 'root@localhost'),
-(38, 15, 'Enviado', 'Entregue', '2024-05-26 02:57:00', 'root@localhost'),
-(39, 15, 'Entregue', 'Concluído', '2024-05-26 02:57:05', 'root@localhost'),
-(40, 16, 'Aguardando Pagamento', 'Pagamento Recebido', '2024-05-26 03:04:41', 'root@localhost'),
-(41, 16, 'Pagamento Recebido', 'Processando', '2024-05-26 03:05:19', 'root@localhost'),
-(42, 16, 'Processando', 'Enviado', '2024-05-26 03:05:24', 'root@localhost'),
-(43, 16, 'Enviado', 'Entregue', '2024-05-26 03:05:28', 'root@localhost'),
-(44, 16, 'Entregue', 'Concluído', '2024-05-26 03:05:32', 'root@localhost'),
-(45, 17, 'Aguardando Pagamento', 'Pagamento Recebido', '2024-05-26 03:08:59', 'root@localhost'),
-(46, 17, 'Pagamento Recebido', 'Concluído', '2024-05-26 03:09:35', 'root@localhost'),
-(47, 18, 'Aguardando Pagamento', 'Pagamento Recebido', '2024-05-26 03:11:35', 'root@localhost'),
-(48, 18, 'Pagamento Recebido', 'Concluído', '2024-05-26 03:12:23', 'root@localhost'),
-(49, 19, 'Aguardando Pagamento', 'Concluído', '2024-05-26 03:14:46', 'root@localhost'),
-(50, 21, 'Aguardando Pagamento', 'Pagamento Recebido', '2024-05-26 03:40:50', 'root@localhost'),
-(51, 21, 'Pagamento Recebido', 'Concluído', '2024-05-26 03:41:21', 'root@localhost'),
-(52, 20, 'Aguardando Pagamento', 'Pagamento Recebido', '2024-05-26 03:53:55', 'root@localhost'),
-(53, 20, 'Pagamento Recebido', 'Concluído', '2024-05-26 03:54:35', 'root@localhost'),
-(54, 1, 'Concluído', 'Cancelado', '2024-05-26 15:31:30', 'root@localhost'),
-(55, 2, 'Concluído', 'Cancelado', '2024-05-26 15:31:33', 'root@localhost'),
-(56, 3, 'Concluído', 'Cancelado', '2024-05-26 15:31:35', 'root@localhost'),
-(57, 4, 'Concluído', 'Cancelado', '2024-05-26 15:31:36', 'root@localhost'),
-(58, 5, 'Concluído', 'Cancelado', '2024-05-26 15:31:37', 'root@localhost'),
-(59, 7, 'Concluído', 'Cancelado', '2024-05-26 15:31:39', 'root@localhost'),
-(60, 9, 'Concluído', 'Cancelado', '2024-05-26 15:31:40', 'root@localhost'),
-(61, 10, 'Concluído', 'Cancelado', '2024-05-26 15:31:42', 'root@localhost'),
-(62, 11, 'Concluído', 'Cancelado', '2024-05-26 15:31:43', 'root@localhost'),
-(63, 13, 'Concluído', 'Cancelado', '2024-05-26 15:31:45', 'root@localhost'),
-(64, 14, 'Concluído', 'Cancelado', '2024-05-26 15:31:46', 'root@localhost'),
-(65, 15, 'Concluído', 'Cancelado', '2024-05-26 15:31:47', 'root@localhost'),
-(66, 16, 'Concluído', 'Cancelado', '2024-05-26 15:31:48', 'root@localhost'),
-(67, 17, 'Concluído', 'Cancelado', '2024-05-26 15:31:49', 'root@localhost'),
-(68, 18, 'Concluído', 'Cancelado', '2024-05-26 15:31:50', 'root@localhost'),
-(69, 19, 'Concluído', 'Cancelado', '2024-05-26 15:31:51', 'root@localhost'),
-(70, 20, 'Concluído', 'Cancelado', '2024-05-26 15:31:52', 'root@localhost'),
-(71, 21, 'Concluído', 'Cancelado', '2024-05-26 15:31:53', 'root@localhost'),
-(72, 22, 'Aguardando Pagamento', 'Pagamento Recebido', '2024-05-26 15:56:06', 'root@localhost'),
-(73, 23, 'Aguardando Pagamento', 'Pagamento Recebido', '2024-05-26 15:56:25', 'root@localhost'),
-(74, 24, 'Aguardando Pagamento', 'Pagamento Recebido', '2024-05-26 15:56:27', 'root@localhost'),
-(75, 25, 'Aguardando Pagamento', 'Pagamento Recebido', '2024-05-26 15:56:28', 'root@localhost'),
-(76, 22, 'Pagamento Recebido', 'Concluído', '2024-05-26 15:56:57', 'root@localhost'),
-(77, 23, 'Pagamento Recebido', 'Concluído', '2024-05-26 16:01:44', 'root@localhost'),
-(78, 24, 'Pagamento Recebido', 'Concluído', '2024-05-26 16:09:59', 'root@localhost'),
-(79, 25, 'Pagamento Recebido', 'Concluído', '2024-05-26 16:10:23', 'root@localhost'),
-(80, 26, 'Aguardando Pagamento', 'Cancelado', '2024-05-26 16:11:40', 'root@localhost'),
-(81, 27, 'Aguardando Pagamento', 'Pagamento Recebido', '2024-05-26 16:16:48', 'root@localhost'),
-(82, 27, 'Pagamento Recebido', 'Concluído', '2024-05-26 16:17:07', 'root@localhost'),
-(83, 27, 'Concluído', 'Pagamento Recebido', '2024-05-26 17:47:57', 'root@localhost'),
-(84, 28, 'Aguardando Pagamento', 'Pagamento Recebido', '2024-05-26 17:48:00', 'root@localhost'),
-(85, 29, 'Aguardando Pagamento', 'Pagamento Recebido', '2024-05-26 17:48:01', 'root@localhost'),
-(86, 30, 'Aguardando Pagamento', 'Pagamento Recebido', '2024-05-26 17:48:02', 'root@localhost'),
-(87, 27, 'Pagamento Recebido', 'Concluído', '2024-05-26 17:48:27', 'root@localhost'),
-(88, 28, 'Pagamento Recebido', 'Concluído', '2024-05-26 17:48:34', 'root@localhost'),
-(89, 29, 'Pagamento Recebido', 'Concluído', '2024-05-26 17:48:36', 'root@localhost'),
-(90, 30, 'Pagamento Recebido', 'Concluído', '2024-05-26 17:48:44', 'root@localhost'),
-(91, 31, 'Aguardando Pagamento', 'Cancelado', '2024-05-26 17:49:37', 'root@localhost'),
-(92, 32, 'Aguardando Pagamento', 'Pagamento Recebido', '2024-05-26 19:02:47', 'root@localhost'),
-(93, 32, 'Pagamento Recebido', 'Concluído', '2024-05-26 19:03:07', 'root@localhost'),
-(94, 39, 'Aguardando Pagamento', 'Pagamento Recebido', '2024-05-26 19:17:06', 'root@localhost'),
-(95, 39, 'Pagamento Recebido', 'Concluído', '2024-05-26 19:25:37', 'root@localhost');
 
 -- --------------------------------------------------------
 
@@ -1007,13 +861,13 @@ ALTER TABLE `showcase_products`
 -- AUTO_INCREMENT for table `transactions`
 --
 ALTER TABLE `transactions`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=40;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `transaction_status_history`
 --
 ALTER TABLE `transaction_status_history`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=96;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `users`
