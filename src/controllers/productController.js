@@ -1,5 +1,22 @@
-const { parse } = require('path');
 const { queryAsync } = require('../db');
+
+const STATUS_CODES = {
+    NOT_FOUND: 404,
+    BAD_REQUEST: 400,
+    INTERNAL_SERVER_ERROR: 500
+};
+
+const ERRORS = {
+    PRODUCT_NOT_FOUND: 'Product not found',
+    PRODUCT_NOT_AVAILABLE: 'Product is not available',
+    BUYER_ADDRESS_NOT_FOUND: 'Buyer address not found',
+    SELLER_ADDRESS_NOT_FOUND: 'Seller address not found',
+    TRANSACTION_NOT_FOUND: 'Transaction not found',
+    WALLET_NOT_FOUND: 'Wallet not found',
+    INSUFFICIENT_WITHDRAWABLE_FUNDS: 'Insufficient withdrawable funds',
+    INSUFFICIENT_BALANCE: 'Insufficient balance',
+    INTERNAL_SERVER_ERROR: 'Internal Server Error'
+};
 
 // Interface to represent a product
 const getProducts = async (req, res) => {
@@ -374,4 +391,52 @@ const deleteProductById = async (req, res) => {
     }
 };
 
-module.exports = { getProducts, getProductById, createProduct, updateProductById, deleteProductById, getProductBySlug, searchProducts };
+const getSellerInfo = async (req, res) => {
+    const sellerId = parseInt(req.params.id, 10);
+
+    if (isNaN(sellerId)) {
+        return res.status(STATUS_CODES.BAD_REQUEST).json({ error: ERRORS.BAD_REQUEST });
+    }
+
+    try {
+        // Fetch basic seller info
+        const sellerInfo = await queryAsync(`
+            SELECT u.name, u.user_image, a.city, a.state
+            FROM users u
+            JOIN user_addresses ua ON u.id = ua.user_id
+            JOIN addresses a ON ua.address_id = a.id
+            WHERE u.id = ? AND ua.main_address = 1
+        `, [sellerId]);
+
+        if (sellerInfo.length === 0) {
+            return res.status(STATUS_CODES.NOT_FOUND).json({ error: ERRORS.SELLER_ADDRESS_NOT_FOUND });
+        }
+
+        // Fetch sales done
+        const salesDone = await queryAsync('SELECT COUNT(*) as sales_done FROM transactions WHERE seller_id = ? AND status = "Concluído"', [sellerId]);
+        
+        // Fetch announced products
+        const announcedProducts = await queryAsync('SELECT COUNT(*) as announced_products FROM products WHERE seller_id = ?', [sellerId]);
+        
+        // Fetch canceled sales
+        const canceledSales = await queryAsync('SELECT COUNT(*) as canceled_sales FROM transactions WHERE seller_id = ? AND status = "Cancelado"', [sellerId]);
+
+        // Combine all the information
+        const sellerDetails = {
+            name: sellerInfo[0].name,
+            profile_picture: sellerInfo[0].user_image ? `http://localhost:${process.env.PORT}/uploads/users/${sellerInfo[0].user_image}` : null,
+            city: sellerInfo[0].city,
+            state: sellerInfo[0].state,
+            sales_done: salesDone[0].sales_done,
+            announced_products: announcedProducts[0].announced_products,
+            canceled_sales: canceledSales[0].canceled_sales
+        };
+
+        res.json(sellerDetails);
+    } catch (error) {
+        console.error('Error fetching seller info:', error);
+        res.status(STATUS_CODES.INTERNAL_SERVER_ERROR).json({ error: ERRORS.INTERNAL_SERVER_ERROR });
+    }
+};
+
+module.exports = { getProducts, getProductById, createProduct, updateProductById, deleteProductById, getProductBySlug, searchProducts, getSellerInfo };

@@ -2,6 +2,24 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const { queryAsync } = require('../db');
 
+const STATUS_CODES = {
+  NOT_FOUND: 404,
+  BAD_REQUEST: 400,
+  INTERNAL_SERVER_ERROR: 500
+};
+
+const ERRORS = {
+  PRODUCT_NOT_FOUND: 'Product not found',
+  PRODUCT_NOT_AVAILABLE: 'Product is not available',
+  BUYER_ADDRESS_NOT_FOUND: 'Buyer address not found',
+  SELLER_ADDRESS_NOT_FOUND: 'Seller address not found',
+  TRANSACTION_NOT_FOUND: 'Transaction not found',
+  WALLET_NOT_FOUND: 'Wallet not found',
+  INSUFFICIENT_WITHDRAWABLE_FUNDS: 'Insufficient withdrawable funds',
+  INSUFFICIENT_BALANCE: 'Insufficient balance',
+  INTERNAL_SERVER_ERROR: 'Internal Server Error'
+};
+
 /**
  * Controller function for user registration.
  */
@@ -76,7 +94,7 @@ const register = async (req, res) => {
 
     userQuery += ` (${userFields}) VALUES (${userPlaceholders})`;
 
-    console.log(userQuery, userFields,userPlaceholders)
+    console.log(userQuery, userFields, userPlaceholders)
 
     const userResult = await queryAsync(userQuery, userValues);
 
@@ -379,14 +397,14 @@ const getAllInfoFromUser = async (req, res) => {
         statusHistory = transaction.status_history.split('; ').map(entry => {
           const [statusChange, changedAt] = entry.split(' at ');
           const [oldStatus, newStatus] = statusChange.split(' -> ');
-          return { 
+          return {
             newStatus: newStatus.trim(),
             oldStatus: oldStatus.trim(),
             changedAt: new Date(changedAt.trim()).toISOString()
           };
         });
       }
-    
+
       return {
         id: transaction.id,
         status: transaction.status,
@@ -436,4 +454,52 @@ const getAllInfoFromUser = async (req, res) => {
   }
 };
 
-module.exports = { register, login, getUsers, getUserById, getProductsFromUser, getAllInfoFromUser, updateUser };
+const getOrdersByUserId = async (req, res) => {
+  const userId = parseInt(req.params.id, 10);
+
+  if (isNaN(userId)) {
+      return res.status(STATUS_CODES.BAD_REQUEST).json({ error: ERRORS.BAD_REQUEST });
+  }
+
+  try {
+      const orders = await queryAsync(`
+          SELECT 
+              t.id AS transaction_id,
+              t.buyer_id,
+              t.seller_id,
+              t.product_id,
+              t.quantity,
+              t.total_amount,
+              t.transaction_type,
+              t.payment_method,
+              t.shipping_method,
+              t.status,
+              t.created_at,
+              p.name AS product_name,
+              (SELECT JSON_OBJECT('id', ua.id, 'city', a.city, 'state', a.state, 'street', a.street, 'number', a.number) 
+               FROM user_addresses ua 
+               JOIN addresses a ON ua.address_id = a.id 
+               WHERE ua.user_id = t.buyer_id AND ua.main_address = 1) AS buyer_address,
+              (SELECT JSON_OBJECT('id', ua.id, 'city', a.city, 'state', a.state, 'street', a.street, 'number', a.number) 
+               FROM user_addresses ua 
+               JOIN addresses a ON ua.address_id = a.id 
+               WHERE ua.user_id = t.seller_id AND ua.main_address = 1) AS seller_address
+          FROM transactions t
+          JOIN products p ON t.product_id = p.id
+          WHERE t.buyer_id = ?
+      `, [userId]);
+
+      const parsedOrders = orders.map(order => ({
+          ...order,
+          buyer_address: JSON.parse(order.buyer_address),
+          seller_address: JSON.parse(order.seller_address)
+      }));
+
+      res.json(parsedOrders);
+  } catch (error) {
+      console.error('Error fetching orders:', error);
+      res.status(STATUS_CODES.INTERNAL_SERVER_ERROR).json({ error: ERRORS.INTERNAL_SERVER_ERROR });
+  }
+};
+
+module.exports = { register, login, getUsers, getUserById, getProductsFromUser, getAllInfoFromUser, updateUser, getOrdersByUserId };

@@ -2,7 +2,7 @@ const express = require('express');
 const cors = require('cors');
 const dotenv = require('dotenv');
 const bodyParser = require('body-parser');
-const { register, login, updateUser, getProductsFromUser, getAllInfoFromUser, getUserById, getUsers } = require('./controllers/authController');
+const { register, login, updateUser, getOrdersByUserId, getProductsFromUser, getAllInfoFromUser, getUserById, getUsers } = require('./controllers/authController');
 const path = require('path')
 const { handleSingleImageUpload } = require('./middleware/uploadsMiddleware');
 
@@ -20,6 +20,7 @@ dotenv.config();
 // Initialize Express application
 const app = express();
 const PORT = process.env.PORT || 3001;
+const HOST = process.env.HOST || `localhost`
 
 // Middleware
 app.use(cors()); // Enable CORS
@@ -33,9 +34,10 @@ app.post('/users/login', login);
 app.post('/users/register', handleSingleImageUpload, register);
 app.patch('/users/update/:id', verifyToken, handleSingleImageUpload, updateUser);
 app.get('/users/', getUsers);
-app.get('/users/:id', getUserById);
-app.get('/users/:id/products', getProductsFromUser);
-app.get('/users/:id/info', getAllInfoFromUser);
+app.get('/users/:id', verifyToken, getUserById);
+app.get('/users/:id/products', verifyToken, getProductsFromUser);
+app.get('/users/:id/info', verifyToken, getAllInfoFromUser);
+app.get('/users/:id/orders', verifyToken, getOrdersByUserId);
 
 app.use('/products', productsRouter);
 app.use('/categories', categoriesRouter);
@@ -54,5 +56,5 @@ app.get('*', (req, res) => {
 });
 
 app.listen(PORT, () => {
-  console.log(`Server is running on http://localhost:${PORT}`);
+  console.log(`Server is running on http://${HOST}:${PORT}`);
 });
