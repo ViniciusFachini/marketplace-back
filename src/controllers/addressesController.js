@@ -90,28 +90,62 @@ const deleteAddressById = async (req, res) => {
 const linkUserToAddress = async (req, res) => {
     const { userId, addressId, title } = req.body;
     try {
-      // Check if the user exists
-      const userExists = await queryAsync('SELECT * FROM users WHERE id = ?', [userId]);
-  
-      if (userExists.length === 0) {
-        return res.status(404).json({ error: 'User not found' });
-      }
-  
-      // Check if the address exists
-      const addressExists = await queryAsync('SELECT * FROM addresses WHERE id = ?', [addressId]);
-  
-      if (addressExists.length === 0) {
-        return res.status(404).json({ error: 'Address not found' });
-      }
-  
-      // Insert a new row into the user_addresses table
-      await queryAsync('INSERT INTO user_addresses (user_id, address_id, title) VALUES (?, ?, ?)', [userId, addressId, title]);
-  
-      res.json({ message: 'User linked to address successfully' });
-    } catch (error) {
-      console.error('Error linking user to address:', error);
-      res.status(500).json({ error: 'Internal Server Error' });
-    }
-  };
+        // Check if the user exists
+        const userExists = await queryAsync('SELECT * FROM users WHERE id = ?', [userId]);
 
-module.exports = { getAddresses, getAddressById, createAddress, updateAddressById, deleteAddressById, linkUserToAddress };
+        if (userExists.length === 0) {
+            return res.status(404).json({ error: 'User not found' });
+        }
+
+        // Check if the address exists
+        const addressExists = await queryAsync('SELECT * FROM addresses WHERE id = ?', [addressId]);
+
+        if (addressExists.length === 0) {
+            return res.status(404).json({ error: 'Address not found' });
+        }
+
+        // Insert a new row into the user_addresses table
+        await queryAsync('INSERT INTO user_addresses (user_id, address_id, title) VALUES (?, ?, ?)', [userId, addressId, title]);
+
+        res.json({ message: 'User linked to address successfully' });
+    } catch (error) {
+        console.error('Error linking user to address:', error);
+        res.status(500).json({ error: 'Internal Server Error' });
+    }
+};
+
+const createAndLinkAddress = async (req, res) => {
+    const { street, neighbourhood, number, city, state, postal_code, country, userId, title } = req.body;
+
+    try {
+        // Insert the new address into the addresses table
+        const addressResult = await queryAsync('INSERT INTO addresses (street, neighbourhood, number, city, state, postal_code, country) VALUES (?, ?, ?, ?, ?, ?, ?)', [street, neighbourhood, number, city, state, postal_code, country]);
+
+        const addressId = addressResult.insertId;
+
+        // Check if the user exists
+        const userExists = await queryAsync('SELECT * FROM users WHERE id = ?', [userId]);
+        if (userExists.length === 0) {
+            return res.status(404).json({ error: 'User not found' });
+        }
+
+        // Check if the user already has addresses linked
+        const userAddresses = await queryAsync('SELECT * FROM user_addresses WHERE user_id = ?', [userId]);
+        const isFirstAddress = userAddresses.length === 0;
+
+        // Insert the new row into the user_addresses table
+        await queryAsync('INSERT INTO user_addresses (user_id, address_id, title) VALUES (?, ?, ?)', [userId, addressId, title]);
+
+        // If this is the first address for the user, set it as the main_address
+        if (isFirstAddress) {
+            await queryAsync('UPDATE user_addresses SET main_address = ? WHERE address_id = ?', [1, addressId]);
+        }
+
+        res.status(201).json({ message: 'Address created and user linked successfully', addressId });
+    } catch (error) {
+        console.error('Error creating and linking address:', error);
+        res.status(500).json({ error: 'Internal Server Error' });
+    }
+};
+
+module.exports = { getAddresses, getAddressById, createAddress, updateAddressById, deleteAddressById, linkUserToAddress, createAndLinkAddress };

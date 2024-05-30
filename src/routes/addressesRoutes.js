@@ -5,7 +5,8 @@ const {
   updateAddressById,
   linkUserToAddress,
   createAddress,
-  deleteAddressById
+  deleteAddressById,
+  createAndLinkAddress
 } = require('../controllers/addressesController');
 const { verifyToken } = require('../middleware/authentication');
 
@@ -16,6 +17,7 @@ router.get('/:id', verifyToken, getAddressById);
 router.patch('/:id', verifyToken, updateAddressById);
 router.patch('/', verifyToken, linkUserToAddress);
 router.post('/', verifyToken, createAddress);
+router.post('/create-and-link', verifyToken, createAndLinkAddress);
 router.delete('/:id', verifyToken, deleteAddressById);
 
 module.exports = router;
