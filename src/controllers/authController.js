@@ -329,7 +329,7 @@ const getAllInfoFromUser = async (req, res) => {
 
     // Fetch user addresses
     const addressesResults = await queryAsync(`
-      SELECT ua.title, ua.main_address, a.street, a.city, a.state, a.postal_code, a.country
+      SELECT ua.title, ua.main_address, a.street, a.city, a.state, a.postal_code, a.country, a.number
       FROM User_Addresses ua
       LEFT JOIN Addresses a ON ua.address_id = a.id
       WHERE ua.user_id = ?
@@ -342,6 +342,7 @@ const getAllInfoFromUser = async (req, res) => {
       state: address.state,
       postalCode: address.postal_code,
       country: address.country,
+      number: address.number,
       isMainAddress: address.main_address === 1
     }));
 
