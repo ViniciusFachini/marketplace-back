@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 29, 2024 at 11:03 PM
+-- Generation Time: May 31, 2024 at 05:32 PM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.2.4
 
@@ -49,7 +49,8 @@ INSERT INTO `addresses` (`id`, `street`, `neighbourhood`, `number`, `city`, `sta
 (3, 'Praça Hermínio Elorza', 'Centro', 448, 'Osvaldo Cruz', 'São Paulo', '17700-000', 'Brasil', '2024-05-23 15:41:36'),
 (4, 'Praça Hermínio Elorza', 'Centro', 448, 'Osvaldo Cruz', 'São Paulo', '17700-000', 'Brasil', '2024-05-25 17:34:27'),
 (5, 'Praça Hermínio Elorza', 'Centro', 448, 'Osvaldo Cruz', 'São Paulo', '17700-000', 'Brasil', '2024-05-25 17:34:29'),
-(6, '17700000', 'Centro', 525, 'Osvaldo Cruz', 'São Paulo', '17700000', 'Brasil', '2024-05-28 18:13:18');
+(6, '17700000', 'Centro', 525, 'Osvaldo Cruz', 'São Paulo', '17700000', 'Brasil', '2024-05-28 18:13:18'),
+(7, 'Rua dos Bobos', 'Centro', 0, 'Osvaldo Cruz', 'SP', '17700-000', 'Brasil', '2024-05-30 17:54:36');
 
 -- --------------------------------------------------------
 
@@ -137,11 +138,11 @@ INSERT INTO `products` (`id`, `seller_id`, `name`, `description`, `brand`, `mode
 (9, 1, 'Tênis Nike Structure 25 Masculino\n\n', 'Com estabilidade onde você precisa, amortecimento onde você quer, o Structure 25 proporciona suporte para longas quilometragens, corridas curtas e até mesmo descanso antes do final do dia. Ele tem a estabilidade que você busca, lealdade desde a primeira amarração, testada e confiável, com um sistema de mediopé que oferece suporte total e amortecimento mais confortável do que antes.', 'Nike', 'Nike Structure', 'Novo', 721.99, 1, '2024-05-18 23:13:45', 'tenis-nike-structure-25-masculino-9', 'tenis-nike-structure-25-masculino-9'),
 (10, 1, 'Tênis Nike Structure 25 Masculino\n\n', 'Com estabilidade onde você precisa, amortecimento onde você quer, o Structure 25 proporciona suporte para longas quilometragens, corridas curtas e até mesmo descanso antes do final do dia. Ele tem a estabilidade que você busca, lealdade desde a primeira amarração, testada e confiável, com um sistema de mediopé que oferece suporte total e amortecimento mais confortável do que antes.', 'Nike', 'Nike Structure', 'Novo', 721.99, 1, '2024-05-18 23:13:46', 'tenis-nike-structure-25-masculino-10', 'tenis-nike-structure-25-masculino-10'),
 (11, 1, 'Tênis Nike Structure 25 Masculino\n\n', 'Com estabilidade onde você precisa, amortecimento onde você quer, o Structure 25 proporciona suporte para longas quilometragens, corridas curtas e até mesmo descanso antes do final do dia. Ele tem a estabilidade que você busca, lealdade desde a primeira amarração, testada e confiável, com um sistema de mediopé que oferece suporte total e amortecimento mais confortável do que antes.', 'Nike', 'Nike Structure', 'Novo', 721.99, 1, '2024-05-18 23:13:46', 'tenis-nike-structure-25-masculino-11', 'tenis-nike-structure-25-masculino-11'),
-(12, 1, 'Tênis Nike Structure 25 Masculino\n\n', 'Com estabilidade onde você precisa, amortecimento onde você quer, o Structure 25 proporciona suporte para longas quilometragens, corridas curtas e até mesmo descanso antes do final do dia. Ele tem a estabilidade que você busca, lealdade desde a primeira amarração, testada e confiável, com um sistema de mediopé que oferece suporte total e amortecimento mais confortável do que antes.', 'Nike', 'Nike Structure', 'Novo', 721.99, 1, '2024-05-18 23:13:47', 'tenis-nike-structure-25-masculino-12', 'tenis-nike-structure-25-masculino-12'),
-(13, 1, 'Tênis Nike Structure 25 Masculino\n\n', 'Com estabilidade onde você precisa, amortecimento onde você quer, o Structure 25 proporciona suporte para longas quilometragens, corridas curtas e até mesmo descanso antes do final do dia. Ele tem a estabilidade que você busca, lealdade desde a primeira amarração, testada e confiável, com um sistema de mediopé que oferece suporte total e amortecimento mais confortável do que antes.', 'Nike', 'Nike Structure', 'Novo', 721.99, 1, '2024-05-18 23:13:48', 'tenis-nike-structure-25-masculino-13', 'tenis-nike-structure-25-masculino-13'),
-(14, 1, 'Tênis Nike Structure 25 Masculino\n\n', 'Com estabilidade onde você precisa, amortecimento onde você quer, o Structure 25 proporciona suporte para longas quilometragens, corridas curtas e até mesmo descanso antes do final do dia. Ele tem a estabilidade que você busca, lealdade desde a primeira amarração, testada e confiável, com um sistema de mediopé que oferece suporte total e amortecimento mais confortável do que antes.', 'Nike', 'Nike Structure', 'Novo', 721.99, 1, '2024-05-18 23:13:48', 'tenis-nike-structure-25-masculino-14', 'tenis-nike-structure-25-masculino-14'),
-(15, 1, 'Tênis Nike Structure 25 Masculino\n\n', 'Com estabilidade onde você precisa, amortecimento onde você quer, o Structure 25 proporciona suporte para longas quilometragens, corridas curtas e até mesmo descanso antes do final do dia. Ele tem a estabilidade que você busca, lealdade desde a primeira amarração, testada e confiável, com um sistema de mediopé que oferece suporte total e amortecimento mais confortável do que antes.', 'Nike', 'Nike Structure', 'Novo', 721.99, 1, '2024-05-18 23:13:49', 'tenis-nike-structure-25-masculino-15', 'tenis-nike-structure-25-masculino-15'),
-(16, 1, 'Tênis Nike Structure 25 Masculino\n\n', 'Com estabilidade onde você precisa, amortecimento onde você quer, o Structure 25 proporciona suporte para longas quilometragens, corridas curtas e até mesmo descanso antes do final do dia. Ele tem a estabilidade que você busca, lealdade desde a primeira amarração, testada e confiável, com um sistema de mediopé que oferece suporte total e amortecimento mais confortável do que antes.', 'Nike', 'Nike Structure', 'Novo', 721.99, 1, '2024-05-18 23:13:50', 'tenis-nike-structure-25-masculino-16', 'tenis-nike-structure-25-masculino-16'),
+(12, 1, 'Tênis Nike Structure 25 Masculino\n\n', 'Com estabilidade onde você precisa, amortecimento onde você quer, o Structure 25 proporciona suporte para longas quilometragens, corridas curtas e até mesmo descanso antes do final do dia. Ele tem a estabilidade que você busca, lealdade desde a primeira amarração, testada e confiável, com um sistema de mediopé que oferece suporte total e amortecimento mais confortável do que antes.', 'Nike', 'Nike Structure', 'Novo', 721.99, 0, '2024-05-18 23:13:47', 'tenis-nike-structure-25-masculino-12', 'tenis-nike-structure-25-masculino-12'),
+(13, 1, 'Tênis Nike Structure 25 Masculino\n\n', 'Com estabilidade onde você precisa, amortecimento onde você quer, o Structure 25 proporciona suporte para longas quilometragens, corridas curtas e até mesmo descanso antes do final do dia. Ele tem a estabilidade que você busca, lealdade desde a primeira amarração, testada e confiável, com um sistema de mediopé que oferece suporte total e amortecimento mais confortável do que antes.', 'Nike', 'Nike Structure', 'Novo', 721.99, 0, '2024-05-18 23:13:48', 'tenis-nike-structure-25-masculino-13', 'tenis-nike-structure-25-masculino-13'),
+(14, 1, 'Tênis Nike Structure 25 Masculino\n\n', 'Com estabilidade onde você precisa, amortecimento onde você quer, o Structure 25 proporciona suporte para longas quilometragens, corridas curtas e até mesmo descanso antes do final do dia. Ele tem a estabilidade que você busca, lealdade desde a primeira amarração, testada e confiável, com um sistema de mediopé que oferece suporte total e amortecimento mais confortável do que antes.', 'Nike', 'Nike Structure', 'Novo', 721.99, 0, '2024-05-18 23:13:48', 'tenis-nike-structure-25-masculino-14', 'tenis-nike-structure-25-masculino-14'),
+(15, 1, 'Tênis Nike Structure 25 Masculino\n\n', 'Com estabilidade onde você precisa, amortecimento onde você quer, o Structure 25 proporciona suporte para longas quilometragens, corridas curtas e até mesmo descanso antes do final do dia. Ele tem a estabilidade que você busca, lealdade desde a primeira amarração, testada e confiável, com um sistema de mediopé que oferece suporte total e amortecimento mais confortável do que antes.', 'Nike', 'Nike Structure', 'Novo', 721.99, 0, '2024-05-18 23:13:49', 'tenis-nike-structure-25-masculino-15', 'tenis-nike-structure-25-masculino-15'),
+(16, 1, 'Tênis Nike Structure 25 Masculino\n\n', 'Com estabilidade onde você precisa, amortecimento onde você quer, o Structure 25 proporciona suporte para longas quilometragens, corridas curtas e até mesmo descanso antes do final do dia. Ele tem a estabilidade que você busca, lealdade desde a primeira amarração, testada e confiável, com um sistema de mediopé que oferece suporte total e amortecimento mais confortável do que antes.', 'Nike', 'Nike Structure', 'Novo', 721.99, 0, '2024-05-18 23:13:50', 'tenis-nike-structure-25-masculino-16', 'tenis-nike-structure-25-masculino-16'),
 (17, 1, 'Tênis Nike Structure 25 Masculino\n\n', 'Com estabilidade onde você precisa, amortecimento onde você quer, o Structure 25 proporciona suporte para longas quilometragens, corridas curtas e até mesmo descanso antes do final do dia. Ele tem a estabilidade que você busca, lealdade desde a primeira amarração, testada e confiável, com um sistema de mediopé que oferece suporte total e amortecimento mais confortável do que antes.', 'Nike', 'Nike Structure', 'Novo', 721.99, 1, '2024-05-18 23:40:29', 'tenis-nike-structure-25-masculino-17', 'tenis-nike-structure-25-masculino-17'),
 (18, 1, 'Bota Eliane Cano Curto Salto Médio Gelo\n', 'Elegante e fashion. Com a Bota Cano Curto Eliane Salto Médio Gelo, você estará sempre pronta para qualquer ocasião, sem abrir mão do conforto. O gelo é uma tendência neutra e suave que transmite serenidade ao look. Leve e flexível, esse modelo foi pensado nas necessidades de todas as mulheres. O acabamento confortável e o forro superfofinho torna-a indispensável para quem precisa ficar horas de pé no trabalho. Ela também oferece máxima absorção controlando tanto umidade quanto temperatura. Já o superamortecimento da bota proporciona maior absorção de impactos. Para as mulheres que não dispensam o jeans, use esse modelo e dobre as barras da calça para realçar os seus pés. PICCADILLY, caminhe em direção ao novo e se surpreenda com o conforto! Você sabia que todos os produtos da PICCADILLY têm o Calce Perfeito? É um conjunto de benefícios exclusivos que respeita a anatomia do pé, diminui o cansaço e permite que você vá mais longe nas suas jornadas diárias.\n', 'Piccadilly', 'Nike Structure', 'Usado', 389.90, 1, '2024-05-19 21:17:35', 'bota-eliane-cano-curto-salto-medio-gelo-18', 'bota-eliane-cano-curto-salto-medio-gelo-18'),
 (19, 1, 'Bota Eliane Cano Curto Salto Médio Gelo\n', 'Elegante e fashion. Com a Bota Cano Curto Eliane Salto Médio Gelo, você estará sempre pronta para qualquer ocasião, sem abrir mão do conforto. O gelo é uma tendência neutra e suave que transmite serenidade ao look. Leve e flexível, esse modelo foi pensado nas necessidades de todas as mulheres. O acabamento confortável e o forro superfofinho torna-a indispensável para quem precisa ficar horas de pé no trabalho. Ela também oferece máxima absorção controlando tanto umidade quanto temperatura. Já o superamortecimento da bota proporciona maior absorção de impactos. Para as mulheres que não dispensam o jeans, use esse modelo e dobre as barras da calça para realçar os seus pés. PICCADILLY, caminhe em direção ao novo e se surpreenda com o conforto! Você sabia que todos os produtos da PICCADILLY têm o Calce Perfeito? É um conjunto de benefícios exclusivos que respeita a anatomia do pé, diminui o cansaço e permite que você vá mais longe nas suas jornadas diárias.\n', 'Piccadilly', 'Nike Structure', 'Usado', 389.90, 1, '2024-05-19 21:18:25', 'bota-eliane-cano-curto-salto-medio-gelo-19', 'bota-eliane-cano-curto-salto-medio-gelo-19'),
@@ -164,7 +165,7 @@ INSERT INTO `products` (`id`, `seller_id`, `name`, `description`, `brand`, `mode
 (42, 1, '1', '2', '4', '5', 'usado', 61.00, 1, '2024-05-24 20:35:02', '0000001421250330', '1-42'),
 (43, 1, '1', '2', '4', '5', 'usado', 5.00, 1, '2024-05-24 20:36:11', '0000001431741113', '1-43'),
 (44, 1, '1', '2', '4', '5', 'usado', 612.00, 1, '2024-05-25 21:24:26', '0000001441749161', '1-44'),
-(45, 1, 'Vibrador Dildo Prótese 20,3cm x 4,1cm Ponto G Texturizado 10 Modos de Vibração com Controle Remoto - LILO', 'Vibrador Dildo Prótese 20,3cm x 4,1cm Ponto G Texturizado 10 Modos de Vibração com Controle Remoto Alta flexibilidade permitindo criar diversos movimentos. Surpreende pelo seu realismo e incrível semelhança com um pênis real. Produto com altíssima qualidade levando em consideração prazer e segurança. Sua maciez é incontestável com toque agradável e suave. Possui escroto e ventosa que permite fixação em superfícies lisas. A ventosa permite mãos livres para maior liberdade e usabilidade do produto. Pode-se fixá-lo no box do banheiro por exemplo ou mesmo no revestimento da parede desde que seja liso, resistente à água, o controle remoto não, então quando for usá-lo no banheiro por exemplo, tome cuidado. Composto por vibrador multivelocidade com 10 intensidades de vibração. Confeccionado em TPE 100% atóxico. Formato levando em consideração a riqueza de detalhes como glande, saliências e veias. A vibração fica por conta de um motor potente e silencioso que emite ondas vibrantes e altamente excitantes que proporcionam um prazer inigualável. O manuseio do vibrador é simples e descomplicado, com simples toques é possível acionar o vibrador e alternar os estágios de estimulação. O controle remoto com fio permite seu parceiro ou parceira intensificar e diversificar a brincadeira a dois.  Pênis com glande saltada, escroto e ventosa resistente.Possui 10 níveis de vibração que podem ser controlados através do controle remoto que acompanha o produto.Confeccionado em material macio, possui veias e texturas no corpo da protese, trazendo naturalidade e realismo. Medidas 20,3 cm de comprimento, 4,1cm de largura (medidas aproximadas) Peso: 299g Material: TPE Utiliza:Cabo USB incluso,2 pilhas AAA para controle não inclusas Higienização: Lavar com água e sabão neutro antes e após o uso, evite molhar o compartimento de recarga Seque com papel toalha ou deixe secar naturalmente.', 'Lilo', 'Lilo', 'novo', 99999999.99, 1, '2024-05-26 19:11:35', '0000001451987515', 'vibrador-dildo-protese-203cm-x-41cm-ponto-g-texturizado-10-modos-de-vibracao-com-controle-remoto---lilo-45'),
+(45, 1, 'Vibrador Dildo Prótese 20,3cm x 4,1cm Ponto G Texturizado 10 Modos de Vibração com Controle Remoto - LILO', 'Vibrador Dildo Prótese 20,3cm x 4,1cm Ponto G Texturizado 10 Modos de Vibração com Controle Remoto Alta flexibilidade permitindo criar diversos movimentos. Surpreende pelo seu realismo e incrível semelhança com um pênis real. Produto com altíssima qualidade levando em consideração prazer e segurança. Sua maciez é incontestável com toque agradável e suave. Possui escroto e ventosa que permite fixação em superfícies lisas. A ventosa permite mãos livres para maior liberdade e usabilidade do produto. Pode-se fixá-lo no box do banheiro por exemplo ou mesmo no revestimento da parede desde que seja liso, resistente à água, o controle remoto não, então quando for usá-lo no banheiro por exemplo, tome cuidado. Composto por vibrador multivelocidade com 10 intensidades de vibração. Confeccionado em TPE 100% atóxico. Formato levando em consideração a riqueza de detalhes como glande, saliências e veias. A vibração fica por conta de um motor potente e silencioso que emite ondas vibrantes e altamente excitantes que proporcionam um prazer inigualável. O manuseio do vibrador é simples e descomplicado, com simples toques é possível acionar o vibrador e alternar os estágios de estimulação. O controle remoto com fio permite seu parceiro ou parceira intensificar e diversificar a brincadeira a dois.  Pênis com glande saltada, escroto e ventosa resistente.Possui 10 níveis de vibração que podem ser controlados através do controle remoto que acompanha o produto.Confeccionado em material macio, possui veias e texturas no corpo da protese, trazendo naturalidade e realismo. Medidas 20,3 cm de comprimento, 4,1cm de largura (medidas aproximadas) Peso: 299g Material: TPE Utiliza:Cabo USB incluso,2 pilhas AAA para controle não inclusas Higienização: Lavar com água e sabão neutro antes e após o uso, evite molhar o compartimento de recarga Seque com papel toalha ou deixe secar naturalmente.', 'Lilo', 'Lilo', 'novo', 99999999.99, 0, '2024-05-26 19:11:35', '0000001451987515', 'vibrador-dildo-protese-203cm-x-41cm-ponto-g-texturizado-10-modos-de-vibracao-com-controle-remoto---lilo-45'),
 (46, 15, 'Vagner Com V', 'Boneco de manequim', 'Vagner', 'Vagner Com V', 'semi_novo', 3400.00, 1, '2024-05-28 20:31:28', '0000015460366646', 'vagner-com-v-46');
 
 -- --------------------------------------------------------
@@ -552,11 +553,19 @@ CREATE TABLE `transactions` (
 --
 
 INSERT INTO `transactions` (`id`, `buyer_id`, `seller_id`, `product_id`, `quantity`, `total_amount`, `transaction_type`, `buyer_address_id`, `seller_address_id`, `payment_method`, `shipping_method`, `status`, `created_at`) VALUES
-(1, 7, 1, 1, 1, 721.99, 'Compra', 1, 4, 'Cartão de Débito', 'Envio Expresso', 'Pagamento Recebido', '2024-05-29 20:12:17'),
-(2, 7, 1, 5, 1, 721.99, 'Compra', 1, 4, 'Cartão de Débito', 'Envio Expresso', 'Pagamento Recebido', '2024-05-29 20:12:17'),
-(3, 7, 1, 2, 1, 721.99, 'Compra', 1, 4, 'Cartão de Débito', 'Envio Expresso', 'Pagamento Recebido', '2024-05-29 20:12:17'),
-(4, 7, 1, 3, 1, 721.99, 'Compra', 1, 4, 'Cartão de Débito', 'Envio Expresso', 'Pagamento Recebido', '2024-05-29 20:12:17'),
-(5, 7, 1, 4, 1, 721.99, 'Compra', 1, 4, 'Cartão de Débito', 'Envio Expresso', 'Pagamento Recebido', '2024-05-29 20:12:17');
+(1, 7, 1, 1, 1, 721.99, 'Compra', 1, 4, 'Cartão de Débito', 'Envio Expresso', 'Concluído', '2024-05-29 20:12:17'),
+(2, 7, 1, 5, 1, 721.99, 'Compra', 1, 4, 'Cartão de Débito', 'Envio Expresso', 'Concluído', '2024-05-29 20:12:17'),
+(3, 7, 1, 2, 1, 721.99, 'Compra', 1, 4, 'Cartão de Débito', 'Envio Expresso', 'Concluído', '2024-05-29 20:12:17'),
+(4, 7, 1, 3, 1, 721.99, 'Compra', 1, 4, 'Cartão de Débito', 'Envio Expresso', 'Concluído', '2024-05-29 20:12:17'),
+(5, 7, 1, 4, 1, 721.99, 'Compra', 1, 4, 'Cartão de Débito', 'Envio Expresso', 'Concluído', '2024-05-29 20:12:17'),
+(6, 7, 1, 15, 1, 721.99, 'Compra', 1, 4, 'Credito', 'Express', 'Concluído', '2024-05-30 14:34:41'),
+(8, 7, 1, 17, 1, 721.99, 'Compra', 1, 4, 'Pix', 'Express', 'Cancelado', '2024-05-30 21:49:46'),
+(9, 7, 1, 11, 1, 721.99, 'Compra', 1, 4, 'Pix', 'Express', 'Concluído', '2024-05-31 15:03:52'),
+(10, 6, 1, 25, 1, 389.90, 'Compra', 5, 4, 'Boleto', 'Express', 'Cancelado', '2024-05-31 15:17:21'),
+(11, 6, 1, 16, 1, 721.99, 'Compra', 5, 4, 'Boleto', 'Express', 'Concluído', '2024-05-31 15:17:21'),
+(12, 6, 1, 14, 1, 721.99, 'Compra', 5, 4, 'Boleto', 'Express', 'Concluído', '2024-05-31 15:17:21'),
+(13, 6, 1, 13, 1, 721.99, 'Compra', 5, 4, 'Boleto', 'Express', 'Concluído', '2024-05-31 15:17:21'),
+(14, 6, 1, 12, 1, 721.99, 'Compra', 5, 4, 'Boleto', 'Express', 'Concluído', '2024-05-31 15:17:21');
 
 --
 -- Triggers `transactions`
@@ -598,7 +607,34 @@ INSERT INTO `transaction_status_history` (`id`, `transaction_id`, `old_status`, 
 (2, 1, 'Aguardando Pagamento', 'Pagamento Recebido', '2024-05-29 20:59:51', 'root@localhost'),
 (3, 2, 'Aguardando Pagamento', 'Pagamento Recebido', '2024-05-29 20:59:52', 'root@localhost'),
 (4, 3, 'Aguardando Pagamento', 'Pagamento Recebido', '2024-05-29 20:59:53', 'root@localhost'),
-(5, 4, 'Aguardando Pagamento', 'Pagamento Recebido', '2024-05-29 20:59:54', 'root@localhost');
+(5, 4, 'Aguardando Pagamento', 'Pagamento Recebido', '2024-05-29 20:59:54', 'root@localhost'),
+(6, 2, 'Pagamento Recebido', 'Concluído', '2024-05-30 14:53:09', 'root@localhost'),
+(7, 3, 'Pagamento Recebido', 'Concluído', '2024-05-30 17:02:36', 'root@localhost'),
+(8, 7, 'Aguardando Pagamento', 'Pagamento Recebido', '2024-05-30 17:55:58', 'root@localhost'),
+(9, 7, 'Pagamento Recebido', 'Concluído', '2024-05-30 17:56:10', 'root@localhost'),
+(10, 6, 'Aguardando Pagamento', 'Concluído', '2024-05-30 20:16:34', 'root@localhost'),
+(11, 4, 'Pagamento Recebido', 'Concluído', '2024-05-30 20:21:12', 'root@localhost'),
+(12, 1, 'Pagamento Recebido', 'Concluído', '2024-05-30 20:26:37', 'root@localhost'),
+(13, 5, 'Pagamento Recebido', 'Concluído', '2024-05-30 20:27:39', 'root@localhost'),
+(14, 8, 'Aguardando Pagamento', 'Cancelado', '2024-05-31 14:58:12', 'root@localhost'),
+(15, 9, 'Aguardando Pagamento', 'Pagamento Recebido', '2024-05-31 15:05:15', 'root@localhost'),
+(16, 9, 'Pagamento Recebido', 'Processando', '2024-05-31 15:08:45', 'root@localhost'),
+(17, 9, 'Processando', 'Cancelado', '2024-05-31 15:08:59', 'root@localhost'),
+(18, 9, 'Cancelado', 'Concluído', '2024-05-31 15:10:55', 'root@localhost'),
+(19, 10, 'Aguardando Pagamento', 'Pagamento Recebido', '2024-05-31 15:19:16', 'root@localhost'),
+(20, 11, 'Aguardando Pagamento', 'Pagamento Recebido', '2024-05-31 15:19:17', 'root@localhost'),
+(21, 12, 'Aguardando Pagamento', 'Pagamento Recebido', '2024-05-31 15:19:18', 'root@localhost'),
+(22, 13, 'Aguardando Pagamento', 'Pagamento Recebido', '2024-05-31 15:19:19', 'root@localhost'),
+(23, 14, 'Aguardando Pagamento', 'Pagamento Recebido', '2024-05-31 15:19:20', 'root@localhost'),
+(24, 10, 'Pagamento Recebido', 'Cancelado', '2024-05-31 15:20:46', 'root@localhost'),
+(25, 11, 'Pagamento Recebido', 'Enviado', '2024-05-31 15:21:02', 'root@localhost'),
+(26, 12, 'Pagamento Recebido', 'Enviado', '2024-05-31 15:21:10', 'root@localhost'),
+(27, 13, 'Pagamento Recebido', 'Enviado', '2024-05-31 15:21:15', 'root@localhost'),
+(28, 14, 'Pagamento Recebido', 'Enviado', '2024-05-31 15:21:21', 'root@localhost'),
+(29, 11, 'Enviado', 'Concluído', '2024-05-31 15:21:30', 'root@localhost'),
+(30, 12, 'Enviado', 'Concluído', '2024-05-31 15:21:34', 'root@localhost'),
+(31, 13, 'Enviado', 'Concluído', '2024-05-31 15:21:37', 'root@localhost'),
+(32, 14, 'Enviado', 'Concluído', '2024-05-31 15:21:41', 'root@localhost');
 
 -- --------------------------------------------------------
 
@@ -636,7 +672,8 @@ INSERT INTO `users` (`id`, `name`, `email`, `password`, `username`, `user_image`
 (8, '', '', '', '', NULL, '2024-05-28 17:31:50', '2024-05-28 18:10:23', '', 'User', NULL, 0),
 (14, '123', '123@123.123', '$2b$10$UcMbOY91Va9bF3QJdYpU4.pWLAzi1x1HE6nvcoz7OGLfFHD/LJVV2', '123', NULL, '2024-05-28 18:09:04', '2024-05-28 18:10:26', '123', 'User', NULL, 0),
 (15, 'Maicon Küster', 'maiconkusteroficial@gmail.com', '$2b$10$CMCQFzAu8pDbFg8Ey/sJQuUZByF0IFQ6iuxLmXBWduuYcOJydMYcG', 'maiconkusterkk', NULL, '2024-05-28 18:13:18', '2024-05-28 18:13:18', '+55 (18) 99624-8348', 'User', NULL, 0),
-(16, '1', '1@ga.com', '$2b$10$LFGOF2IQfC40j7j5DcjxGuFi6M8dHvhsaABn4JeQjv./uxSz86k.a', '1', NULL, '2024-05-28 20:20:41', '2024-05-28 20:20:41', '123', 'User', NULL, 0);
+(16, '1', '1@ga.com', '$2b$10$LFGOF2IQfC40j7j5DcjxGuFi6M8dHvhsaABn4JeQjv./uxSz86k.a', '1', NULL, '2024-05-28 20:20:41', '2024-05-28 20:20:41', '123', 'User', NULL, 0),
+(17, 'Claudio', 'claudinho@gmail.com', '$2b$10$g2qDM8YYLQOKhlLYD5V.W.osN14jSghbhQ3G7BYtCgu23DziikeVq', 'claudinho', NULL, '2024-05-30 17:53:54', '2024-05-30 17:53:54', '123', 'User', NULL, 0);
 
 --
 -- Triggers `users`
@@ -678,7 +715,8 @@ INSERT INTO `user_addresses` (`id`, `user_id`, `address_id`, `title`, `main_addr
 (8, 6, 5, 'Casa', 1),
 (9, 6, 4, 'Casa', 0),
 (10, 3, 4, NULL, 1),
-(11, 15, 6, 'Trabalho', 1);
+(11, 15, 6, 'Trabalho', 1),
+(12, 17, 7, 'Casa', 1);
 
 -- --------------------------------------------------------
 
@@ -700,17 +738,18 @@ CREATE TABLE `wallets` (
 --
 
 INSERT INTO `wallets` (`id`, `user_id`, `balance`, `withdrawable_amount`, `created_at`, `updated_at`) VALUES
-(1, 2, 961.50, 0.00, '2024-05-26 01:50:30', '2024-05-26 03:54:35'),
+(1, 2, 0.00, 0.00, '2024-05-26 01:50:30', '2024-05-31 15:08:25'),
 (2, 5, 0.00, 0.00, '2024-05-26 01:50:30', '2024-05-26 01:50:30'),
-(3, 6, 0.00, 0.00, '2024-05-26 01:50:30', '2024-05-26 01:50:30'),
-(4, 7, 0.00, 0.00, '2024-05-26 01:50:30', '2024-05-26 01:50:30'),
+(3, 6, 0.00, 0.00, '2024-05-26 01:50:30', '2024-05-31 15:23:46'),
+(4, 7, 0.00, 0.00, '2024-05-26 01:50:30', '2024-05-31 15:24:06'),
 (5, 3, 0.00, 0.00, '2024-05-26 01:50:30', '2024-05-26 01:50:30'),
 (6, 4, 0.00, 0.00, '2024-05-26 01:50:30', '2024-05-26 01:50:30'),
-(7, 1, 3609.95, 0.00, '2024-05-26 01:50:30', '2024-05-29 20:59:54'),
+(7, 1, 0.00, 0.00, '2024-05-26 01:50:30', '2024-05-31 15:23:22'),
 (8, 8, 0.00, 0.00, '2024-05-28 17:31:50', '2024-05-28 17:31:50'),
 (9, 14, 0.00, 0.00, '2024-05-28 18:09:04', '2024-05-28 18:09:04'),
 (10, 15, 0.00, 0.00, '2024-05-28 18:13:18', '2024-05-28 18:13:18'),
-(11, 16, 0.00, 0.00, '2024-05-28 20:20:41', '2024-05-28 20:20:41');
+(11, 16, 0.00, 0.00, '2024-05-28 20:20:41', '2024-05-28 20:20:41'),
+(12, 17, 0.00, 0.00, '2024-05-30 17:53:54', '2024-05-30 17:53:54');
 
 --
 -- Indexes for dumped tables
@@ -829,7 +868,7 @@ ALTER TABLE `wallets`
 -- AUTO_INCREMENT for table `addresses`
 --
 ALTER TABLE `addresses`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `categories`
@@ -883,31 +922,31 @@ ALTER TABLE `showcase_products`
 -- AUTO_INCREMENT for table `transactions`
 --
 ALTER TABLE `transactions`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- AUTO_INCREMENT for table `transaction_status_history`
 --
 ALTER TABLE `transaction_status_history`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=33;
 
 --
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 
 --
 -- AUTO_INCREMENT for table `user_addresses`
 --
 ALTER TABLE `user_addresses`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT for table `wallets`
 --
 ALTER TABLE `wallets`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- Constraints for dumped tables
@@ -920,24 +959,11 @@ ALTER TABLE `categories`
   ADD CONSTRAINT `fk_category_parent` FOREIGN KEY (`parent_category_id`) REFERENCES `categories` (`id`) ON DELETE SET NULL;
 
 --
--- Constraints for table `product_categories`
---
-ALTER TABLE `product_categories`
-  ADD CONSTRAINT `fk_category_id` FOREIGN KEY (`category_id`) REFERENCES `categories` (`id`),
-  ADD CONSTRAINT `fk_product_id` FOREIGN KEY (`product_id`) REFERENCES `products` (`id`);
-
---
 -- Constraints for table `user_addresses`
 --
 ALTER TABLE `user_addresses`
   ADD CONSTRAINT `user_addresses_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`),
   ADD CONSTRAINT `user_addresses_ibfk_2` FOREIGN KEY (`address_id`) REFERENCES `addresses` (`id`);
-
---
--- Constraints for table `wallets`
---
-ALTER TABLE `wallets`
-  ADD CONSTRAINT `wallets_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

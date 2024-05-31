@@ -95,14 +95,42 @@ const updateSellerWalletBalance = async (sellerId, amount) => {
 
 const getTransactionById = async (req, res) => {
     const transactionId = parseInt(req.params.id);
-    try {
-        const transaction = await queryAsync('SELECT * FROM transactions WHERE id = ?', [transactionId]);
 
-        if (transaction.length === 0) {
+    try {
+        // Fetch transaction information
+        const transactionResults = await queryAsync('SELECT * FROM Transactions WHERE id = ?', [transactionId]);
+
+        if (transactionResults.length === 0) {
             return res.status(STATUS_CODES.NOT_FOUND).json({ error: ERRORS.TRANSACTION_NOT_FOUND });
         }
 
-        res.json(transaction[0]);
+        const transaction = transactionResults[0];
+
+        // Fetch status history for the transaction
+        const statusHistoryResults = await queryAsync(`
+            SELECT old_status, new_status, changed_at
+            FROM Transaction_Status_History
+            WHERE transaction_id = ?
+            ORDER BY changed_at DESC
+        `, [transactionId]);
+
+        const statusHistory = statusHistoryResults.map(entry => ({
+            newStatus: entry.new_status.trim(),
+            oldStatus: entry.old_status.trim(),
+            changedAt: new Date(entry.changed_at).toISOString()
+        }));
+
+        // Construct transaction info object
+        const transactionInfo = {
+            id: transaction.id,
+            product_id: transaction.product_id,
+            status: transaction.status,
+            totalAmount: transaction.total_amount,
+            createdAt: transaction.created_at,
+            statusHistory
+        };
+
+        res.json(transactionInfo);
     } catch (error) {
         console.error('Error fetching transaction:', error);
         res.status(STATUS_CODES.INTERNAL_SERVER_ERROR).json({ error: ERRORS.INTERNAL_SERVER_ERROR });
@@ -134,9 +162,13 @@ const updateTransactionById = async (req, res) => {
                     await makeRefund(transaction[0].seller_id, transaction[0].total_amount);
                 }
                 break;
-            case 'Cancelado':
-                if (currentStatus !== 'Cancelado') {
-                    await setProductAvailability(transaction[0].product_id, 1);
+                case 'Cancelado':
+                    if (currentStatus !== 'Cancelado') {
+                        await setProductAvailability(transaction[0].product_id, 1);
+                    }
+                    if(currentStatus == 'Pagamento Recebido' || currentStatus == 'Processando'){
+                        await setProductAvailability(transaction[0].product_id, 1);
+                        await makeRefund(transaction[0].seller_id, transaction[0].buyer_id, transaction[0].total_amount);
                 }
                 break;
             default:
@@ -152,9 +184,10 @@ const updateTransactionById = async (req, res) => {
     }
 };
 
-const makeRefund = async (sellerId, amount) => {
+const makeRefund = async (sellerId, buyerId, amount) => {
     try {
-        await queryAsync('UPDATE Wallets SET balance = balance - ?, withdrawable_amount = withdrawable_amount - ? WHERE user_id = ?', [amount, amount, sellerId]);
+        await queryAsync('UPDATE Wallets SET balance = balance - ? WHERE user_id = ?', [amount, sellerId]);
+        await queryAsync('UPDATE Wallets SET withdrawable_amount = withdrawable_amount + ? WHERE user_id = ?', [amount, buyerId]);
     } catch (error) {
         console.error('Error making refund:', error);
         throw new Error('Failed to make refund');

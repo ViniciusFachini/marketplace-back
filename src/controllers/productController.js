@@ -76,8 +76,7 @@ const getProductById = async (req, res) => {
         LEFT JOIN
             categories c ON pc.category_id = c.id
         WHERE 
-            p.id = ? AND
-            p.available = 1
+            p.id = ?
         GROUP BY
             p.id;
         `, [productId]);
