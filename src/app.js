@@ -2,6 +2,8 @@ const express = require('express');
 const cors = require('cors');
 const dotenv = require('dotenv');
 const bodyParser = require('body-parser');
+const http = require('http');
+const socketIo = require('socket.io');
 const { register, login, updateUser, getOrdersByUserId, getProductsFromUser, getAllInfoFromUser, getUserById, getUsers } = require('./controllers/authController');
 const path = require('path')
 const { handleSingleImageUpload } = require('./middleware/uploadsMiddleware');
@@ -21,6 +23,10 @@ dotenv.config();
 const app = express();
 const PORT = process.env.PORT || 3001;
 const HOST = process.env.HOST || `localhost`
+
+const server = http.createServer(app);
+
+const io = socketIo(server);
 
 // Middleware
 app.use(cors()); // Enable CORS
@@ -53,6 +59,19 @@ app.use('/uploads/misc', express.static(path.join(__dirname, '..', 'uploads', 'm
 
 app.get('*', (req, res) => {
   res.status(404).json({ error: { type: "Not Found!", message: "The content you are looking for was not found!" } });
+});
+
+io.on('connection', (socket) => {
+  console.log('Novo cliente conectado');
+
+  socket.on('join', (userId) => {
+    socket.join(userId.toString());
+    console.log(`Usuário ${userId} entrou na sala ${userId}`);
+  });
+
+  socket.on('disconnect', () => {
+    console.log('Cliente desconectado');
+  });
 });
 
 app.listen(PORT, () => {
