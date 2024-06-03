@@ -1,11 +1,13 @@
+const sharp = require('sharp');
 const { v4: uuidv4 } = require('uuid');
 const fs = require('fs');
+const path = require('path');
 
 function decodeBase64Image(dataString) {
-    var matches = dataString.match(/^data:([A-Za-z-+\/]+);base64,(.+)$/);
-    var response = {};
+    const matches = String(dataString).match(/^data:([A-Za-z-+\/]+);base64,(.+)$/);
+    const response = {};
 
-    if (matches.length !== 3) {
+    if (!matches || matches.length !== 3) {
         return new Error('Invalid input string');
     }
 
@@ -15,7 +17,16 @@ function decodeBase64Image(dataString) {
     return response;
 }
 
-const handleSingleImageUpload = (req, res, next) => {
+const convertImageToWebp = async (inputBuffer, outputPath) => {
+    if (!inputBuffer || inputBuffer.length === 0) {
+        throw new Error('Invalid input buffer');
+    }
+    await sharp(inputBuffer)
+        .toFormat('webp')
+        .toFile(outputPath);
+};
+
+const handleSingleImageUpload = async (req, res, next) => {
     try {
         let destinationDir = './uploads/';
         if (req.originalUrl.startsWith('/register') || req.originalUrl.startsWith('/users')) {
@@ -31,16 +42,31 @@ const handleSingleImageUpload = (req, res, next) => {
         }
 
         if (req.body.image != null) {
-            const imageBuffer = decodeBase64Image(req.body.image);
-            const imageTypeDetected = imageBuffer.type.match(/\/(.*?)$/);
-    
-            const imageName = `${uuidv4()}.${imageTypeDetected[1]}`;
-            const finalPath = `${destinationDir}${imageName}`;
-            
-            req.body.imagePath = imageName;
-    
-            fs.writeFileSync(finalPath, imageBuffer.data, function () {});
-            console.log('Single image saved:', finalPath);
+            const imageData = req.body.image;
+            const imageBuffer = decodeBase64Image(imageData);
+
+            if (imageBuffer instanceof Error) {
+                throw imageBuffer;
+            }
+
+            let imageName;
+            if (typeof imageData === 'string' && (imageData.startsWith('data:application/octet-stream') || !imageData.startsWith('data:image/'))) {
+                imageName = `${uuidv4()}.webp`;
+                const finalPath = path.join(destinationDir, imageName);
+
+                await convertImageToWebp(imageBuffer.data, finalPath);
+
+                req.body.imagePath = imageName;
+                console.log('Converted and saved webp image:', finalPath);
+            } else {
+                const imageTypeDetected = imageBuffer.type.match(/\/(.*?)$/);
+                imageName = `${uuidv4()}.${imageTypeDetected[1]}`;
+                const finalPath = path.join(destinationDir, imageName);
+
+                fs.writeFileSync(finalPath, imageBuffer.data);
+                req.body.imagePath = imageName;
+                console.log('Single image saved:', finalPath);
+            }
         }
         next();
     } catch (err) {
@@ -49,7 +75,7 @@ const handleSingleImageUpload = (req, res, next) => {
     }
 };
 
-const handleMultipleImageUpload = (req, res, next) => {
+const handleMultipleImageUpload = async (req, res, next) => {
     try {
         let destinationDir = './uploads/';
         if (req.originalUrl.startsWith('/register') || req.originalUrl.startsWith('/users')) {
@@ -66,18 +92,33 @@ const handleMultipleImageUpload = (req, res, next) => {
 
         if (req.body.images && Array.isArray(req.body.images)) {
             req.body.imagePaths = [];
-            req.body.images.forEach((image, index) => {
-                const imageBuffer = decodeBase64Image(image);
-                const imageTypeDetected = imageBuffer.type.match(/\/(.*?)$/);
-    
-                const imageName = `${uuidv4()}.${imageTypeDetected[1]}`;
-                const finalPath = `${destinationDir}${imageName}`;
-                
-                req.body.imagePaths.push(imageName);
+            for (let index = 0; index < req.body.images.length; index++) {
+                const imageData = req.body.images[index];
+                const imageBuffer = decodeBase64Image(imageData);
 
-                fs.writeFileSync(finalPath, imageBuffer.data, function () {});
-                console.log(`Image ${index + 1} saved: ${finalPath}`);
-            });
+                if (imageBuffer instanceof Error) {
+                    throw imageBuffer;
+                }
+
+                let imageName;
+                if (typeof imageData === 'string' && (imageData.startsWith('data:application/octet-stream') || !imageData.startsWith('data:image/'))) {
+                    imageName = `${uuidv4()}.webp`;
+                    const finalPath = path.join(destinationDir, imageName);
+
+                    await convertImageToWebp(imageBuffer.data, finalPath);
+
+                    req.body.imagePaths.push(imageName);
+                    console.log(`Converted and saved webp image ${index + 1}:`, finalPath);
+                } else {
+                    const imageTypeDetected = imageBuffer.type.match(/\/(.*?)$/);
+                    imageName = `${uuidv4()}.${imageTypeDetected[1]}`;
+                    const finalPath = path.join(destinationDir, imageName);
+
+                    fs.writeFileSync(finalPath, imageBuffer.data);
+                    req.body.imagePaths.push(imageName);
+                    console.log(`Image ${index + 1} saved:`, finalPath);
+                }
+            }
         } else {
             console.log('No images found in request.');
         }

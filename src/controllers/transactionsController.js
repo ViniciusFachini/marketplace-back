@@ -127,6 +127,7 @@ const getTransactionById = async (req, res) => {
             status: transaction.status,
             totalAmount: transaction.total_amount,
             createdAt: transaction.created_at,
+            seller_id: transaction.seller_id,
             statusHistory
         };
 

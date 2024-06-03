@@ -12,7 +12,7 @@ router.get('/', getProducts);
 router.get('/:id', getProductById); 
 router.get('/:id/seller', getSellerInfo); 
 router.get('/slug/:slug', getProductBySlug); 
-router.patch('/:id', verifyToken, updateProductById);
+router.patch('/:id', verifyToken, handleMultipleImageUpload, updateProductById);
 router.delete('/:id', verifyToken, deleteProductById);
 
 // Export the router

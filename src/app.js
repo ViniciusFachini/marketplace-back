@@ -16,6 +16,7 @@ const messagesRoutes = require('./routes/messagesRoutes');
 const showcasesRoutes = require('./routes/showcasesRoutes');
 const { verifyToken } = require('./middleware/authentication');
 const { searchProducts } = require('./controllers/productController');
+const { removeUnusedImages } = require('./service/cleaner');
 
 dotenv.config();
 
@@ -56,6 +57,7 @@ app.use('/uploads/products', express.static(path.join(__dirname, '..', 'uploads'
 app.use('/uploads/users', express.static(path.join(__dirname, '..', 'uploads', 'users')))
 app.use('/uploads/misc', express.static(path.join(__dirname, '..', 'uploads', 'misc')))
 
+removeUnusedImages()
 
 app.get('*', (req, res) => {
   res.status(404).json({ error: { type: "Not Found!", message: "The content you are looking for was not found!" } });

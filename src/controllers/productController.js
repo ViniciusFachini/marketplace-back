@@ -1,4 +1,5 @@
 const { queryAsync } = require('../db');
+const { removeUnusedImages } = require('../service/cleaner');
 
 const STATUS_CODES = {
     NOT_FOUND: 404,
@@ -319,12 +320,13 @@ const createProduct = async (req, res) => {
 const updateProductById = async (req, res) => {
     const productId = parseInt(req.params.id);
     const updates = req.body;
-    try {
-        // Extract category_ids if present in the updates
-        const { category_ids, ...productUpdates } = updates;
 
-        // Check if category_ids are present
-        if (!category_ids && !Object.keys(productUpdates).length > 0) {
+    try {
+        // Extract categories and images if present in the updates
+        const { categories, images, ...productUpdates } = updates;
+
+        // Check if productUpdates, categories, or images are provided
+        if (!categories && !images && Object.keys(productUpdates).length === 0) {
             return res.status(400).json({ error: 'No update data provided' });
         }
 
@@ -332,8 +334,10 @@ const updateProductById = async (req, res) => {
         let setClause = '';
         const updateParams = [];
         Object.entries(productUpdates).forEach(([key, value]) => {
-            setClause += `${key} = ?, `;
-            updateParams.push(value);
+            if (key !== 'imagePaths') { // Exclude imagePaths from productUpdates
+                setClause += `${key} = ?, `;
+                updateParams.push(value);
+            }
         });
 
         // Update product details only if there are updates
@@ -345,19 +349,42 @@ const updateProductById = async (req, res) => {
             updateQuery += `${setClause} WHERE id = ?`;
             // Add productId to updateParams
             updateParams.push(productId);
+
+            // Debugging: Log the constructed query and parameters
+            console.log('updateQuery:', updateQuery);
+            console.log('updateParams:', updateParams);
+
             // Execute the update query
             await queryAsync(updateQuery, updateParams);
         }
 
-        // Update product categories if category_ids are present
-        if (category_ids && category_ids.length > 0) {
+        // Update product categories if categories are present
+        if (Array.isArray(categories) && categories.length > 0) {
             // Delete existing associations
             await queryAsync('DELETE FROM product_categories WHERE product_id = ?', [productId]);
+
             // Insert new associations
-            const categoryInsertPromises = category_ids.map(async (categoryId) => {
-                await queryAsync('INSERT INTO product_categories (product_id, category_id) VALUES (?, ?)', [productId, categoryId]);
+            const categoryInsertPromises = categories.map(async (categoryId) => {
+                return queryAsync('INSERT INTO product_categories (product_id, category_id) VALUES (?, ?)', [productId, categoryId]);
             });
             await Promise.all(categoryInsertPromises);
+        }
+
+        // Insert image IDs into the product_images table
+        if (req.body.imagePaths && req.body.imagePaths.length > 0) {
+            // Update product_id to NULL for images associated with the product
+            await queryAsync('UPDATE product_images SET product_id = NULL WHERE product_id = ?', [productId]);
+
+            // Call the function to clean the uploads
+            // await removeUnusedImages()
+
+            // Delete the records from the product_images table
+
+            // Insert new image links into the product_images table
+            const imageInsertPromises = req.body.imagePaths.map(async (imageLink) => {
+                await queryAsync('INSERT INTO product_images (product_id, image_link) VALUES (?, ?)', [productId, imageLink]);
+            });
+            await Promise.all(imageInsertPromises);
         }
 
         res.json({ message: 'Product updated successfully' });
@@ -413,10 +440,10 @@ const getSellerInfo = async (req, res) => {
 
         // Fetch sales done
         const salesDone = await queryAsync('SELECT COUNT(*) as sales_done FROM transactions WHERE seller_id = ? AND status = "Concluído"', [sellerId]);
-        
+
         // Fetch announced products
         const announcedProducts = await queryAsync('SELECT COUNT(*) as announced_products FROM products WHERE seller_id = ?', [sellerId]);
-        
+
         // Fetch canceled sales
         const canceledSales = await queryAsync('SELECT COUNT(*) as canceled_sales FROM transactions WHERE seller_id = ? AND status = "Cancelado"', [sellerId]);
 
