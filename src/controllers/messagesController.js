@@ -1,9 +1,11 @@
+// controller file
+
 const { queryAsync } = require('../db');
-const io = require('../app'); // Importe o io do app.js
+const { io } = require('../app'); // Import io as a property of the imported object
 
 const createMessage = async (req, res) => {
     const { receiver_id, content, is_read } = req.body;
-    const sender_id = req.userId; // Access userId from the request object
+    const sender_id = req.userId;
 
     try {
         if (!sender_id || !receiver_id || !content || typeof is_read !== 'boolean') {
@@ -20,8 +22,15 @@ const createMessage = async (req, res) => {
             timestamp: new Date()
         };
 
-        // Emitir a mensagem para o destinatário
-        io.to(receiver_id.toString()).emit('newMessage', newMessage);
+        // Emit the message to the receiver
+        if (receiver_id) {
+            // Emit the message to the receiver
+            io.to(String(receiver_id)).emit('newMessage', newMessage);
+        } else {
+            // Handle the case where receiver_id is undefined or null
+            console.error("Receiver ID is undefined or null.");
+            // Optionally, you can take alternative action here, such as logging the error or ignoring the message
+        }
 
         res.status(201).json({ message: 'Message created successfully', id: result.insertId });
     } catch (error) {
@@ -32,7 +41,7 @@ const createMessage = async (req, res) => {
 
 const getMessagesBetweenUsers = async (req, res) => {
     const { sender_id, receiver_id } = req.body;
-    
+
     if (!sender_id || !receiver_id) {
         return res.status(400).json({ error: 'Sender ID and receiver ID are required' });
     }

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jun 03, 2024 at 05:25 AM
+-- Generation Time: Jun 03, 2024 at 11:33 PM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.2.4
 
@@ -101,6 +101,25 @@ CREATE TABLE `messages` (
   `timestamp` timestamp NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_520_ci;
 
+--
+-- Dumping data for table `messages`
+--
+
+INSERT INTO `messages` (`id`, `sender_id`, `receiver_id`, `content`, `is_read`, `timestamp`) VALUES
+(1, 1, 1, 'O Produto: Tênis Nike Structure 25 Masculino\n\n do vendedor Vinícius não condiz com as regras.', 0, '2024-06-03 21:02:20'),
+(2, 1, 1, 'O Produto: Tênis Nike Structure 25 Masculino\n\n do vendedor Vinícius não condiz com as regras.', 0, '2024-06-03 21:03:21'),
+(3, 1, 1, 'O Produto: Tênis Nike Structure 25 Masculino\n\n do vendedor Vinícius não condiz com as regras.', 0, '2024-06-03 21:04:29'),
+(4, 1, 1, 'O Produto: Tênis Nike Structure 25 Masculino\n\n do vendedor Vinícius não condiz com as regras.', 0, '2024-06-03 21:06:45'),
+(5, 2, 1, 'O Produto: Tênis Nike Structure 25 Masculino\n\n do vendedor Vinícius não condiz com as regras.', 0, '2024-06-03 21:22:24'),
+(6, 2, 1, 'O Produto: Tênis Nike Structure 25 Masculino\n\n do vendedor Vinícius não condiz com as regras.', 0, '2024-06-03 21:24:18'),
+(7, 2, 1, 'O Produto: Tênis Nike Structure 25 Masculino\n\n do vendedor Vinícius não condiz com as regras.', 0, '2024-06-03 21:26:55'),
+(8, 2, 1, 'O Produto: Tênis Nike Structure 25 Masculino\n\n do vendedor Vinícius não condiz com as regras.', 0, '2024-06-03 21:27:44'),
+(9, 2, 1, 'O Produto: Tênis Nike Structure 25 Masculino\n\n do vendedor Vinícius não condiz com as regras.', 0, '2024-06-03 21:28:17'),
+(10, 2, 1, 'O Produto: Tênis Nike Structure 25 Masculino\n\n do vendedor Vinícius não condiz com as regras.', 0, '2024-06-03 21:29:14'),
+(11, 2, 1, 'O Produto: Tênis Nike Structure 25 Masculino\n\n do vendedor Vinícius não condiz com as regras.', 0, '2024-06-03 21:29:35'),
+(12, 2, 1, 'O Produto: Tênis Nike Structure 25 Masculino\n\n do vendedor Vinícius não condiz com as regras.', 0, '2024-06-03 21:31:53'),
+(13, 2, 1, 'O Produto: Tênis Nike Structure 25 Masculino\n\n do vendedor Vinícius não condiz com as regras.', 0, '2024-06-03 21:33:03');
+
 -- --------------------------------------------------------
 
 --
@@ -165,7 +184,7 @@ INSERT INTO `products` (`id`, `seller_id`, `name`, `description`, `brand`, `mode
 (42, 1, '1', '2', '4', '5', 'Semi Novo', 61.00, 1, '2024-05-24 20:35:02', '0000001421250330', '1-42'),
 (43, 1, '1', '2', '4', '5', 'Semi Novo', 5.00, 1, '2024-05-24 20:36:11', '0000001431741113', '1-43'),
 (44, 1, '1', '2', '4', '5', 'Usado', 612.00, 1, '2024-05-25 21:24:26', '0000001441749161', '1-44'),
-(45, 1, 'Vibrador Dildo Prótese 20,3cm x 4,1cm Ponto G Texturizado 10 Modos de Vibração com Controle Remoto - LILO', 'Vibrador Dildo Prótese 20,3cm x 4,1cm Ponto G Texturizado 10 Modos de Vibração com Controle Remoto Alta flexibilidade permitindo criar diversos movimentos. Surpreende pelo seu realismo e incrível semelhança com um pênis real. Produto com altíssima qualidade levando em consideração prazer e segurança. Sua maciez é incontestável com toque agradável e suave. Possui escroto e ventosa que permite fixação em superfícies lisas. A ventosa permite mãos livres para maior liberdade e usabilidade do produto. Pode-se fixá-lo no box do banheiro por exemplo ou mesmo no revestimento da parede desde que seja liso, resistente à água, o controle remoto não, então quando for usá-lo no banheiro por exemplo, tome cuidado. Composto por vibrador multivelocidade com 10 intensidades de vibração. Confeccionado em TPE 100% atóxico. Formato levando em consideração a riqueza de detalhes como glande, saliências e veias. A vibração fica por conta de um motor potente e silencioso que emite ondas vibrantes e altamente excitantes que proporcionam um prazer inigualável. O manuseio do vibrador é simples e descomplicado, com simples toques é possível acionar o vibrador e alternar os estágios de estimulação. O controle remoto com fio permite seu parceiro ou parceira intensificar e diversificar a brincadeira a dois.  Pênis com glande saltada, escroto e ventosa resistente.Possui 10 níveis de vibração que podem ser controlados através do controle remoto que acompanha o produto.Confeccionado em material macio, possui veias e texturas no corpo da protese, trazendo naturalidade e realismo. Medidas 20,3 cm de comprimento, 4,1cm de largura (medidas aproximadas) Peso: 299g Material: TPE Utiliza:Cabo USB incluso,2 pilhas AAA para controle não inclusas Higienização: Lavar com água e sabão neutro antes e após o uso, evite molhar o compartimento de recarga Seque com papel toalha ou deixe secar naturalmente.', 'Lilo', 'Lilo', 'Usado', 350.00, 0, '2024-05-26 19:11:35', '0000001451987515', 'vibrador-dildo-protese-203cm-x-41cm-ponto-g-texturizado-10-modos-de-vibracao-com-controle-remoto---lilo-45'),
+(45, 1, 'Sapato Nike', 'Tênis brabo', 'Nike', 'Nike Air', 'Novo', 700.00, 0, '2024-05-26 19:11:35', '0000001451987515', 'vibrador-dildo-protese-203cm-x-41cm-ponto-g-texturizado-10-modos-de-vibracao-com-controle-remoto---lilo-45'),
 (46, 15, 'Vagner Com V', 'Boneco de manequim', 'Vagner', 'Vagner Com V', 'Semi Novo', 3400.00, 1, '2024-05-28 20:31:28', '0000015460366646', 'vagner-com-v-46'),
 (47, 1, 'Nova Botita', 'Botita braba', 'Bota', 'Bota', 'Semi Novo', 299.00, 1, '2024-06-02 05:13:30', '0000001471110902', 'nova-botita-47'),
 (48, 1, 'Edredom Solteiro Altenburg Malha Fio Penteado - Branco', 'Confeccionado em tecido de malha 100% algodão, o Edredom Malha Fio Penteado é macio e garante uma noite de sono super aconchegante, além de complementar a decoração do quarto com um charme todo especial.\n\nFazendo parte dos produtos que combinam basicamente com tudo, o Edredom é extremamente prático e versátil, podendo ser combinado lindamente com todas as outras linhas e com todos os estilos da casa.', 'Altenburg', 'Malha Fio Penteado', 'Semi Novo', 300.00, 1, '2024-06-02 16:15:52', '0000001481514983', 'edredom-solteiro-altenburg-malha-fio-penteado---branco-48'),
@@ -263,11 +282,10 @@ INSERT INTO `product_categories` (`id`, `product_id`, `category_id`) VALUES
 (133, 44, 3),
 (134, 44, 8),
 (135, 44, 9),
-(136, 45, 3),
-(137, 45, 4),
 (138, 46, 4),
 (139, 49, 2),
-(140, 49, 13);
+(140, 49, 13),
+(141, 45, 2);
 
 -- --------------------------------------------------------
 
@@ -422,10 +440,6 @@ INSERT INTO `product_images` (`id`, `product_id`, `image_link`) VALUES
 (175, 44, 'f53f97ae-306a-479d-836d-ad9529952810.avif'),
 (176, 44, 'cb90c331-7090-4b3b-9e44-35001e38d067.jpeg'),
 (177, 44, '931a4a1b-d2cd-4bad-9349-56e8fa7abb0a.jpeg'),
-(178, 45, '8542a08d-ba68-4d0f-9c5c-cb6104595840.webp'),
-(179, 45, '6dba7b9f-aaf8-4f61-ae8b-5d2060a268b8.webp'),
-(180, 45, '71d2bf8a-0e84-4855-a7ca-658ee1e2c947.webp'),
-(181, 45, '5c625196-b924-4049-9b9f-a04aa58c509b.webp'),
 (182, 46, 'bd7f4cc0-ac55-424b-bbb8-9f0b7127e375.jpeg'),
 (183, 46, '3c334dcf-3270-4f66-8ea2-f32cf44a6c73.jpeg'),
 (184, 47, 'ed8d7b84-da70-4a73-bbf1-6632aeeda9aa.webp'),
@@ -464,7 +478,11 @@ INSERT INTO `product_images` (`id`, `product_id`, `image_link`) VALUES
 (224, 14, 'd6bf2a97-b05f-4b2d-ba8d-3792afae8c95.avif'),
 (225, 14, '196482c4-ec4b-4823-9962-54d9834ece55.avif'),
 (226, 14, 'c75485f4-9449-4550-86c7-59b3ea51a4ad.avif'),
-(227, 14, 'd23bb136-2961-47aa-ba75-415ef14f0b27.avif');
+(227, 14, 'd23bb136-2961-47aa-ba75-415ef14f0b27.avif'),
+(228, 45, 'b3217571-6a63-4229-9b7d-e2d58ed92758.avif'),
+(229, 45, '803769c5-2d6b-4a6a-b1e7-f398d5767e3a.avif'),
+(230, 45, 'dab241f8-286e-4206-85d7-297eace799c0.avif'),
+(231, 45, 'fa721718-fac8-4018-ab11-0913fd59cd37.avif');
 
 -- --------------------------------------------------------
 
@@ -926,7 +944,7 @@ ALTER TABLE `categories`
 -- AUTO_INCREMENT for table `messages`
 --
 ALTER TABLE `messages`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT for table `products`
@@ -938,13 +956,13 @@ ALTER TABLE `products`
 -- AUTO_INCREMENT for table `product_categories`
 --
 ALTER TABLE `product_categories`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=141;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=142;
 
 --
 -- AUTO_INCREMENT for table `product_images`
 --
 ALTER TABLE `product_images`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=228;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=232;
 
 --
 -- AUTO_INCREMENT for table `reviews`
