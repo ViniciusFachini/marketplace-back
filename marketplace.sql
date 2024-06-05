@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jun 03, 2024 at 11:33 PM
+-- Generation Time: Jun 05, 2024 at 11:27 PM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.2.4
 
@@ -106,19 +106,21 @@ CREATE TABLE `messages` (
 --
 
 INSERT INTO `messages` (`id`, `sender_id`, `receiver_id`, `content`, `is_read`, `timestamp`) VALUES
-(1, 1, 1, 'O Produto: Tênis Nike Structure 25 Masculino\n\n do vendedor Vinícius não condiz com as regras.', 0, '2024-06-03 21:02:20'),
-(2, 1, 1, 'O Produto: Tênis Nike Structure 25 Masculino\n\n do vendedor Vinícius não condiz com as regras.', 0, '2024-06-03 21:03:21'),
-(3, 1, 1, 'O Produto: Tênis Nike Structure 25 Masculino\n\n do vendedor Vinícius não condiz com as regras.', 0, '2024-06-03 21:04:29'),
-(4, 1, 1, 'O Produto: Tênis Nike Structure 25 Masculino\n\n do vendedor Vinícius não condiz com as regras.', 0, '2024-06-03 21:06:45'),
-(5, 2, 1, 'O Produto: Tênis Nike Structure 25 Masculino\n\n do vendedor Vinícius não condiz com as regras.', 0, '2024-06-03 21:22:24'),
-(6, 2, 1, 'O Produto: Tênis Nike Structure 25 Masculino\n\n do vendedor Vinícius não condiz com as regras.', 0, '2024-06-03 21:24:18'),
-(7, 2, 1, 'O Produto: Tênis Nike Structure 25 Masculino\n\n do vendedor Vinícius não condiz com as regras.', 0, '2024-06-03 21:26:55'),
-(8, 2, 1, 'O Produto: Tênis Nike Structure 25 Masculino\n\n do vendedor Vinícius não condiz com as regras.', 0, '2024-06-03 21:27:44'),
-(9, 2, 1, 'O Produto: Tênis Nike Structure 25 Masculino\n\n do vendedor Vinícius não condiz com as regras.', 0, '2024-06-03 21:28:17'),
-(10, 2, 1, 'O Produto: Tênis Nike Structure 25 Masculino\n\n do vendedor Vinícius não condiz com as regras.', 0, '2024-06-03 21:29:14'),
-(11, 2, 1, 'O Produto: Tênis Nike Structure 25 Masculino\n\n do vendedor Vinícius não condiz com as regras.', 0, '2024-06-03 21:29:35'),
-(12, 2, 1, 'O Produto: Tênis Nike Structure 25 Masculino\n\n do vendedor Vinícius não condiz com as regras.', 0, '2024-06-03 21:31:53'),
-(13, 2, 1, 'O Produto: Tênis Nike Structure 25 Masculino\n\n do vendedor Vinícius não condiz com as regras.', 0, '2024-06-03 21:33:03');
+(1, 7, 1, 'O Produto: Tênis Nike Structure 25 Masculino\n\n do vendedor Vinícius não condiz com as regras.', 0, '2024-06-05 16:13:03'),
+(2, 7, 1, 'O Produto: Tênis Nike Structure 25 Masculino\n\n do vendedor Vinícius não condiz com as regras.', 0, '2024-06-05 16:13:10'),
+(3, 7, 1, 'O Produto: Tênis Nike Structure Masculino do vendedor Vinícius não condiz com as regras.', 0, '2024-06-05 16:17:32'),
+(4, 7, 1, 'O Produto: Tênis Nike Structure Masculino do vendedor Vinícius não condiz com as regras.', 0, '2024-06-05 16:17:32'),
+(5, 7, 1, 'O Produto: Tênis Nike Structure Masculino do vendedor Vinícius não condiz com as regras.', 0, '2024-06-05 16:17:33'),
+(6, 7, 1, 'O Produto: Tênis Nike Structure Masculino do vendedor Vinícius não condiz com as regras.', 0, '2024-06-05 16:17:33'),
+(7, 7, 1, 'O Produto: Tênis Nike Structure Masculino do vendedor Vinícius não condiz com as regras.', 0, '2024-06-05 16:17:34'),
+(8, 7, 1, 'O Produto: Tênis Nike Structure Masculino do vendedor Vinícius não condiz com as regras.', 0, '2024-06-05 16:17:34'),
+(9, 7, 1, 'O Produto: Tênis Nike Structure Masculino do vendedor Vinícius não condiz com as regras.', 0, '2024-06-05 16:17:35'),
+(10, 7, 1, 'O Produto: Tênis Nike Structure Masculino do vendedor Vinícius não condiz com as regras.', 0, '2024-06-05 16:17:35'),
+(11, 7, 1, 'O Produto: Tênis Nike Structure Masculino do vendedor Vinícius não condiz com as regras.', 0, '2024-06-05 16:17:36'),
+(12, 7, 1, 'O Produto: Tênis Nike Structure Masculino do vendedor Vinícius não condiz com as regras.', 0, '2024-06-05 16:17:36'),
+(13, 7, 1, 'O Produto: Tênis Nike Structure Masculino do vendedor Vinícius não condiz com as regras.', 0, '2024-06-03 16:17:37'),
+(14, 5, 1, 'O Produto: Tênis Nike Structure 25 Masculino\n\n do vendedor Vinícius não condiz com as regras.', 1, '2024-06-05 20:33:06'),
+(15, 5, 1, 'O Produto: Tênis Nike Structure 25 Masculino\n\n do vendedor Vinícius não condiz com as regras.', 1, '2024-06-05 20:33:10');
 
 -- --------------------------------------------------------
 
@@ -170,7 +172,7 @@ INSERT INTO `products` (`id`, `seller_id`, `name`, `description`, `brand`, `mode
 (22, 1, 'Bota Eliane Cano Curto Salto Médio Gelo\n', 'Elegante e fashion. Com a Bota Cano Curto Eliane Salto Médio Gelo, você estará sempre pronta para qualquer ocasião, sem abrir mão do conforto. O gelo é uma tendência neutra e suave que transmite serenidade ao look. Leve e flexível, esse modelo foi pensado nas necessidades de todas as mulheres. O acabamento confortável e o forro superfofinho torna-a indispensável para quem precisa ficar horas de pé no trabalho. Ela também oferece máxima absorção controlando tanto umidade quanto temperatura. Já o superamortecimento da bota proporciona maior absorção de impactos. Para as mulheres que não dispensam o jeans, use esse modelo e dobre as barras da calça para realçar os seus pés. PICCADILLY, caminhe em direção ao novo e se surpreenda com o conforto! Você sabia que todos os produtos da PICCADILLY têm o Calce Perfeito? É um conjunto de benefícios exclusivos que respeita a anatomia do pé, diminui o cansaço e permite que você vá mais longe nas suas jornadas diárias.\n', 'Piccadilly', 'Nike Structure', 'Usado', 389.90, 1, '2024-05-19 21:22:42', 'bota-eliane-cano-curto-salto-medio-gelo-22', 'bota-eliane-cano-curto-salto-medio-gelo-22'),
 (23, 1, 'Bota Eliane Cano Curto Salto Médio Gelo\n', 'Elegante e fashion. Com a Bota Cano Curto Eliane Salto Médio Gelo, você estará sempre pronta para qualquer ocasião, sem abrir mão do conforto. O gelo é uma tendência neutra e suave que transmite serenidade ao look. Leve e flexível, esse modelo foi pensado nas necessidades de todas as mulheres. O acabamento confortável e o forro superfofinho torna-a indispensável para quem precisa ficar horas de pé no trabalho. Ela também oferece máxima absorção controlando tanto umidade quanto temperatura. Já o superamortecimento da bota proporciona maior absorção de impactos. Para as mulheres que não dispensam o jeans, use esse modelo e dobre as barras da calça para realçar os seus pés. PICCADILLY, caminhe em direção ao novo e se surpreenda com o conforto! Você sabia que todos os produtos da PICCADILLY têm o Calce Perfeito? É um conjunto de benefícios exclusivos que respeita a anatomia do pé, diminui o cansaço e permite que você vá mais longe nas suas jornadas diárias.\n', 'Piccadilly', 'Nike Structure', 'Usado', 389.90, 1, '2024-05-19 21:22:44', 'bota-eliane-cano-curto-salto-medio-gelo-23', 'bota-eliane-cano-curto-salto-medio-gelo-23'),
 (24, 1, 'Bota Eliane Cano Curto Salto Médio Gelo\n', 'Elegante e fashion. Com a Bota Cano Curto Eliane Salto Médio Gelo, você estará sempre pronta para qualquer ocasião, sem abrir mão do conforto. O gelo é uma tendência neutra e suave que transmite serenidade ao look. Leve e flexível, esse modelo foi pensado nas necessidades de todas as mulheres. O acabamento confortável e o forro superfofinho torna-a indispensável para quem precisa ficar horas de pé no trabalho. Ela também oferece máxima absorção controlando tanto umidade quanto temperatura. Já o superamortecimento da bota proporciona maior absorção de impactos. Para as mulheres que não dispensam o jeans, use esse modelo e dobre as barras da calça para realçar os seus pés. PICCADILLY, caminhe em direção ao novo e se surpreenda com o conforto! Você sabia que todos os produtos da PICCADILLY têm o Calce Perfeito? É um conjunto de benefícios exclusivos que respeita a anatomia do pé, diminui o cansaço e permite que você vá mais longe nas suas jornadas diárias.\n', 'Piccadilly', 'Nike Structure', 'Usado', 389.90, 1, '2024-05-19 21:25:20', 'bota-eliane-cano-curto-salto-medio-gelo-24', 'bota-eliane-cano-curto-salto-medio-gelo-24'),
-(25, 1, 'Bota Eliane Cano Curto Salto Médio Gelo\n', 'Elegante e fashion. Com a Bota Cano Curto Eliane Salto Médio Gelo, você estará sempre pronta para qualquer ocasião, sem abrir mão do conforto. O gelo é uma tendência neutra e suave que transmite serenidade ao look. Leve e flexível, esse modelo foi pensado nas necessidades de todas as mulheres. O acabamento confortável e o forro superfofinho torna-a indispensável para quem precisa ficar horas de pé no trabalho. Ela também oferece máxima absorção controlando tanto umidade quanto temperatura. Já o superamortecimento da bota proporciona maior absorção de impactos. Para as mulheres que não dispensam o jeans, use esse modelo e dobre as barras da calça para realçar os seus pés. PICCADILLY, caminhe em direção ao novo e se surpreenda com o conforto! Você sabia que todos os produtos da PICCADILLY têm o Calce Perfeito? É um conjunto de benefícios exclusivos que respeita a anatomia do pé, diminui o cansaço e permite que você vá mais longe nas suas jornadas diárias.\n', 'Piccadilly', 'Nike Structure', 'Usado', 389.90, 1, '2024-05-19 21:28:10', 'bota-eliane-cano-curto-salto-medio-gelo-25', 'bota-eliane-cano-curto-salto-medio-gelo-25'),
+(25, 1, 'Bota Eliane Cano Curto Salto Médio Gelo\n', 'Elegante e fashion. Com a Bota Cano Curto Eliane Salto Médio Gelo, você estará sempre pronta para qualquer ocasião, sem abrir mão do conforto. O gelo é uma tendência neutra e suave que transmite serenidade ao look. Leve e flexível, esse modelo foi pensado nas necessidades de todas as mulheres. O acabamento confortável e o forro superfofinho torna-a indispensável para quem precisa ficar horas de pé no trabalho. Ela também oferece máxima absorção controlando tanto umidade quanto temperatura. Já o superamortecimento da bota proporciona maior absorção de impactos. Para as mulheres que não dispensam o jeans, use esse modelo e dobre as barras da calça para realçar os seus pés. PICCADILLY, caminhe em direção ao novo e se surpreenda com o conforto! Você sabia que todos os produtos da PICCADILLY têm o Calce Perfeito? É um conjunto de benefícios exclusivos que respeita a anatomia do pé, diminui o cansaço e permite que você vá mais longe nas suas jornadas diárias.\n', 'Piccadilly', 'Nike Structure', 'Usado', 389.90, 0, '2024-05-19 21:28:10', 'bota-eliane-cano-curto-salto-medio-gelo-25', 'bota-eliane-cano-curto-salto-medio-gelo-25'),
 (32, 2, 'Bóta de Segürança Elegância à Adventure em Couro', 'Cabedal confeccionado em couro Premium com padrão internacional de qualidade, cor dark brown, tecido e sintético de alta resistência, taloneira em TPU, costuras reforçadas, forração interna e colarinho acolchoado para maior conforto.', 'Estival', 'Coturno', 'Novo', 320.50, 1, '2024-05-22 17:37:55', '2-bota-de-seguranca-elegancia-a-adventure-em-couro-estival-coturno-8758-32', 'bota-de-seguranca-elegancia-a-adventure-em-couro-32'),
 (33, 2, 'Bóta de Segürança Elegância à Adventure em Couro', 'Cabedal confeccionado em couro Premium com padrão internacional de qualidade, cor dark brown, tecido e sintético de alta resistência, taloneira em TPU, costuras reforçadas, forração interna e colarinho acolchoado para maior conforto.', 'Estival', 'Coturno', 'Novo', 320.50, 1, '2024-05-22 18:28:05', '2-bota-de-seguranca-elegancia-a-adventure-em-couro-estival-coturno-2674', 'bota-de-seguranca-elegancia-a-adventure-em-couro-33'),
 (34, 2, 'Bóta de Segürança Elegância à Adventure em Couro', 'Cabedal confeccionado em couro Premium com padrão internacional de qualidade, cor dark brown, tecido e sintético de alta resistência, taloneira em TPU, costuras reforçadas, forração interna e colarinho acolchoado para maior conforto.', 'Estival', 'Coturno', 'Novo', 320.50, 1, '2024-05-22 18:57:04', '[object Promise]', 'bota-de-seguranca-elegancia-a-adventure-em-couro-34'),
@@ -468,9 +470,6 @@ INSERT INTO `product_images` (`id`, `product_id`, `image_link`) VALUES
 (207, 38, '2d44ce37-ce06-436a-a6df-60c8e6e778fb.webp'),
 (208, 38, '80f300ef-9c5e-4d00-9a3b-08692a599847.webp'),
 (209, 38, 'f7a8fd0a-7a28-463c-a03a-4c0c1a05fc06.webp'),
-(210, 2, 'd1e64a39-06e7-44d6-afeb-53969c1d6996.webp'),
-(211, 2, '286669f5-b3c6-404c-ad8a-9060fe3ccd1c.webp'),
-(212, 2, '027ba289-a8f1-4d45-8492-98c2de8a523c.webp'),
 (213, 49, '058bb5da-e2c6-4a97-9dc0-5063b91291df.avif'),
 (214, 49, '15e6d328-9343-4dac-9331-67731d7bac47.avif'),
 (215, 49, '677b9a28-6408-42f0-b97e-3959b0e5e408.avif'),
@@ -482,7 +481,13 @@ INSERT INTO `product_images` (`id`, `product_id`, `image_link`) VALUES
 (228, 45, 'b3217571-6a63-4229-9b7d-e2d58ed92758.avif'),
 (229, 45, '803769c5-2d6b-4a6a-b1e7-f398d5767e3a.avif'),
 (230, 45, 'dab241f8-286e-4206-85d7-297eace799c0.avif'),
-(231, 45, 'fa721718-fac8-4018-ab11-0913fd59cd37.avif');
+(231, 45, 'fa721718-fac8-4018-ab11-0913fd59cd37.avif'),
+(234, 2, 'b6c30554-e390-446a-8fea-332af7617f81.webp'),
+(235, 2, 'ef11e54f-520c-4788-be24-828aec141973.webp'),
+(236, 2, '67528ec9-4b57-48f3-a423-9c352cd172fd.avif'),
+(237, 2, 'e3fe15b9-c6c9-4d30-99f9-bfd51d913eb7.avif'),
+(238, 2, 'b120c184-7a8f-4416-a596-87b143345cb1.avif'),
+(239, 2, '436179e4-2f0a-4fb3-8330-8be5be621122.avif');
 
 -- --------------------------------------------------------
 
@@ -623,7 +628,8 @@ INSERT INTO `transactions` (`id`, `buyer_id`, `seller_id`, `product_id`, `quanti
 (13, 6, 1, 13, 1, 721.99, 'Compra', 5, 4, 'Boleto', 'Express', 'Concluído', '2024-05-31 15:17:21'),
 (14, 6, 1, 12, 1, 721.99, 'Compra', 5, 4, 'Boleto', 'Express', 'Concluído', '2024-05-31 15:17:21'),
 (15, 7, 1, 8, 1, 721.99, 'Compra', 1, 4, 'Pix', 'Normal', 'Concluído', '2024-06-03 01:33:45'),
-(16, 7, 1, 18, 1, 389.90, 'Compra', 1, 4, 'Pix', 'Express', 'Concluído', '2024-06-03 02:34:23');
+(16, 7, 1, 18, 1, 389.90, 'Compra', 1, 4, 'Pix', 'Express', 'Concluído', '2024-06-03 02:34:23'),
+(17, 7, 1, 25, 1, 389.90, 'Compra', 1, 4, 'Pix', 'Normal', 'Concluído', '2024-06-04 17:22:07');
 
 --
 -- Triggers `transactions`
@@ -698,7 +704,10 @@ INSERT INTO `transaction_status_history` (`id`, `transaction_id`, `old_status`, 
 (37, 15, 'Enviado', 'Concluído', '2024-06-03 02:14:00', 'root@localhost'),
 (38, 16, 'Aguardando Pagamento', 'Pagamento Recebido', '2024-06-03 02:35:52', 'root@localhost'),
 (39, 16, 'Pagamento Recebido', 'Enviado', '2024-06-03 02:35:56', 'root@localhost'),
-(40, 16, 'Enviado', 'Concluído', '2024-06-03 02:36:25', 'root@localhost');
+(40, 16, 'Enviado', 'Concluído', '2024-06-03 02:36:25', 'root@localhost'),
+(41, 17, 'Aguardando Pagamento', 'Pagamento Recebido', '2024-06-04 17:22:34', 'root@localhost'),
+(42, 17, 'Pagamento Recebido', 'Enviado', '2024-06-04 17:23:11', 'root@localhost'),
+(43, 17, 'Enviado', 'Concluído', '2024-06-04 17:23:32', 'root@localhost');
 
 -- --------------------------------------------------------
 
@@ -808,7 +817,7 @@ INSERT INTO `wallets` (`id`, `user_id`, `balance`, `withdrawable_amount`, `creat
 (4, 7, 0.00, 0.00, '2024-05-26 01:50:30', '2024-05-31 15:24:06'),
 (5, 3, 0.00, 0.00, '2024-05-26 01:50:30', '2024-05-26 01:50:30'),
 (6, 4, 0.00, 0.00, '2024-05-26 01:50:30', '2024-05-26 01:50:30'),
-(7, 1, 0.00, 0.00, '2024-05-26 01:50:30', '2024-06-03 02:36:53'),
+(7, 1, 0.00, 0.00, '2024-05-26 01:50:30', '2024-06-04 17:24:08'),
 (8, 8, 0.00, 0.00, '2024-05-28 17:31:50', '2024-05-28 17:31:50'),
 (9, 14, 0.00, 0.00, '2024-05-28 18:09:04', '2024-05-28 18:09:04'),
 (10, 15, 0.00, 0.00, '2024-05-28 18:13:18', '2024-05-28 18:13:18'),
@@ -944,7 +953,7 @@ ALTER TABLE `categories`
 -- AUTO_INCREMENT for table `messages`
 --
 ALTER TABLE `messages`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- AUTO_INCREMENT for table `products`
@@ -962,7 +971,7 @@ ALTER TABLE `product_categories`
 -- AUTO_INCREMENT for table `product_images`
 --
 ALTER TABLE `product_images`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=232;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=240;
 
 --
 -- AUTO_INCREMENT for table `reviews`
@@ -986,13 +995,13 @@ ALTER TABLE `showcase_products`
 -- AUTO_INCREMENT for table `transactions`
 --
 ALTER TABLE `transactions`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 
 --
 -- AUTO_INCREMENT for table `transaction_status_history`
 --
 ALTER TABLE `transaction_status_history`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=41;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=44;
 
 --
 -- AUTO_INCREMENT for table `users`

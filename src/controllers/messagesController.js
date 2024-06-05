@@ -1,7 +1,7 @@
 // controller file
 
 const { queryAsync } = require('../db');
-const {getIO} = require('../service/chat')
+const { getIO } = require('../service/chat')
 
 const createMessage = async (req, res) => {
     const { receiver_id, content, is_read } = req.body;
@@ -72,7 +72,7 @@ const getMessagesBetweenUsers = async (req, res) => {
 
 const getLastChats = async (req, res) => {
     const user_id = req.userId;
-    console.log(user_id)
+    console.log(user_id);
     try {
         // Get distinct chat partners
         const chatPartners = await queryAsync(
@@ -87,31 +87,44 @@ const getLastChats = async (req, res) => {
         for (let partner of chatPartners) {
             const chat_partner_id = partner.chat_partner;
 
-            // Get unread messages from the chat
-            const unreadMessages = await queryAsync(
-                'SELECT * FROM messages WHERE sender_id = ? AND receiver_id = ? AND is_read = 0 ORDER BY timestamp',
+            // Get chat partner details
+            const chatPartnerDetails = await queryAsync(
+                'SELECT id, name, user_image FROM users WHERE id = ?',
+                [chat_partner_id]
+            );
+
+            if (chatPartnerDetails.length === 0) {
+                console.log(`No details found for chat partner with id ${chat_partner_id}`);
+                continue; // Skip if no details found for the chat partner
+            }
+
+            const chat_partner = chatPartnerDetails[0];
+
+            // Get the last unread message from the chat
+            const unreadMessagesCount = await queryAsync(
+                'SELECT COUNT(*) AS unreadCount FROM messages WHERE (sender_id = ? AND receiver_id = ?) AND is_read = false',
                 [chat_partner_id, user_id]
             );
 
-            if (unreadMessages.length > 0) {
-                // If there are unread messages, add them to the chats
-                chats.push({
-                    chat_partner_id,
-                    unreadMessages
-                });
-            } else {
-                // If there are no unread messages, get the last message from the chat
-                const lastMessage = await queryAsync(
-                    'SELECT * FROM messages WHERE (sender_id = ? AND receiver_id = ?) OR (sender_id = ? AND receiver_id = ?) ORDER BY timestamp DESC LIMIT 1',
-                    [chat_partner_id, user_id, user_id, chat_partner_id]
-                );
 
-                if (lastMessage.length > 0) {
-                    chats.push({
-                        chat_partner_id,
-                        lastMessage: lastMessage[0]
-                    });
-                }
+            // If there are no unread messages, get the last message from the chat
+            const lastMessage = await queryAsync(
+                'SELECT * FROM messages WHERE (sender_id = ? AND receiver_id = ?) OR (sender_id = ? AND receiver_id = ?) ORDER BY timestamp DESC LIMIT 1',
+                [chat_partner_id, user_id, user_id, chat_partner_id]
+            );
+
+            if (lastMessage.length > 0) {
+                chats.push({
+                    chat_partner: {
+                        chat_partner_id: chat_partner.id,
+                        chat_partner_name: chat_partner.name,
+                        chat_partner_profile_picture: chat_partner.user_image
+                    },
+                    messages: {
+                        lastMessage: lastMessage[0],
+                        unreadMessages: unreadMessagesCount[0].unreadCount
+                    }
+                });
             }
         }
 
