@@ -9,7 +9,7 @@ const { verifyToken, getUserIdFromToken } = require('../middleware/authenticatio
 
 const router = express.Router();
 
-router.get('/:sender/:receiver', verifyToken, getMessagesBetweenUsers);
+router.get('/:sender_id/:receiver_id', verifyToken, getMessagesBetweenUsers);
 router.post('/', verifyToken, getUserIdFromToken, createMessage);
 router.get('/last-messages', verifyToken, getUserIdFromToken, getLastChats);
 router.get('/unseen-messages', verifyToken, getUserIdFromToken, getUnreadMessagesCount);

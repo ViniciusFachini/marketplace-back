@@ -275,8 +275,6 @@ const createProduct = async (req, res) => {
             return res.status(404).json({ error: 'Verification status not available' });
         }
 
-        // Parse category_ids string into an array of integers
-        console.log(category_ids, category_ids)
 
         // Generate SKU and Slug
         const sku = generateSlug(name);
@@ -349,10 +347,6 @@ const updateProductById = async (req, res) => {
             updateQuery += `${setClause} WHERE id = ?`;
             // Add productId to updateParams
             updateParams.push(productId);
-
-            // Debugging: Log the constructed query and parameters
-            console.log('updateQuery:', updateQuery);
-            console.log('updateParams:', updateParams);
 
             // Execute the update query
             await queryAsync(updateQuery, updateParams);

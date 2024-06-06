@@ -55,14 +55,27 @@ const getUnreadMessagesCount = async (req, res) => {
 };
 
 const getMessagesBetweenUsers = async (req, res) => {
-    const { sender_id, receiver_id } = req.body;
+    const { sender_id, receiver_id } = req.params;
 
     if (!sender_id || !receiver_id) {
         return res.status(400).json({ error: 'Sender ID and receiver ID are required' });
     }
 
     try {
-        const messages = await queryAsync('SELECT * FROM messages WHERE (sender_id = ? AND receiver_id = ?) OR (sender_id = ? AND receiver_id = ?)', [sender_id, receiver_id, receiver_id, sender_id]);
+        // Fetching messages between sender and receiver with sender's name and profile picture
+        const messages = await queryAsync(
+            `SELECT 
+                m.*, 
+                u.name AS sender_name, 
+                u.user_image AS sender_profile_picture 
+            FROM 
+                messages m 
+                JOIN users u ON m.sender_id = u.id 
+            WHERE 
+                (m.sender_id = ? AND m.receiver_id = ?) 
+                OR (m.sender_id = ? AND m.receiver_id = ?)`,
+            [sender_id, receiver_id, sender_id, receiver_id]
+        );
         res.json(messages);
     } catch (error) {
         console.error('Error fetching messages between persons:', error);

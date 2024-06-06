@@ -26,7 +26,6 @@ const ERRORS = {
 const register = async (req, res) => {
   try {
     const { name, email, password, username, phone, user_type, address } = req.body;
-    console.log(req.body)
 
     const userExists = await queryAsync('SELECT * FROM Users WHERE username = ?', [username]);
     const emailExists = await queryAsync('SELECT * FROM Users WHERE email = ?', [email]);
@@ -93,8 +92,6 @@ const register = async (req, res) => {
     userPlaceholders = userPlaceholders.slice(0, -2);
 
     userQuery += ` (${userFields}) VALUES (${userPlaceholders})`;
-
-    console.log(userQuery, userFields, userPlaceholders)
 
     const userResult = await queryAsync(userQuery, userValues);
 
