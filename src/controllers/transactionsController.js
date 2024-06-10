@@ -120,11 +120,13 @@ const getTransactionById = async (req, res) => {
             changedAt: new Date(entry.changed_at).toISOString()
         }));
 
+
         // Construct transaction info object
         const transactionInfo = {
             id: transaction.id,
             product_id: transaction.product_id,
             status: transaction.status,
+            buyer_id: transaction.buyer_id,
             totalAmount: transaction.total_amount,
             createdAt: transaction.created_at,
             seller_id: transaction.seller_id,

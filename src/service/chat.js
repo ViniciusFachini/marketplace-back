@@ -1,4 +1,3 @@
-// services/chat.js
 const socketIo = require('socket.io');
 
 let io;
@@ -6,7 +5,7 @@ let io;
 function setupSocket(server) {
     io = socketIo(server, {
         cors: {
-            origin: '*',
+            origin: '*', // Allow all origins for development. In production, specify the allowed origins.
         }
     });
 
@@ -16,6 +15,16 @@ function setupSocket(server) {
         socket.on('join', (userId) => {
             socket.join(userId.toString());
             console.log(`User ${userId} joined room ${userId}`);
+        });
+
+        socket.on('sendMessage', (data) => {
+            console.log('Received message:', data);
+            socket.broadcast.emit('newMessage', data);
+        });
+
+        socket.on('messageRead', (messageId) => {
+            io.emit('messageRead', messageId);
+            console.log('Read message: ', messageId);
         });
 
         socket.on('disconnect', () => {

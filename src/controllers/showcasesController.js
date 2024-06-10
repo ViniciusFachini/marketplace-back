@@ -50,7 +50,7 @@ const getShowcases = async (req, res) => {
             items.forEach(item => {
                 item.images = item.images.split(',').map(image_link => ({
                     image_link,
-                    imageUrl: `http://localhost:3001/uploads/products/${image_link}`
+                    imageUrl: `http://${process.env.HOST}:8080/uploads/products/${image_link}`
                 }));
                 item.categories = item.categories.split(',').map(category => {
                     const [categoryName, categoryId] = category.split(':');
@@ -114,7 +114,7 @@ const getShowcaseById = async (req, res) => {
         items.forEach(item => {
             item.images = item.images.split(',').map(image_link => ({
                 image_link,
-                imageUrl: `http://localhost:3001/uploads/products/${image_link}`
+                imageUrl: `http://${process.env.HOST}:8080/uploads/products/${image_link}`
             }));
             item.categories = item.categories.split(',').map(category => {
                 const [categoryName, categoryId] = category.split(':');

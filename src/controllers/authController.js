@@ -297,7 +297,7 @@ const getProductsFromUser = async (req, res) => {
       const productImages = await queryAsync('SELECT id, image_link FROM Product_Images WHERE product_id = ?', [product.id]);
       product.images = productImages.map(image => ({
         ...image,
-        imageUrl: `http://localhost:${process.env.PORT}/uploads/products/${image.image_link}`
+        imageUrl: `http://${process.env.HOST}:${process.env.PORT}/uploads/products/${image.image_link}`
       }));
     }
 
@@ -374,7 +374,7 @@ const getAllInfoFromUser = async (req, res) => {
 
     // Fetch reviews with user names and pictures
     const reviewsResults = await queryAsync(`
-      SELECT r.rating, r.comment, r.created_at, u.id AS userId, u.name AS userName, u.user_image AS userImage
+      SELECT r.rating, r.comment, r.title, r.created_at, u.id AS userId, u.name AS userName, u.user_image AS userImage
       FROM Reviews r
       INNER JOIN Users u ON r.user_id = u.id
       WHERE r.seller_id = ?
@@ -383,10 +383,11 @@ const getAllInfoFromUser = async (req, res) => {
     const reviews = reviewsResults.map(review => ({
       userId: review.userId,
       userName: review.userName,
-      userImage: review.userImage ? `http://localhost:${process.env.PORT}/uploads/users/${review.userImage}` : null,
+      userImage: review.userImage ? `http://${process.env.HOST}:${process.env.PORT}/uploads/users/${review.userImage}` : null,
       rating: review.rating,
       comment: review.comment,
-      createdAt: review.created_at
+      createdAt: review.created_at,
+      title: review.title // Adding the title field
     }));
 
     const transactions = transactionsResults.map(transaction => {
@@ -428,7 +429,7 @@ const getAllInfoFromUser = async (req, res) => {
       name: user.name,
       email: user.email,
       username: user.username,
-      profilePicture: user.user_image ? `http://localhost:${process.env.PORT}/uploads/users/${user.user_image}` : null,
+      profilePicture: user.user_image ? `http://${process.env.HOST}:${process.env.PORT}/uploads/users/${user.user_image}` : null,
       phone: user.phone,
       userType: user.user_type,
       verified: user.verified,

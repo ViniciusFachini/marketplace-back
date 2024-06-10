@@ -50,7 +50,7 @@ const getProducts = async (req, res) => {
             const productImages = await queryAsync('SELECT id, image_link FROM product_images WHERE product_id = ?', [product.id]);
             product.images = productImages.map(image => ({
                 ...image,
-                imageUrl: `http://localhost:${process.env.PORT}/uploads/products/${image.image_link}`
+                imageUrl: `http://${process.env.HOST}:${process.env.PORT}/uploads/products/${image.image_link}`
             }));
         }
 
@@ -92,7 +92,7 @@ const getProductById = async (req, res) => {
         // Add full image paths to the product images
         const fullProductImages = productImages.map(image => ({
             ...image,
-            imageUrl: `http://localhost:${process.env.PORT}/uploads/products/${image.image_link}`
+            imageUrl: `http://${process.env.HOST}:${process.env.PORT}/uploads/products/${image.image_link}`
         }));
 
         // Add images with full paths and categories to the product object
@@ -146,7 +146,7 @@ const searchProducts = async (req, res) => {
             const productImages = await queryAsync('SELECT id, image_link FROM product_images WHERE product_id = ?', [product.id]);
             product.images = productImages.map(image => ({
                 ...image,
-                imageUrl: `http://localhost:${process.env.PORT}/uploads/products/${image.image_link}`
+                imageUrl: `http://${process.env.HOST}:${process.env.PORT}/uploads/products/${image.image_link}`
             }));
         }
 
@@ -191,7 +191,7 @@ const getProductBySlug = async (req, res) => {
         // Add full image paths to the product images
         const fullProductImages = productImages.map(image => ({
             ...image,
-            imageUrl: `http://localhost:${process.env.PORT}/uploads/products/${image.image_link}`
+            imageUrl: `http://${process.env.HOST}:${process.env.PORT}/uploads/products/${image.image_link}`
         }));
 
         // Add images with full paths and categories to the product object
@@ -444,7 +444,7 @@ const getSellerInfo = async (req, res) => {
         // Combine all the information
         const sellerDetails = {
             name: sellerInfo[0].name,
-            profile_picture: sellerInfo[0].user_image ? `http://localhost:${process.env.PORT}/uploads/users/${sellerInfo[0].user_image}` : null,
+            profile_picture: sellerInfo[0].user_image ? `http://${process.env.HOST}:${process.env.PORT}/uploads/users/${sellerInfo[0].user_image}` : null,
             city: sellerInfo[0].city,
             state: sellerInfo[0].state,
             sales_done: salesDone[0].sales_done,

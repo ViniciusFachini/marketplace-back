@@ -152,7 +152,7 @@ const getProductsByCategoryId = async (req, res) => {
             // Add full image URLs to the product images
             const fullProductImages = productImages.map(image => ({
                 ...image,
-                imageUrl: `http://localhost:${process.env.PORT}/uploads/products/${image.image_link}`
+                imageUrl: `http://${process.env.HOST}:${process.env.PORT}/uploads/products/${image.image_link}`
             }));
 
             // Assign the array of images with full URLs to the product object

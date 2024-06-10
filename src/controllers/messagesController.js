@@ -4,7 +4,7 @@ const { queryAsync } = require('../db');
 const { getIO } = require('../service/chat')
 
 const createMessage = async (req, res) => {
-    const { receiver_id, content, is_read } = req.body;
+    const { receiver_id, content, is_read = false } = req.body;
     const sender_id = req.userId;
 
     try {
@@ -73,7 +73,9 @@ const getMessagesBetweenUsers = async (req, res) => {
                 JOIN users u ON m.sender_id = u.id 
             WHERE 
                 (m.sender_id = ? AND m.receiver_id = ?) 
-                OR (m.sender_id = ? AND m.receiver_id = ?)`,
+                OR (m.receiver_id = ? AND m.sender_id = ?)
+            ORDER BY timestamp ASC    
+            `,
             [sender_id, receiver_id, sender_id, receiver_id]
         );
         res.json(messages);
@@ -113,32 +115,29 @@ const getLastChats = async (req, res) => {
 
             const chat_partner = chatPartnerDetails[0];
 
-            // Get the last unread message from the chat
-            const unreadMessagesCount = await queryAsync(
-                'SELECT COUNT(*) AS unreadCount FROM messages WHERE (sender_id = ? AND receiver_id = ?) AND is_read = false',
-                [chat_partner_id, user_id]
-            );
-
-
-            // If there are no unread messages, get the last message from the chat
+            // Get the last message from the chat
             const lastMessage = await queryAsync(
                 'SELECT * FROM messages WHERE (sender_id = ? AND receiver_id = ?) OR (sender_id = ? AND receiver_id = ?) ORDER BY timestamp DESC LIMIT 1',
                 [chat_partner_id, user_id, user_id, chat_partner_id]
             );
 
-            if (lastMessage.length > 0) {
-                chats.push({
-                    chat_partner: {
-                        chat_partner_id: chat_partner.id,
-                        chat_partner_name: chat_partner.name,
-                        chat_partner_profile_picture: chat_partner.user_image
-                    },
-                    messages: {
-                        lastMessage: lastMessage[0],
-                        unreadMessages: unreadMessagesCount[0].unreadCount
-                    }
-                });
-            }
+            // Get unread messages count
+            const unreadMessagesCount = await queryAsync(
+                'SELECT COUNT(*) AS unreadCount FROM messages WHERE sender_id = ? AND receiver_id = ? AND is_read = false',
+                [chat_partner_id, user_id]
+            );
+
+            chats.push({
+                chat_partner: {
+                    chat_partner_id: chat_partner.id,
+                    chat_partner_name: chat_partner.name,
+                    chat_partner_profile_picture: chat_partner.user_image
+                },
+                messages: {
+                    lastMessage: lastMessage[0] || null,
+                    unreadMessages: unreadMessagesCount[0].unreadCount
+                }
+            });
         }
 
         res.json(chats);
@@ -148,4 +147,20 @@ const getLastChats = async (req, res) => {
     }
 };
 
-module.exports = { createMessage, getMessagesBetweenUsers, getLastChats, getUnreadMessagesCount };
+
+async function markMessageAsRead(req, res) {
+    try {
+        const { messageId } = req.params;
+
+        // Update the message status directly in the database
+        const updateQuery = `UPDATE messages SET is_read = true WHERE id = ?`;
+        await queryAsync(updateQuery, [messageId]);
+
+        res.status(200).json({ success: true, message: 'Message marked as read' });
+    } catch (error) {
+        console.error('Error marking message as read:', error);
+        res.status(500).json({ success: false, message: 'Internal server error' });
+    }
+}
+
+module.exports = { createMessage, getMessagesBetweenUsers, getLastChats, getUnreadMessagesCount, markMessageAsRead };

@@ -1,4 +1,3 @@
-// app.js
 const express = require('express');
 const cors = require('cors');
 const dotenv = require('dotenv');
@@ -18,6 +17,7 @@ const productsRouter = require('./routes/productsRoutes');
 const categoriesRouter = require('./routes/categoriesRoutes');
 const addressesRouter = require('./routes/addressesRoutes');
 const transactionsRoutes = require('./routes/transactionsRoutes');
+const reviewsRoutes = require('./routes/reviewsRoutes');
 const messagesRoutes = require('./routes/messagesRoutes');
 const showcasesRoutes = require('./routes/showcasesRoutes');
 const { register, login, updateUser, getOrdersByUserId, getProductsFromUser, getAllInfoFromUser, getUserById, getUsers } = require('./controllers/authController');
@@ -32,14 +32,21 @@ const server = http.createServer(app);
 // Use the setupSocket function to initialize socket.io
 const io = setupSocket(server);
 
-module.exports = io
+module.exports = io;
+
 // Middleware
-app.use(cors());
+app.use(cors({
+  origin: '*', // Change '*' to your specific origin if necessary
+  methods: ['GET', 'POST', 'PATCH', 'DELETE'], // Allowed methods
+  allowedHeaders: ['Content-Type', 'Authorization', 'Referer'], // Allowed headers
+  credentials: true, // Allow cookies if needed
+}));
+
 app.use(bodyParser.json({ limit: '50mb' }));
 app.use(bodyParser.urlencoded({ limit: '50mb', extended: true }));
 
 // API routes
-app.get('/search', searchProducts)
+app.get('/search', searchProducts);
 
 // Authentication routes
 app.post('/users/login', login);
@@ -58,14 +65,15 @@ app.use('/addresses', addressesRouter);
 app.use('/messages', messagesRoutes);
 app.use('/showcases', showcasesRoutes);
 app.use('/transactions', transactionsRoutes);
+app.use('/reviews', reviewsRoutes);
 
 // Serve static files
-app.use('/uploads/products', express.static(path.join(__dirname, '..', 'uploads', 'products')))
-app.use('/uploads/users', express.static(path.join(__dirname, '..', 'uploads', 'users')))
-app.use('/uploads/misc', express.static(path.join(__dirname, '..', 'uploads', 'misc')))
+app.use('/uploads/products', express.static(path.join(__dirname, '..', 'uploads', 'products')));
+app.use('/uploads/users', express.static(path.join(__dirname, '..', 'uploads', 'users')));
+app.use('/uploads/misc', express.static(path.join(__dirname, '..', 'uploads', 'misc')));
 
 // Clean unused images
-removeUnusedImages()
+removeUnusedImages();
 
 // 404 route
 app.get('*', (req, res) => {
